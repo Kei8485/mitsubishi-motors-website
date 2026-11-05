@@ -1,0 +1,81 @@
+.mm-vehicle-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--mm-surface-radial);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--mm-card-radius);
+  padding: var(--mm-card-pad);
+  cursor: pointer;
+  transition:
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    border-color: rgba(200, 16, 46, 0.48);
+    transform: translateY(-4px);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.65);
+
+    ::ng-deep .mm-stage__vehicle-img {
+      transform: translateY(-5%) scale(1.03);
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__title {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.65rem, 2.4vw, 2.15rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+    margin: 0;
+  }
+
+  &__price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
+  }
+
+  &__price {
+    font-family: var(--mm-font-display);
+    font-size: var(--mm-size-price);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--mm-text-primary);
+    text-transform: uppercase;
+  }
+
+  &__price-label {
+    font-family: var(--mm-font-mono);
+    font-size: var(--mm-size-mono-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mm-text-secondary);
+  }
+
+  &__specs {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+}

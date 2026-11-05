@@ -1,0 +1,24 @@
+<div
+  class="mm-stage mm-hud-corners"
+  [class.mm-stage--hero]="variant === 'hero'"
+  [class.mm-stage--card]="variant === 'card'"
+>
+  <!-- Dashed Elliptical Podium -->
+  <div class="mm-stage__podium mm-turntable-ellipse" aria-hidden="true">
+    @if (variant === 'card') {
+      <span class="mm-stage__badge">3D</span>
+    }
+  </div>
+
+  <!-- High-Res Transparent Cutout Vehicle PNG -->
+  @if (imageSrc) {
+    <img
+      [src]="imageSrc"
+      [alt]="altText"
+      class="mm-stage__vehicle-img"
+      [attr.fetchpriority]="priority ? 'high' : 'auto'"
+      [attr.loading]="priority ? 'eager' : 'lazy'"
+      decoding="async"
+    />
+  }
+</div>

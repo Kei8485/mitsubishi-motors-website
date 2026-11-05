@@ -1,0 +1,120 @@
+<header class="mm-navbar">
+  <div class="mm-container mm-navbar__inner">
+    <!-- Brand Logo -->
+    <a routerLink="/home" class="mm-navbar__brand" (click)="closeMenu()">
+      {{ dealership.brandName }}
+    </a>
+
+    <!-- Desktop Center HUD Navigation Pill (Pages 1, 14, 25, 44, 54, 68) -->
+    <nav class="mm-navbar__center-box mm-hud-corners" aria-label="Primary Navigation">
+      <a
+        routerLink="/models"
+        class="mm-navbar__link"
+        [class.is-active]="activeRoute === '/models'"
+      >
+        MODELS
+      </a>
+      <a
+        routerLink="/financing"
+        class="mm-navbar__link"
+        [class.is-active]="activeRoute === '/financing'"
+      >
+        FINANCING
+      </a>
+      <a
+        routerLink="/service"
+        class="mm-navbar__link"
+        [class.is-active]="activeRoute === '/service'"
+      >
+        SERVICE
+      </a>
+      <a
+        routerLink="/home"
+        fragment="about-section"
+        class="mm-navbar__link"
+      >
+        ABOUT
+      </a>
+    </nav>
+
+    <!-- Right Actions: SIGN IN + Responsive MENU Button -->
+    <div class="mm-navbar__actions">
+      <a routerLink="/home" class="mm-navbar__signin">SIGN IN</a>
+
+      <button
+        type="button"
+        class="mm-navbar__menu-btn mm-hud-corners"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen()"
+        aria-label="Open navigation menu"
+      >
+        MENU
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Full-Screen Navigation Menu Overlay (Pages 64–67) -->
+@if (isMenuOpen()) {
+  <div class="mm-menu-overlay" role="dialog" aria-modal="true" aria-label="Site Menu">
+    <app-halftone-bg [dotSpacing]="8" />
+    <div class="mm-container mm-menu-overlay__container">
+      <!-- Overlay Header -->
+      <div class="mm-menu-overlay__top">
+        <a routerLink="/home" class="mm-navbar__brand" (click)="closeMenu()">
+          {{ dealership.brandName }}
+        </a>
+
+        <button
+          type="button"
+          class="mm-navbar__close-btn mm-hud-corners"
+          (click)="closeMenu()"
+          aria-label="Close navigation menu"
+        >
+          <span>CLOSE</span>
+          <span class="mm-navbar__close-icon" aria-hidden="true">✕</span>
+        </button>
+      </div>
+
+      <!-- Overlay Content Grid -->
+      <div class="mm-menu-overlay__grid">
+        <!-- Numbered Navigation List -->
+        <nav class="mm-menu-overlay__nav" aria-label="Full Screen Menu">
+          @for (item of menuItems; track item.number) {
+            <a
+              [routerLink]="item.route"
+              [fragment]="item.fragment"
+              class="mm-menu-overlay__item"
+              [class.is-active]="activeRoute === item.route && !item.fragment"
+              (click)="closeMenu()"
+            >
+              <span class="mm-menu-overlay__num">{{ item.number }}</span>
+              <span class="mm-menu-overlay__label">
+                {{ item.label }}
+                @if (activeRoute === item.route && !item.fragment) {
+                  <span class="mm-menu-overlay__dot" aria-hidden="true"></span>
+                }
+              </span>
+            </a>
+          }
+        </nav>
+
+        <!-- Need Help / Book a Test Drive HUD Card -->
+        <aside class="mm-menu-overlay__help-card mm-hud-corners">
+          <span class="mm-menu-overlay__help-tag">NEED HELP?</span>
+          <div class="mm-menu-overlay__phone">{{ dealership.phone }}</div>
+          <p class="mm-menu-overlay__meta">
+            {{ dealership.openingHours }} · {{ dealership.address }}
+          </p>
+          <a
+            routerLink="/test-drive"
+            class="mm-btn mm-btn-red mm-menu-overlay__cta"
+            (click)="closeMenu()"
+          >
+            BOOK A TEST DRIVE
+          </a>
+        </aside>
+      </div>
+    </div>
+  </div>
+}

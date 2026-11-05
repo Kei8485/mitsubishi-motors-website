@@ -1,37 +1,353 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+// =============================================================================
+// MITSUBISHI MOTORS — GLOBAL STYLESHEET & LAYOUT ARCHITECTURE
+// Categorized into:
+//   1. Ionic Core Imports
+//   2. Base Resets & Browser Surfaces
+//   3. Global Layout Containers & Responsive Grid Systems
+//   4. Typography & Technical Monospace Utilities
+//   5. Signature HUD Motifs (Corner Brackets, Halftone Matrix, Turntable Stage)
+//   6. Reusable Buttons, Pills & Interactive Controls
+// =============================================================================
 
-/* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+// -----------------------------------------------------------------------------
+// 1. IONIC CORE IMPORTS
+// -----------------------------------------------------------------------------
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
 
-/* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+// -----------------------------------------------------------------------------
+// 2. BASE RESETS & BROWSER SURFACES
+// -----------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-/* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+html,
+body {
+  background-color: var(--mm-bg-primary);
+  color: var(--mm-text-primary);
+  font-family: var(--mm-font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  selection-background-color: var(--mm-red);
+}
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+::selection {
+  background-color: var(--mm-red);
+  color: var(--mm-text-primary);
+}
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+ion-content {
+  --background: var(--mm-bg-primary);
+  --color: var(--mm-text-primary);
+}
+
+// Custom Dark Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2c1b20;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mm-red);
+}
+
+// Accessible keyboard focus ring
+:focus-visible {
+  outline: 2px solid var(--mm-red);
+  outline-offset: 3px;
+}
+
+// -----------------------------------------------------------------------------
+// 3. GLOBAL LAYOUT CONTAINERS & RESPONSIVE GRID SYSTEMS
+// -----------------------------------------------------------------------------
+.mm-container {
+  width: 100%;
+  max-width: var(--mm-container-max);
+  margin-inline: auto;
+  padding-inline: var(--mm-container-pad);
+}
+
+.mm-section {
+  padding-block: var(--mm-section-py);
+  position: relative;
+}
+
+.mm-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+  flex-wrap: wrap;
+}
+
+// 3-Column Vehicle Grid (Desktop: 3 cols | Tablet: 2 cols | Mobile: 1 col)
+.mm-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--mm-grid-gap);
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+// 2-Column Split / Promo Grid (Desktop & Tablet: 2 cols | Mobile: 1 col)
+.mm-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mm-grid-gap);
+
+  @media (max-width: 640px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 4. TYPOGRAPHY & TECHNICAL MONOSPACE UTILITIES
+// -----------------------------------------------------------------------------
+.mm-display-hero {
+  font-family: var(--mm-font-display);
+  font-size: var(--mm-size-hero);
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--mm-text-primary);
+  margin: 0;
+  user-select: none;
+}
+
+.mm-heading-xl {
+  font-family: var(--mm-font-display);
+  font-size: var(--mm-size-h1);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--mm-text-primary);
+  margin: 0;
+}
+
+.mm-heading-lg {
+  font-family: var(--mm-font-display);
+  font-size: var(--mm-size-h2);
+  font-weight: 700;
+  line-height: 0.96;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--mm-text-primary);
+  margin: 0;
+}
+
+.mm-heading-md {
+  font-family: var(--mm-font-display);
+  font-size: var(--mm-size-h3);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--mm-text-primary);
+  margin: 0;
+}
+
+// Bracketed Monospace Section Label e.g. [ ABOUT US ]
+.mm-bracket-label {
+  display: inline-block;
+  font-family: var(--mm-font-mono);
+  font-size: var(--mm-size-mono-sm);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mm-text-secondary);
+  margin-bottom: 0.85rem;
+}
+
+.mm-body-text {
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-size-body-lg);
+  line-height: 1.6;
+  color: var(--mm-text-secondary);
+  max-width: 62ch;
+  margin: 0;
+}
+
+// -----------------------------------------------------------------------------
+// 5. SIGNATURE HUD MOTIFS (Corner Brackets, Halftone Matrix, Turntable Stage)
+// -----------------------------------------------------------------------------
+
+// 4-Corner Technical Brackets (┌ ┐ └ ┘) rendered purely with CSS gradients
+.mm-hud-corners {
+  position: relative;
+  background-image:
+    // Top-left corner
+    linear-gradient(to right, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
+    linear-gradient(to bottom, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
+    // Top-right corner
+    linear-gradient(to left, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
+    linear-gradient(to bottom, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
+    // Bottom-left corner
+    linear-gradient(to right, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
+    linear-gradient(to top, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
+    // Bottom-right corner
+    linear-gradient(to left, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
+    linear-gradient(to top, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight));
+  background-position:
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    0 100%,
+    0 100%,
+    100% 100%,
+    100% 100%;
+  background-size:
+    var(--mm-corner-size) var(--mm-corner-weight),
+    var(--mm-corner-weight) var(--mm-corner-size);
+  background-repeat: no-repeat;
+}
+
+// Glowing Crimson Halftone Dot-Matrix Backdrop (matches Hero & Page headers)
+.mm-halftone-backdrop {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(circle, rgba(215, 22, 48, 0.72) 2.2px, transparent 2.6px),
+      radial-gradient(circle, rgba(140, 12, 30, 0.35) 3.5px, transparent 4px);
+    background-size: 9px 9px;
+    background-position: 0 0, 4.5px 4.5px;
+    mask-image: radial-gradient(
+      ellipse 88% 72% at 50% 34%,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.55) 52%,
+      transparent 88%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 88% 72% at 50% 34%,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.55) 52%,
+      transparent 88%
+    );
+  }
+}
+
+// Dashed 3D Perspective Turntable Ellipse
+.mm-turntable-ellipse {
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+// -----------------------------------------------------------------------------
+// 6. REUSABLE BUTTONS, PILLS & INTERACTIVE CONTROLS
+// -----------------------------------------------------------------------------
+.mm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--mm-font-mono);
+  font-size: var(--mm-size-mono-sm);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.95rem 1.75rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Solid White CTA Button (e.g., LEARN MORE, BACK TO HOME)
+.mm-btn-white {
+  background-color: var(--mm-text-primary);
+  color: var(--mm-text-inverse);
+  border-color: var(--mm-text-primary);
+
+  &:hover {
+    background-color: #e6e0e1;
+    border-color: #e6e0e1;
+  }
+}
+
+// Solid Mitsubishi Red CTA Button (e.g., GET FINANCING, BOOK A TEST DRIVE)
+.mm-btn-red {
+  background-color: var(--mm-red);
+  color: var(--mm-text-primary);
+  border-color: var(--mm-red);
+
+  &:hover {
+    background-color: var(--mm-red-bright);
+    border-color: var(--mm-red-bright);
+  }
+}
+
+// Outlined Ghost Button (e.g., SEE ALL MODELS, BOOK TEST DRIVE)
+.mm-btn-outline {
+  background-color: transparent;
+  color: var(--mm-text-primary);
+  border-color: var(--mm-border-medium);
+
+  &:hover {
+    border-color: var(--mm-text-primary);
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+// Spec Pill / Tag Badge (e.g., CROSSOVER, [YEAR], [SEATS], [FUEL], [TRANS])
+.mm-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.32rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--mm-pill-bg);
+  border: 1px solid var(--mm-pill-border);
+  font-family: var(--mm-font-mono);
+  font-size: var(--mm-size-mono-xs);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mm-text-secondary);
+  line-height: 1;
+}

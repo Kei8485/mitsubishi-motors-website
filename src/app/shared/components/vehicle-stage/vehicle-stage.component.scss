@@ -1,0 +1,99 @@
+.mm-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: visible;
+
+  // ---------------------------------------------------------------------------
+  // HERO VARIANT (Large overlapping centerpiece like the Chery Omoda E5 ref)
+  // ---------------------------------------------------------------------------
+  &--hero {
+    --mm-corner-size: 14px;
+    --mm-corner-color: rgba(255, 255, 255, 0.52);
+    max-width: 1060px;
+    height: clamp(270px, 42vw, 510px);
+    margin-inline: auto;
+    padding: 0.5rem 1.5rem;
+
+    .mm-stage__podium {
+      width: 86%;
+      height: 38%;
+      bottom: 4%;
+    }
+
+    .mm-stage__vehicle-img {
+      width: clamp(320px, 72vw, 960px);
+      max-width: 100%;
+      max-height: 106%;
+      transform: translateY(-2%);
+      filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.92));
+      animation: mmHeroCarEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // CARD VARIANT (Catalog & Brand New Grid Cards)
+  // ---------------------------------------------------------------------------
+  &--card {
+    --mm-corner-size: 10px;
+    --mm-corner-color: rgba(255, 255, 255, 0.62);
+    height: clamp(180px, 20vw, 230px);
+    margin-block: 0.75rem 1rem;
+    padding: 0.75rem;
+
+    .mm-stage__podium {
+      width: 84%;
+      height: 44%;
+      bottom: 12%;
+    }
+
+    .mm-stage__vehicle-img {
+      width: 92%;
+      max-height: 92%;
+      transform: translateY(-2%);
+      filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.88));
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+
+  &__podium {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  &__badge {
+    font-family: var(--mm-font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--mm-text-secondary);
+    background-color: #1f1317;
+    padding-inline: 0.35rem;
+    transform: translateY(-55%);
+  }
+
+  &__vehicle-img {
+    position: relative;
+    z-index: 2;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+@keyframes mmHeroCarEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-2%) scale(1);
+  }
+}

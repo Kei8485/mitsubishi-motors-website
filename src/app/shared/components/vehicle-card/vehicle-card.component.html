@@ -1,0 +1,30 @@
+<article class="mm-vehicle-card" (click)="onSelect()" tabindex="0" (keydown.enter)="onSelect()">
+  <!-- Top Badges: Category & Year -->
+  <div class="mm-vehicle-card__header">
+    <span class="mm-pill">{{ vehicle.category }}</span>
+    <span class="mm-pill">[{{ vehicle.year }}]</span>
+  </div>
+
+  <!-- Vehicle 3D/PNG Turntable Stage -->
+  <app-vehicle-stage
+    [imageSrc]="vehicle.image"
+    [altText]="vehicle.year + ' Mitsubishi ' + vehicle.name"
+    variant="card"
+  />
+
+  <!-- Bottom Details: Title, Starting Price, Spec Pills -->
+  <div class="mm-vehicle-card__body">
+    <h3 class="mm-vehicle-card__title">{{ vehicle.name }}</h3>
+
+    <div class="mm-vehicle-card__price-row">
+      <span class="mm-vehicle-card__price">{{ vehicle.startingPrice }}</span>
+      <span class="mm-vehicle-card__price-label">STARTING</span>
+    </div>
+
+    <div class="mm-vehicle-card__specs">
+      @for (spec of vehicle.cardSpecs; track spec) {
+        <span class="mm-pill">[{{ spec }}]</span>
+      }
+    </div>
+  </div>
+</article>
