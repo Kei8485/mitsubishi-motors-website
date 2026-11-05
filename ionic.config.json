@@ -1,0 +1,7 @@
+{
+  "name": "Mitsubishi Motors Website",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
