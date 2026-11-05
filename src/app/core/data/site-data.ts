@@ -2,7 +2,8 @@ import type { DealershipConfig, NavMenuItem, PromoBannerItem, VehicleModel } fro
 
 // =============================================================================
 // MITSUBISHI MOTORS — CENTRAL DATA STORE
-// Add or edit vehicles, dealership info, stats, and promo cards right here.
+// All of these data will be shown in the main page
+// For Adding or edititing datas
 // All pages and components automatically render from this configuration.
 // =============================================================================
 

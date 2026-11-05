@@ -29,7 +29,6 @@ export interface VehicleOverviewSpecs {
   dimensions: string;
   clearance: string;
 }
-
 export interface VehicleModel {
   id: string;
   name: string;

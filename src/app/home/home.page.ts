@@ -16,9 +16,9 @@ import {
 import { DEALERSHIP_CONFIG, HOME_PROMO_BANNERS, VEHICLES_DATA } from '../core/data/site-data';
 import type { DealershipConfig, PromoBannerItem, VehicleModel } from '../core/models/vehicle.model';
 import { AmbientBgComponent } from '../shared/components/ambient-bg/ambient-bg.component';
+import { FeaturedCarsComponent } from '../shared/components/featured-cars/featured-cars.component';
 import { FooterComponent } from '../shared/components/footer/footer.component';
 import { HeaderComponent } from '../shared/components/header/header.component';
-import { HeroShowcaseComponent } from '../shared/components/hero-showcase/hero-showcase.component';
 import { PromoBannerComponent } from '../shared/components/promo-banner/promo-banner.component';
 import { VehicleCardComponent } from '../shared/components/vehicle-card/vehicle-card.component';
 
@@ -40,7 +40,7 @@ import { VehicleCardComponent } from '../shared/components/vehicle-card/vehicle-
     IonText,
     IonNote,
     HeaderComponent,
-    HeroShowcaseComponent,
+    FeaturedCarsComponent,
     AmbientBgComponent,
     VehicleCardComponent,
     PromoBannerComponent,

@@ -15,7 +15,7 @@ import { VehicleStageComponent } from '../vehicle-stage/vehicle-stage.component'
 addIcons({ chevronBackOutline, chevronForwardOutline });
 
 @Component({
-  selector: 'app-hero-showcase',
+  selector: 'app-featured-cars',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,10 +30,10 @@ addIcons({ chevronBackOutline, chevronForwardOutline });
     HalftoneBgComponent,
     VehicleStageComponent,
   ],
-  templateUrl: './hero-showcase.component.html',
-  styleUrls: ['./hero-showcase.component.scss'],
+  templateUrl: './featured-cars.component.html',
+  styleUrls: ['./featured-cars.component.scss'],
 })
-export class HeroShowcaseComponent implements OnInit, OnDestroy {
+export class FeaturedCarsComponent implements OnInit, OnDestroy {
   /** Array of featured vehicles (defaults to vehicles marked isFeatured in site-data.ts) */
   @Input() vehicles: VehicleModel[] = VEHICLES_DATA.filter((v) => v.isFeatured);
 
@@ -90,7 +90,7 @@ export class HeroShowcaseComponent implements OnInit, OnDestroy {
     this.stopAutoScroll();
     this.autoScrollTimer = setInterval(() => {
       this.advanceSlide();
-    }, HeroShowcaseComponent.AUTO_SCROLL_INTERVAL_MS);
+    }, FeaturedCarsComponent.AUTO_SCROLL_INTERVAL_MS);
   }
 
   private stopAutoScroll(): void {
