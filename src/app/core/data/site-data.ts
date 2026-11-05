@@ -120,8 +120,8 @@ export const VEHICLES_DATA: VehicleModel[] = [
     numericPrice: 1157000,
     image: 'assets/images/cars/strada.png',
     cardSpecs: ['5 SEATS', 'DIESEL', '6AT / 6MT'],
-    isFeatured: true,
-    isBrandNewHome: true,
+    isFeatured: false,
+    isBrandNewHome: false,
     heroLabel: 'FEATURED · 2026',
     tagline: 'ENGINEERED BEYOND TOUGH.\nREADY FOR ANY TERRAIN.',
     shortDescription:
@@ -136,10 +136,10 @@ export const VEHICLES_DATA: VehicleModel[] = [
     year: '2026',
     startingPrice: '[PHP 1,568,000]',
     numericPrice: 1568000,
-    image: 'assets/images/cars/destinator.png',
+    image: 'assets/images/cars/montero-sport.png',
     cardSpecs: ['7 SEATS', 'DIESEL', '8AT'],
-    isFeatured: false,
-    isBrandNewHome: false,
+    isFeatured: true,
+    isBrandNewHome: true,
     tagline: 'ELEVATE YOUR JOURNEY.',
     shortDescription:
       'Flagship 7-seater midsize diesel SUV with 8-speed automatic transmission and Forward Collision Mitigation.',
@@ -172,6 +172,7 @@ export const HOME_PROMO_BANNERS: PromoBannerItem[] = [
     title: 'FINANCING',
     ctaText: 'VIEW →',
     route: '/financing',
+    bgImage: '../../../assets/images/promos/financing-bg.jpg',
   },
   {
     id: 'after-sales',
@@ -179,5 +180,6 @@ export const HOME_PROMO_BANNERS: PromoBannerItem[] = [
     title: 'AFTER-SALES',
     ctaText: 'VIEW →',
     route: '/service',
+    bgImage: '../../../assets/images/promos/aftersales-bg.jpg',
   },
 ];

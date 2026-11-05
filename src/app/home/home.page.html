@@ -1,158 +1,91 @@
-<ion-content [fullscreen]="true">
+<!-- ===========================================================================
+     DEDICATED TOP HEADER COMPONENT (Dedicated flex row; never overlaid by page)
+     =========================================================================== -->
+<app-header activeRoute="/home" />
+
+<!-- ===========================================================================
+     SCROLLABLE PAGE BODY BELOW THE HEADER
+     =========================================================================== -->
+<ion-content>
+  <!-- 1. HERO SHOWCASE COMPONENT (Separate component directly below the header) -->
+  <app-hero-showcase [vehicles]="featuredVehicles" />
+
   <!-- =========================================================================
-       1. HERO SHOWCASE SECTION (Animated Halftone Matrix + Overlapping Xpander)
+       LOWER SECTIONS WITH MINIMAL AMBIENT BACKGROUND ANIMATION
        ========================================================================= -->
-  <section class="mm-home-hero">
-    <!-- Live Animated Halftone Dot-Matrix Canvas Background -->
-    <app-halftone-bg [dotSpacing]="8" />
+  <div class="mm-home-body">
+    <app-ambient-bg />
 
-    <!-- Reusable Standalone Navbar -->
-    <app-navbar activeRoute="/home" />
-
-    <div class="mm-container mm-home-hero__inner">
-      <!-- Top Meta Bar: FEATURED · [YEAR] & Carousel Controls 01 / 03 ‹ › -->
-      <div class="mm-home-hero__meta-bar">
-        <span class="mm-home-hero__meta-label">
-          FEATURED · [{{ currentFeatured().year }}]
-        </span>
-
-        <div class="mm-home-hero__carousel-nav">
-          <span class="mm-home-hero__counter">{{ slideCounter() }}</span>
-          <button
-            type="button"
-            class="mm-home-hero__arrow-btn"
-            (click)="prevFeatured()"
-            aria-label="Previous featured vehicle"
-          >
-            ‹
-          </button>
-          <button
-            type="button"
-            class="mm-home-hero__arrow-btn"
-            (click)="nextFeatured()"
-            aria-label="Next featured vehicle"
-          >
-            ›
-          </button>
-        </div>
-      </div>
-
-      <!-- Giant Backdrop Vehicle Title (Sits behind upper half of the car) -->
-      <div class="mm-home-hero__title-wrap">
-        <h1 class="mm-display-hero mm-home-hero__title">
-          {{ currentFeatured().name }}
-        </h1>
-      </div>
-
-      <!-- Large Overlapping Transparent Vehicle Cutout Stage -->
-      <div class="mm-home-hero__stage-wrap">
-        <app-vehicle-stage
-          [imageSrc]="currentFeatured().image"
-          [altText]="currentFeatured().year + ' Mitsubishi ' + currentFeatured().name"
-          variant="hero"
-          [priority]="true"
-        />
-      </div>
-
-      <!-- Hero Bottom Row: Description + Actions (Left) & Tagline (Right) -->
-      <div class="mm-home-hero__bottom">
-        <div class="mm-home-hero__cta-block">
-          <p class="mm-home-hero__desc">
-            {{ currentFeatured().shortDescription }}
-          </p>
-
-          <div class="mm-home-hero__actions">
-            <a [routerLink]="['/models', currentFeatured().id]" class="mm-btn mm-btn-white">
-              LEARN MORE
-            </a>
-            <a routerLink="/models" class="mm-btn mm-btn-outline">
-              SEE ALL MODELS
-            </a>
+    <!-- 2. ABOUT US & DEALERSHIP STATS SECTION -->
+    <section id="about-section" class="mm-section mm-about">
+      <div class="mm-container">
+        <div class="mm-about__grid">
+          <!-- Left Column: Bracket Label + Display Heading -->
+          <div class="mm-about__head">
+            <span class="mm-bracket-label">[ ABOUT US ]</span>
+            <h2 class="mm-heading-xl mm-about__title">{{ dealership.aboutHeading }}</h2>
           </div>
-        </div>
 
-        <div class="mm-home-hero__tagline-block">
-          <h2 class="mm-home-hero__tagline">{{ currentFeatured().tagline }}</h2>
-        </div>
-      </div>
-    </div>
-  </section>
+          <!-- Right Column: Dealership Story + 3 Stat Counters -->
+          <div class="mm-about__content">
+            <p class="mm-body-text mm-about__story">
+              {{ dealership.aboutStory }}
+            </p>
 
-  <!-- =========================================================================
-       2. ABOUT US & DEALERSHIP STATS SECTION
-       ========================================================================= -->
-  <section id="about-section" class="mm-section mm-about">
-    <div class="mm-container">
-      <div class="mm-about__grid">
-        <!-- Left Column: Bracket Label + Display Heading -->
-        <div class="mm-about__head">
-          <span class="mm-bracket-label">[ ABOUT US ]</span>
-          <h2 class="mm-heading-xl mm-about__title">{{ dealership.aboutHeading }}</h2>
-        </div>
-
-        <!-- Right Column: Dealership Story + 3 Stat Counters -->
-        <div class="mm-about__content">
-          <p class="mm-body-text mm-about__story">
-            {{ dealership.aboutStory }}
-          </p>
-
-          <div class="mm-about__stats">
-            @for (stat of dealership.stats; track stat.label) {
-              <div class="mm-about__stat-item">
-                <span class="mm-about__stat-value">{{ stat.value }}</span>
-                <span class="mm-about__stat-label">{{ stat.label }}</span>
-              </div>
-            }
+            <div class="mm-about__stats">
+              @for (stat of dealership.stats; track stat.label) {
+                <div class="mm-about__stat-item">
+                  <span class="mm-about__stat-value">{{ stat.value }}</span>
+                  <span class="mm-about__stat-label">{{ stat.label }}</span>
+                </div>
+              }
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- =========================================================================
-       3. BRAND NEW MODELS GRID SECTION
-       ========================================================================= -->
-  <section class="mm-section mm-brand-new">
-    <div class="mm-container">
-      <div class="mm-section-header">
-        <div>
-          <span class="mm-bracket-label">[ MODELS 2020 TO TODAY ]</span>
-          <h2 class="mm-heading-xl">BRAND NEW</h2>
+    <!-- 3. BRAND NEW MODELS GRID SECTION -->
+    <section class="mm-section mm-brand-new">
+      <div class="mm-container">
+        <div class="mm-section-header">
+          <div>
+            <span class="mm-bracket-label">[ MODELS 2020 TO TODAY ]</span>
+            <h2 class="mm-heading-xl">BRAND NEW</h2>
+          </div>
+
+          <a routerLink="/models" class="mm-btn mm-btn-outline mm-brand-new__desktop-cta">
+            SEE ALL MODELS
+          </a>
         </div>
 
-        <a routerLink="/models" class="mm-btn mm-btn-outline mm-brand-new__desktop-cta">
-          SEE ALL MODELS
-        </a>
-      </div>
+        <!-- Reusable Vehicle Card Grid (Auto-generated from site-data.ts) -->
+        <div class="mm-grid-3">
+          @for (car of brandNewVehicles; track car.id) {
+            <app-vehicle-card [vehicle]="car" />
+          }
+        </div>
 
-      <!-- Reusable Vehicle Card Grid (Auto-generated from site-data.ts) -->
-      <div class="mm-grid-3">
-        @for (car of brandNewVehicles; track car.id) {
-          <app-vehicle-card [vehicle]="car" />
-        }
+        <!-- Mobile Full-Width CTA (Page 10) -->
+        <div class="mm-brand-new__mobile-cta-wrap">
+          <a routerLink="/models" class="mm-btn mm-btn-outline mm-brand-new__mobile-cta">
+            SEE ALL MODELS
+          </a>
+        </div>
       </div>
+    </section>
 
-      <!-- Mobile Full-Width CTA (Page 10) -->
-      <div class="mm-brand-new__mobile-cta-wrap">
-        <a routerLink="/models" class="mm-btn mm-btn-outline mm-brand-new__mobile-cta">
-          SEE ALL MODELS
-        </a>
+    <!-- 4. PROMO BANNERS SECTION (FINANCING & AFTER-SALES) -->
+    <section class="mm-section mm-promos">
+      <div class="mm-container">
+        <div class="mm-grid-2">
+          @for (promo of promoBanners; track promo.id) {
+            <app-promo-banner [item]="promo" />
+          }
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- =========================================================================
-       4. PROMO BANNERS SECTION (FINANCING & AFTER-SALES)
-       ========================================================================= -->
-  <section class="mm-section mm-promos">
-    <div class="mm-container">
-      <div class="mm-grid-2">
-        @for (promo of promoBanners; track promo.id) {
-          <app-promo-banner [item]="promo" />
-        }
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <!-- =========================================================================
        5. GLOBAL FOOTER

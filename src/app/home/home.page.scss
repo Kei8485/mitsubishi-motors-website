@@ -2,162 +2,23 @@
 // HOME PAGE SCOPED STYLES (Desktop, Tablet & Mobile Responsive)
 // =============================================================================
 
-// -----------------------------------------------------------------------------
-// 1. HERO SHOWCASE SECTION
-// -----------------------------------------------------------------------------
-.mm-home-hero {
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+ion-content {
+  flex: 1 1 auto;
+}
+
+.mm-home-body {
   position: relative;
   overflow: hidden;
-  padding-bottom: clamp(3rem, 5.5vw, 4.75rem);
 
-  &__inner {
-    position: relative;
-    z-index: 2;
-    padding-top: clamp(0.75rem, 1.8vw, 1.5rem);
-  }
-
-  &__meta-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: -0.25rem;
-    position: relative;
-    z-index: 3;
-  }
-
-  &__meta-label,
-  &__counter {
-    font-family: var(--mm-font-mono);
-    font-size: var(--mm-size-mono-xs);
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--mm-text-secondary);
-  }
-
-  &__carousel-nav {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-  }
-
-  &__arrow-btn {
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--mm-text-secondary);
-    font-family: var(--mm-font-mono);
-    font-size: 1rem;
-    line-height: 1;
-    padding: 0.2rem 0.45rem;
-    cursor: pointer;
-    transition:
-      color 0.18s ease,
-      border-color 0.18s ease;
-
-    &:hover {
-      color: var(--mm-text-primary);
-      border-color: var(--mm-border-medium);
-    }
-  }
-
-  // Giant XPANDER title sitting behind the upper half of the car (like Chery Omoda E5 ref)
-  &__title-wrap {
-    text-align: center;
+  > .mm-section {
     position: relative;
     z-index: 1;
-    margin-top: 0.15rem;
-    margin-bottom: clamp(-3.75rem, -10.5vw, -9.25rem);
-    pointer-events: none;
-
-    @media (max-width: 768px) {
-      margin-bottom: clamp(-2.25rem, -7.5vw, -4.5rem);
-    }
-  }
-
-  &__title {
-    width: 100%;
-    text-align: center;
-    letter-spacing: -0.015em;
-  }
-
-  // Giant vehicle stage overlapping directly in front of the XPANDER title
-  &__stage-wrap {
-    position: relative;
-    z-index: 2;
-    margin-bottom: clamp(0.75rem, 2vw, 1.5rem);
-  }
-
-  &__bottom {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 2rem;
-
-    // On mobile (Page 7), tagline stacks above description & buttons
-    @media (max-width: 640px) {
-      flex-direction: column-reverse;
-      align-items: flex-start;
-      gap: 1.35rem;
-    }
-  }
-
-  &__cta-block {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    max-width: 390px;
-
-    @media (max-width: 640px) {
-      max-width: 100%;
-      width: 100%;
-    }
-  }
-
-  &__desc {
-    font-family: var(--mm-font-sans);
-    font-size: 0.94rem;
-    line-height: 1.55;
-    color: var(--mm-text-secondary);
-    margin: 0;
-  }
-
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-
-    @media (max-width: 480px) {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      width: 100%;
-
-      .mm-btn {
-        padding-inline: 0.75rem;
-      }
-    }
-  }
-
-  &__tagline-block {
-    text-align: right;
-
-    @media (max-width: 640px) {
-      text-align: left;
-    }
-  }
-
-  &__tagline {
-    font-family: var(--mm-font-display);
-    font-size: clamp(1.85rem, 3.2vw, 2.75rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-    color: var(--mm-text-primary);
-    white-space: pre-line;
-    margin: 0;
   }
 }
 
@@ -202,20 +63,22 @@
   &__stat-item {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.4rem;
   }
 
   &__stat-value {
     font-family: var(--mm-font-display);
     font-size: var(--mm-size-stat);
-    font-weight: 800;
-    line-height: 0.92;
+    font-weight: 700;
+    letter-spacing: 0.015em;
+    line-height: 0.94;
     color: var(--mm-text-primary);
   }
 
   &__stat-label {
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-xs);
+    font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mm-text-secondary);

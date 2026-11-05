@@ -93,7 +93,7 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
     const cols = Math.ceil(width / step);
     const rows = Math.ceil(height / step);
 
-    // Slow, organic wave drift
+    // Organic wave drift
     const time = t * 0.65;
 
     for (let r = 0; r < rows; r++) {
@@ -166,7 +166,7 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
           blue = Math.floor(30 - k * 8);
           alpha = 0.8 + k * 0.15;
         } else {
-          // Hot scarlet-orange core highlights (like the bright clusters in Image 1)
+          // Hot scarlet-orange core highlights
           const k = (intensity - 0.8) / 0.2;
           red = 255;
           green = Math.floor(38 + k * 58);

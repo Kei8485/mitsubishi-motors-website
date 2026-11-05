@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
+export interface VehicleStageSlide {
+  id: string;
+  imageSrc: string;
+  altText: string;
+}
+
 @Component({
   selector: 'app-vehicle-stage',
   standalone: true,
@@ -9,15 +15,14 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./vehicle-stage.component.scss'],
 })
 export class VehicleStageComponent {
-  /** Path to the transparent vehicle PNG */
-  @Input({ required: true }) imageSrc!: string;
+  /** Single-image mode (used by catalog cards) */
+  @Input() imageSrc = '';
+  @Input() altText = 'Mitsubishi Vehicle';
 
-  /** Accessible alt text for the vehicle image */
-  @Input({ required: true }) altText!: string;
+  /** Multi-slide mode (used by the Hero Showcase carousel for smooth cross-fade + glide) */
+  @Input() slides: VehicleStageSlide[] = [];
+  @Input() activeIndex = 0;
 
-  /** Stage variant: 'hero' for large landing/detail showcase, 'card' for catalog cards */
   @Input() variant: 'hero' | 'card' = 'card';
-
-  /** Whether to prioritize image loading (LCP optimization for hero image) */
   @Input() priority = false;
 }

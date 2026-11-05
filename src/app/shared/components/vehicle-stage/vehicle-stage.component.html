@@ -10,11 +10,28 @@
     }
   </div>
 
-  <!-- High-Res Transparent Cutout Vehicle PNG -->
-  @if (imageSrc) {
+  <!-- Multi-Slide Smooth Cross-Fade Mode (Hero Carousel) -->
+  @if (slides.length > 0) {
+    <div class="mm-stage__slides">
+      @for (slide of slides; track slide.id; let idx = $index) {
+        <img
+          src="{{ slide.imageSrc }}"
+          alt="{{ slide.altText }}"
+          class="mm-stage__vehicle-img mm-stage__vehicle-img--slide"
+          [class.is-active]="idx === activeIndex"
+          [class.is-prev]="idx < activeIndex"
+          [class.is-next]="idx > activeIndex"
+          [attr.fetchpriority]="priority && idx === 0 ? 'high' : 'auto'"
+          loading="eager"
+          decoding="async"
+        />
+      }
+    </div>
+  } @else if (imageSrc) {
+    <!-- Single-Image Mode (Vehicle Catalog Cards) -->
     <img
-      [src]="imageSrc"
-      [alt]="altText"
+      src="{{ imageSrc }}"
+      alt="{{ altText }}"
       class="mm-stage__vehicle-img"
       [attr.fetchpriority]="priority ? 'high' : 'auto'"
       [attr.loading]="priority ? 'eager' : 'lazy'"

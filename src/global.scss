@@ -39,7 +39,6 @@ body {
   font-family: var(--mm-font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  selection-background-color: var(--mm-red);
 }
 
 ::selection {
@@ -133,9 +132,9 @@ ion-content {
 .mm-display-hero {
   font-family: var(--mm-font-display);
   font-size: var(--mm-size-hero);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 0.84;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
   color: var(--mm-text-primary);
   margin: 0;
@@ -147,7 +146,7 @@ ion-content {
   font-size: var(--mm-size-h1);
   font-weight: 700;
   line-height: 0.94;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   color: var(--mm-text-primary);
   margin: 0;
@@ -183,14 +182,14 @@ ion-content {
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--mm-text-secondary);
+  color: var(--mm-text-bright);
   margin-bottom: 0.85rem;
 }
 
 .mm-body-text {
   font-family: var(--mm-font-sans);
   font-size: var(--mm-size-body-lg);
-  line-height: 1.6;
+  line-height: 1.62;
   color: var(--mm-text-secondary);
   max-width: 62ch;
   margin: 0;
@@ -200,22 +199,22 @@ ion-content {
 // 5. SIGNATURE HUD MOTIFS (Corner Brackets, Halftone Matrix, Turntable Stage)
 // -----------------------------------------------------------------------------
 
-// 4-Corner Technical Brackets (┌ ┐ └ ┘) rendered purely with CSS gradients
+// 4-Corner Technical L-Brackets (┌ ┐ └ ┘) rendered with full-length arms
 .mm-hud-corners {
   position: relative;
   background-image:
-    // Top-left corner
-    linear-gradient(to right, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
-    linear-gradient(to bottom, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
-    // Top-right corner
-    linear-gradient(to left, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
-    linear-gradient(to bottom, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
-    // Bottom-left corner
-    linear-gradient(to right, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
-    linear-gradient(to top, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
-    // Bottom-right corner
-    linear-gradient(to left, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight)),
-    linear-gradient(to top, var(--mm-corner-color) var(--mm-corner-weight), transparent var(--mm-corner-weight));
+    // Top-left (horizontal + vertical arm)
+    linear-gradient(var(--mm-corner-color), var(--mm-corner-color)),
+    linear-gradient(var(--mm-corner-color), var(--mm-corner-color)),
+    // Top-right (horizontal + vertical arm)
+    linear-gradient(var(--mm-corner-color), var(--mm-corner-color)),
+    linear-gradient(var(--mm-corner-color), var(--mm-corner-color)),
+    // Bottom-left (horizontal + vertical arm)
+    linear-gradient(var(--mm-corner-color), var(--mm-corner-color)),
+    linear-gradient(var(--mm-corner-color), var(--mm-corner-color)),
+    // Bottom-right (horizontal + vertical arm)
+    linear-gradient(var(--mm-corner-color), var(--mm-corner-color)),
+    linear-gradient(var(--mm-corner-color), var(--mm-corner-color));
   background-position:
     0 0,
     0 0,
@@ -227,44 +226,19 @@ ion-content {
     100% 100%;
   background-size:
     var(--mm-corner-size) var(--mm-corner-weight),
+    var(--mm-corner-weight) var(--mm-corner-size),
+    var(--mm-corner-size) var(--mm-corner-weight),
+    var(--mm-corner-weight) var(--mm-corner-size),
+    var(--mm-corner-size) var(--mm-corner-weight),
+    var(--mm-corner-weight) var(--mm-corner-size),
+    var(--mm-corner-size) var(--mm-corner-weight),
     var(--mm-corner-weight) var(--mm-corner-size);
   background-repeat: no-repeat;
 }
 
-// Glowing Crimson Halftone Dot-Matrix Backdrop (matches Hero & Page headers)
-.mm-halftone-backdrop {
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background-image:
-      radial-gradient(circle, rgba(215, 22, 48, 0.72) 2.2px, transparent 2.6px),
-      radial-gradient(circle, rgba(140, 12, 30, 0.35) 3.5px, transparent 4px);
-    background-size: 9px 9px;
-    background-position: 0 0, 4.5px 4.5px;
-    mask-image: radial-gradient(
-      ellipse 88% 72% at 50% 34%,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.55) 52%,
-      transparent 88%
-    );
-    -webkit-mask-image: radial-gradient(
-      ellipse 88% 72% at 50% 34%,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.55) 52%,
-      transparent 88%
-    );
-  }
-}
-
 // Dashed 3D Perspective Turntable Ellipse
 .mm-turntable-ellipse {
-  border: 1px dashed rgba(255, 255, 255, 0.28);
+  border: 1px dashed rgba(255, 255, 255, 0.34);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -273,13 +247,15 @@ ion-content {
 // 6. REUSABLE BUTTONS, PILLS & INTERACTIVE CONTROLS
 // -----------------------------------------------------------------------------
 .mm-btn {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
   font-family: var(--mm-font-mono);
   font-size: var(--mm-size-mono-sm);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
@@ -287,14 +263,19 @@ ion-content {
   border: 1px solid transparent;
   cursor: pointer;
   transition:
-    background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-    color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 
+  &:hover {
+    transform: translateY(-2px);
+  }
+
   &:active {
-    transform: translateY(1px);
+    transform: scale(0.95);
   }
 }
 
@@ -303,10 +284,12 @@ ion-content {
   background-color: var(--mm-text-primary);
   color: var(--mm-text-inverse);
   border-color: var(--mm-text-primary);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 
   &:hover {
-    background-color: #e6e0e1;
-    border-color: #e6e0e1;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 0 10px 26px rgba(255, 255, 255, 0.25);
   }
 }
 
@@ -315,22 +298,27 @@ ion-content {
   background-color: var(--mm-red);
   color: var(--mm-text-primary);
   border-color: var(--mm-red);
+  box-shadow: 0 8px 24px rgba(200, 16, 46, 0.38);
 
   &:hover {
     background-color: var(--mm-red-bright);
     border-color: var(--mm-red-bright);
+    box-shadow: 0 12px 28px rgba(227, 24, 56, 0.55);
   }
 }
 
 // Outlined Ghost Button (e.g., SEE ALL MODELS, BOOK TEST DRIVE)
 .mm-btn-outline {
-  background-color: transparent;
+  background-color: rgba(14, 8, 11, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: var(--mm-text-primary);
   border-color: var(--mm-border-medium);
 
   &:hover {
     border-color: var(--mm-text-primary);
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(200, 16, 46, 0.22);
+    box-shadow: 0 8px 22px rgba(200, 16, 46, 0.25);
   }
 }
 
@@ -339,7 +327,7 @@ ion-content {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.32rem 0.75rem;
+  padding: 0.35rem 0.78rem;
   border-radius: 999px;
   background-color: var(--mm-pill-bg);
   border: 1px solid var(--mm-pill-border);
@@ -348,6 +336,6 @@ ion-content {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--mm-text-secondary);
+  color: var(--mm-text-bright);
   line-height: 1;
 }

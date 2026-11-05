@@ -3,16 +3,17 @@ import { Component, Input, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DEALERSHIP_CONFIG, NAV_MENU_ITEMS } from '../../../core/data/site-data';
 import { DealershipConfig, NavMenuItem } from '../../../core/models/vehicle.model';
+import { BrandLogoComponent } from '../brand-logo/brand-logo.component';
 import { HalftoneBgComponent } from '../halftone-bg/halftone-bg.component';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, HalftoneBgComponent],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  imports: [CommonModule, RouterModule, HalftoneBgComponent, BrandLogoComponent],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
-export class NavbarComponent {
+export class HeaderComponent {
   @Input() activeRoute = '/home';
 
   readonly dealership: DealershipConfig = DEALERSHIP_CONFIG;

@@ -1,9 +1,12 @@
 <footer id="footer-contact" class="mm-footer">
   <div class="mm-container">
     <div class="mm-footer__grid">
-      <!-- Column 1: Brand & Dealership Summary -->
+      <!-- Column 1: Brand Emblem, Wordmark & Dealership Summary -->
       <div class="mm-footer__brand-col">
-        <a routerLink="/home" class="mm-footer__brand">{{ dealership.brandName }}</a>
+        <a routerLink="/home" class="mm-footer__brand">
+          <app-brand-logo [size]="28" />
+          <span>{{ dealership.brandName }}</span>
+        </a>
         <p class="mm-footer__summary">
           [{{ dealership.dealerName }}], [{{ dealership.city }}]. {{ dealership.taglineSummary }}
         </p>
@@ -20,25 +23,42 @@
         </ul>
       </div>
 
-      <!-- Column 3: Contact Details -->
+      <!-- Column 3: Contact Details with Icons -->
       <div class="mm-footer__col">
         <h4 class="mm-footer__heading">CONTACT</h4>
         <ul class="mm-footer__list">
-          <li class="mm-footer__text">[{{ dealership.address }}]</li>
+          <li class="mm-footer__item-row">
+            <span class="mm-footer__icon-badge" aria-hidden="true">
+              <app-icon name="pin" [size]="15" />
+            </span>
+            <span class="mm-footer__text">[{{ dealership.address }}]</span>
+          </li>
           <li>
-            <a [href]="'tel:' + dealership.phone" class="mm-footer__link">
-              [{{ dealership.phone }}]
+            <a [href]="'tel:' + dealership.phone" class="mm-footer__link mm-footer__item-row">
+              <span class="mm-footer__icon-badge" aria-hidden="true">
+                <app-icon name="phone" [size]="15" />
+              </span>
+              <span>[{{ dealership.phone }}]</span>
             </a>
           </li>
           <li>
-            <a [href]="'mailto:' + dealership.email" class="mm-footer__link">
-              [{{ dealership.email }}]
+            <a [href]="'mailto:' + dealership.email" class="mm-footer__link mm-footer__item-row">
+              <span class="mm-footer__icon-badge" aria-hidden="true">
+                <app-icon name="mail" [size]="15" />
+              </span>
+              <span>[{{ dealership.email }}]</span>
             </a>
+          </li>
+          <li class="mm-footer__item-row">
+            <span class="mm-footer__icon-badge" aria-hidden="true">
+              <app-icon name="clock" [size]="15" />
+            </span>
+            <span class="mm-footer__text">[{{ dealership.openingHours }}]</span>
           </li>
         </ul>
       </div>
 
-      <!-- Column 4: Social Links -->
+      <!-- Column 4: Social Links with Icons -->
       <div class="mm-footer__col">
         <h4 class="mm-footer__heading">FOLLOW</h4>
         <ul class="mm-footer__list">
@@ -48,9 +68,12 @@
                 [href]="social.url"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="mm-footer__link"
+                class="mm-footer__link mm-footer__item-row"
               >
-                {{ social.label }}
+                <span class="mm-footer__icon-badge" aria-hidden="true">
+                  <app-icon [name]="getSocialIcon(social.label)" [size]="15" />
+                </span>
+                <span>{{ social.label }}</span>
               </a>
             </li>
           }
@@ -60,9 +83,12 @@
 
     <!-- Copyright Bar -->
     <div class="mm-footer__bottom">
-      <span>
-        © {{ dealership.copyrightYear }} {{ dealership.brandName }} [{{ dealership.dealerName }}] · SCHOOL PROTOTYPE
-      </span>
+      <div class="mm-footer__copyright">
+        <app-brand-logo [size]="16" />
+        <span>
+          © {{ dealership.copyrightYear }} {{ dealership.brandName }} [{{ dealership.dealerName }}] · SCHOOL PROTOTYPE
+        </span>
+      </div>
     </div>
   </div>
 </footer>

@@ -65,6 +65,7 @@ export interface PromoBannerItem {
   title: string;
   ctaText: string;
   route: string;
+  bgImage?: string;
 }
 
 export interface NavMenuItem {

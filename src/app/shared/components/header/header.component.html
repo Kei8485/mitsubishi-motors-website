@@ -1,0 +1,166 @@
+<header class="mm-header">
+  <div class="mm-container mm-header__inner">
+    <!-- Brand Emblem + Wordmark -->
+    <a routerLink="/home" class="mm-header__brand" (click)="closeMenu()">
+      <app-brand-logo [size]="24" class="mm-header__emblem" />
+      <span>{{ dealership.brandName }}</span>
+    </a>
+
+    <!-- Desktop Center HUD Navigation Box: ┌ MODELS  FINANCING  SERVICE  ABOUT ┐ -->
+    <nav class="mm-header__center-box mm-hud-corners" aria-label="Primary Navigation">
+      <a
+        routerLink="/models"
+        class="mm-header__link"
+        [class.is-active]="activeRoute === '/models'"
+      >
+        MODELS
+      </a>
+      <a
+        routerLink="/financing"
+        class="mm-header__link"
+        [class.is-active]="activeRoute === '/financing'"
+      >
+        FINANCING
+      </a>
+      <a
+        routerLink="/service"
+        class="mm-header__link"
+        [class.is-active]="activeRoute === '/service'"
+      >
+        SERVICE
+      </a>
+      <a
+        routerLink="/home"
+        fragment="about-section"
+        class="mm-header__link"
+      >
+        ABOUT
+      </a>
+    </nav>
+
+    <!-- Right Actions: SIGN IN + Responsive [ MENU ] Button -->
+    <div class="mm-header__actions">
+      <a routerLink="/home" class="mm-header__signin">SIGN IN</a>
+
+      <button
+        type="button"
+        class="mm-header__menu-btn mm-hud-corners"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen()"
+        aria-label="Open navigation menu"
+      >
+        MENU
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Full-Screen Glassmorphic Navigation Menu Overlay -->
+@if (isMenuOpen()) {
+  <div class="mm-menu-overlay" role="dialog" aria-modal="true" aria-label="Site Menu">
+    <!-- Live Animated Halftone Matrix + Personal Smoked Frosted Glass Layer -->
+    <app-halftone-bg [dotSpacing]="8" />
+    <div class="mm-menu-overlay__glass-backdrop" aria-hidden="true"></div>
+
+    <div class="mm-container mm-menu-overlay__container">
+      <!-- Overlay Header -->
+      <div class="mm-menu-overlay__top">
+        <a routerLink="/home" class="mm-header__brand" (click)="closeMenu()">
+          <app-brand-logo [size]="24" class="mm-header__emblem" />
+          <span>{{ dealership.brandName }}</span>
+        </a>
+
+        <button
+          type="button"
+          class="mm-header__close-btn mm-hud-corners"
+          (click)="closeMenu()"
+          aria-label="Close navigation menu"
+        >
+          <span>CLOSE</span>
+          <svg
+            class="mm-header__close-icon"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M1.5 1.5L10.5 10.5M10.5 1.5L1.5 10.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="square"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Overlay Content Grid -->
+      <div class="mm-menu-overlay__grid">
+        <!-- Frosted Glass HUD Navigation Panel -->
+        <nav class="mm-menu-overlay__nav mm-hud-corners" aria-label="Full Screen Menu">
+          @for (item of menuItems; track item.number) {
+            <a
+              [routerLink]="item.route"
+              [fragment]="item.fragment"
+              class="mm-menu-overlay__item"
+              [class.is-active]="activeRoute === item.route && !item.fragment"
+              (click)="closeMenu()"
+            >
+              <div class="mm-menu-overlay__item-left">
+                <span class="mm-menu-overlay__num">{{ item.number }}</span>
+                <span class="mm-menu-overlay__label">
+                  {{ item.label }}
+                  @if (activeRoute === item.route && !item.fragment) {
+                    <span class="mm-menu-overlay__dot" aria-hidden="true"></span>
+                  }
+                </span>
+              </div>
+
+              <span class="mm-menu-overlay__arrow" aria-hidden="true">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.5 7H11.5M11.5 7L7.5 3M11.5 7L7.5 11"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="square"
+                  />
+                </svg>
+              </span>
+            </a>
+          }
+        </nav>
+
+        <!-- Need Help / Book a Test Drive Frosted Glass HUD Card -->
+        <aside class="mm-menu-overlay__help-card mm-hud-corners">
+          <span class="mm-menu-overlay__help-tag">NEED HELP?</span>
+          <div class="mm-menu-overlay__phone">{{ dealership.phone }}</div>
+          <p class="mm-menu-overlay__meta">
+            {{ dealership.openingHours }} · {{ dealership.address }}
+          </p>
+          <a
+            routerLink="/test-drive"
+            class="mm-btn mm-btn-red mm-menu-overlay__cta"
+            (click)="closeMenu()"
+          >
+            BOOK A TEST DRIVE
+          </a>
+          <a
+            routerLink="/home"
+            class="mm-btn mm-btn-outline mm-menu-overlay__signin-cta"
+            (click)="closeMenu()"
+          >
+            SIGN IN
+          </a>
+        </aside>
+      </div>
+    </div>
+  </div>
+}

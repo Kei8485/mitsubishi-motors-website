@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonContent } from '@ionic/angular';
 import {
@@ -12,12 +12,12 @@ import {
   PromoBannerItem,
   VehicleModel,
 } from '../core/models/vehicle.model';
+import { AmbientBgComponent } from '../shared/components/ambient-bg/ambient-bg.component';
 import { FooterComponent } from '../shared/components/footer/footer.component';
-import { HalftoneBgComponent } from '../shared/components/halftone-bg/halftone-bg.component';
-import { NavbarComponent } from '../shared/components/navbar/navbar.component';
+import { HeaderComponent } from '../shared/components/header/header.component';
+import { HeroShowcaseComponent } from '../shared/components/hero-showcase/hero-showcase.component';
 import { PromoBannerComponent } from '../shared/components/promo-banner/promo-banner.component';
 import { VehicleCardComponent } from '../shared/components/vehicle-card/vehicle-card.component';
-import { VehicleStageComponent } from '../shared/components/vehicle-stage/vehicle-stage.component';
 
 @Component({
   selector: 'app-home',
@@ -28,9 +28,9 @@ import { VehicleStageComponent } from '../shared/components/vehicle-stage/vehicl
     CommonModule,
     RouterModule,
     IonContent,
-    NavbarComponent,
-    HalftoneBgComponent,
-    VehicleStageComponent,
+    HeaderComponent,
+    HeroShowcaseComponent,
+    AmbientBgComponent,
     VehicleCardComponent,
     PromoBannerComponent,
     FooterComponent,
@@ -47,31 +47,4 @@ export class HomePage {
 
   /** Promo banner cards (Financing & After-Sales) */
   readonly promoBanners: PromoBannerItem[] = HOME_PROMO_BANNERS;
-
-  /** Active index in the hero featured carousel */
-  readonly activeFeaturedIndex = signal(0);
-
-  /** Currently displayed featured vehicle */
-  readonly currentFeatured = computed<VehicleModel>(
-    () => this.featuredVehicles[this.activeFeaturedIndex()] ?? VEHICLES_DATA[0]
-  );
-
-  /** Formatted 2-digit counter e.g. "01 / 03" */
-  readonly slideCounter = computed<string>(() => {
-    const current = String(this.activeFeaturedIndex() + 1).padStart(2, '0');
-    const total = String(this.featuredVehicles.length).padStart(2, '0');
-    return `${current} / ${total}`;
-  });
-
-  prevFeatured(): void {
-    this.activeFeaturedIndex.update((idx) =>
-      idx === 0 ? this.featuredVehicles.length - 1 : idx - 1
-    );
-  }
-
-  nextFeatured(): void {
-    this.activeFeaturedIndex.update((idx) =>
-      idx === this.featuredVehicles.length - 1 ? 0 : idx + 1
-    );
-  }
 }

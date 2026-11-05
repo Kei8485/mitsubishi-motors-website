@@ -1,0 +1,280 @@
+// =============================================================================
+// HERO SHOWCASE COMPONENT STYLES
+// Standalone section below <app-header> with smooth 5s auto-carousel transitions
+// =============================================================================
+
+:host {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.mm-hero-showcase {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(1.25rem, 2.5vw, 2.25rem);
+  padding-bottom: clamp(3rem, 5.5vw, 4.75rem);
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+    position: relative;
+    z-index: 3;
+  }
+
+  &__meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.38rem 0.85rem;
+    border-radius: 999px;
+    background: var(--mm-glass-pill);
+    border: 1px solid var(--mm-border-subtle);
+    backdrop-filter: var(--mm-blur-hud);
+    -webkit-backdrop-filter: var(--mm-blur-hud);
+    box-shadow: var(--mm-shadow-elevated);
+    transition:
+      border-color 0.22s var(--mm-ease-out),
+      transform 0.22s var(--mm-ease-out);
+
+    &:hover {
+      border-color: var(--mm-border-medium);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--mm-red-bright);
+    box-shadow: 0 0 8px var(--mm-red-bright);
+    flex-shrink: 0;
+  }
+
+  &__meta-label,
+  &__counter {
+    font-family: var(--mm-font-mono);
+    font-size: var(--mm-size-mono-xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__carousel-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.24rem 0.3rem 0.24rem 0.8rem;
+    border-radius: 999px;
+    background: var(--mm-glass-pill);
+    border: 1px solid var(--mm-border-subtle);
+    backdrop-filter: var(--mm-blur-hud);
+    -webkit-backdrop-filter: var(--mm-blur-hud);
+    box-shadow: var(--mm-shadow-elevated);
+  }
+
+  &__counter {
+    margin-right: 0.25rem;
+  }
+
+  &__arrow-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--mm-pill-bg);
+    border: 1px solid var(--mm-border-subtle);
+    color: var(--mm-text-primary);
+    padding: 0;
+    cursor: pointer;
+    transition:
+      color 0.18s var(--mm-ease-out),
+      border-color 0.18s var(--mm-ease-out),
+      background-color 0.2s var(--mm-ease-out),
+      transform 0.18s var(--mm-ease-out);
+
+    &:hover {
+      color: var(--mm-text-primary);
+      border-color: var(--mm-red-bright);
+      background: var(--mm-red);
+      transform: scale(1.06);
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+  }
+
+  // Giant Backdrop Title Stack sitting behind the upper half of the car
+  &__title-wrap {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    margin-top: 0.15rem;
+    margin-bottom: clamp(-3.25rem, -9.5vw, -8.5rem);
+    pointer-events: none;
+
+    @media (max-width: 1024px) {
+      margin-bottom: clamp(-2.5rem, -7.5vw, -5.25rem);
+    }
+
+    @media (max-width: 640px) {
+      margin-bottom: clamp(-1.35rem, -5vw, -2.5rem);
+    }
+  }
+
+  &__title {
+    grid-area: 1 / 1;
+    width: 100%;
+    text-align: center;
+    letter-spacing: -0.01em;
+    text-shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.96);
+    transition:
+      opacity 0.65s var(--mm-ease-out),
+      transform 0.65s var(--mm-ease-out);
+    will-change: opacity, transform;
+
+    &.is-prev {
+      transform: translate3d(0, -18px, 0) scale(0.96);
+    }
+
+    &.is-active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  // Giant vehicle stage overlapping directly in front of the backdrop title
+  &__stage-wrap {
+    position: relative;
+    z-index: 2;
+    margin-bottom: clamp(1rem, 2.2vw, 1.75rem);
+  }
+
+  &__bottom {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+
+    @media (max-width: 640px) {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+
+  &__cta-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 410px;
+
+    @media (max-width: 640px) {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  &__desc-stack {
+    display: grid;
+    align-items: end;
+  }
+
+  &__desc {
+    grid-area: 1 / 1;
+    font-family: var(--mm-font-sans);
+    font-size: var(--mm-size-body);
+    line-height: 1.58;
+    color: var(--mm-text-bright);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+    margin: 0;
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    pointer-events: none;
+    transition:
+      opacity 0.55s var(--mm-ease-out),
+      transform 0.55s var(--mm-ease-out);
+
+    &.is-active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      pointer-events: auto;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 480px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+
+      .mm-btn {
+        padding-inline: 0.75rem;
+      }
+    }
+  }
+
+  &__tagline-block {
+    display: grid;
+    align-items: end;
+    justify-items: end;
+    text-align: right;
+
+    @media (max-width: 640px) {
+      justify-items: start;
+      text-align: left;
+    }
+  }
+
+  &__tagline {
+    grid-area: 1 / 1;
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 0.96;
+    letter-spacing: 0.015em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+    white-space: pre-line;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+    margin: 0;
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+    pointer-events: none;
+    transition:
+      opacity 0.58s var(--mm-ease-out),
+      transform 0.58s var(--mm-ease-out);
+
+    &.is-active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      pointer-events: auto;
+    }
+  }
+}

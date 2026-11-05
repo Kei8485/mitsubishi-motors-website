@@ -1,0 +1,112 @@
+<section class="mm-hero-showcase">
+  <!-- Live Animated Halftone Dot-Matrix Canvas Background (Scoped inside Hero below Header) -->
+  <app-halftone-bg [dotSpacing]="8" />
+
+  <div class="mm-container mm-hero-showcase__inner">
+    <!-- Top Meta Bar: Frosted HUD Pill FEATURED · [YEAR] & Carousel Controls 01 / 03 ‹ › -->
+    <div class="mm-hero-showcase__meta-bar">
+      <div class="mm-hero-showcase__meta-pill">
+        <span class="mm-hero-showcase__live-dot" aria-hidden="true"></span>
+        <span class="mm-hero-showcase__meta-label">
+          FEATURED · [{{ currentFeatured().year }}]
+        </span>
+      </div>
+
+      <div class="mm-hero-showcase__carousel-nav">
+        <span class="mm-hero-showcase__counter">{{ slideCounter() }}</span>
+        <button
+          type="button"
+          class="mm-hero-showcase__arrow-btn"
+          (click)="prevFeatured()"
+          aria-label="Previous featured vehicle"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path
+              d="M7.5 2L3.5 6L7.5 10"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="square"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="mm-hero-showcase__arrow-btn"
+          (click)="nextFeatured()"
+          aria-label="Next featured vehicle"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path
+              d="M4.5 2L8.5 6L4.5 10"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="square"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Giant Backdrop Vehicle Title Stack (Smoothly cross-fades & glides on change) -->
+    <div class="mm-hero-showcase__title-wrap">
+      @for (car of vehicles; track car.id; let idx = $index) {
+        <h1
+          class="mm-display-hero mm-hero-showcase__title"
+          [class.is-active]="idx === activeFeaturedIndex()"
+          [class.is-prev]="idx < activeFeaturedIndex()"
+          [attr.aria-hidden]="idx !== activeFeaturedIndex()"
+        >
+          {{ car.name }}
+        </h1>
+      }
+    </div>
+
+    <!-- Large Overlapping Transparent Vehicle Cutout Stage (Smooth multi-slide transition) -->
+    <div class="mm-hero-showcase__stage-wrap">
+      <app-vehicle-stage
+        [slides]="stageSlides()"
+        [activeIndex]="activeFeaturedIndex()"
+        variant="hero"
+        [priority]="true"
+      />
+    </div>
+
+    <!-- Hero Bottom Row: Smoothly Transitioning Description + Actions (Left) & Tagline (Right) -->
+    <div class="mm-hero-showcase__bottom">
+      <div class="mm-hero-showcase__cta-block">
+        <div class="mm-hero-showcase__desc-stack">
+          @for (car of vehicles; track car.id; let idx = $index) {
+            <p
+              class="mm-hero-showcase__desc"
+              [class.is-active]="idx === activeFeaturedIndex()"
+              [attr.aria-hidden]="idx !== activeFeaturedIndex()"
+            >
+              {{ car.shortDescription }}
+            </p>
+          }
+        </div>
+
+        <div class="mm-hero-showcase__actions">
+          <a [routerLink]="['/models', currentFeatured().id]" class="mm-btn mm-btn-white">
+            LEARN MORE
+          </a>
+          <a routerLink="/models" class="mm-btn mm-btn-outline">
+            SEE ALL MODELS
+          </a>
+        </div>
+      </div>
+
+      <div class="mm-hero-showcase__tagline-block">
+        @for (car of vehicles; track car.id; let idx = $index) {
+          <h2
+            class="mm-hero-showcase__tagline"
+            [class.is-active]="idx === activeFeaturedIndex()"
+            [attr.aria-hidden]="idx !== activeFeaturedIndex()"
+          >
+            {{ car.tagline }}
+          </h2>
+        }
+      </div>
+    </div>
+  </div>
+</section>
