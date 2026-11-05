@@ -22,6 +22,13 @@ ion-content {
   }
 }
 
+.mm-grid-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
 // -----------------------------------------------------------------------------
 // 2. ABOUT US & STATS SECTION
 // -----------------------------------------------------------------------------
@@ -50,6 +57,8 @@ ion-content {
   }
 
   &__story {
+    --color: var(--mm-text-secondary);
+    display: block;
     color: var(--mm-text-secondary);
   }
 
@@ -67,6 +76,7 @@ ion-content {
   }
 
   &__stat-value {
+    --color: var(--mm-text-primary);
     font-family: var(--mm-font-display);
     font-size: var(--mm-size-stat);
     font-weight: 700;
@@ -76,6 +86,7 @@ ion-content {
   }
 
   &__stat-label {
+    --color: var(--mm-text-secondary);
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-xs);
     font-weight: 500;
@@ -106,6 +117,7 @@ ion-content {
 
   &__mobile-cta {
     width: 100%;
+    display: flex;
   }
 }
 

@@ -24,6 +24,224 @@
 @import '@ionic/angular/css/flex-utils.css';
 
 // -----------------------------------------------------------------------------
+// 1B. IONIC SHADOW DOM & HOST STYLE NEUTRALIZER
+// Strips default Material/iOS Shadow DOM padding, margins, ripples, borders,
+// and backgrounds so Ionic Web Components render with our exact custom design.
+// -----------------------------------------------------------------------------
+ion-header,
+ion-footer {
+  display: block;
+  position: relative;
+  width: 100%;
+  box-shadow: none !important;
+
+  &::after,
+  &::before {
+    display: none !important;
+  }
+}
+
+ion-toolbar {
+  --background: transparent;
+  --color: inherit;
+  --border-width: 0;
+  --border-style: none;
+  --border-color: transparent;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: 0;
+  padding: 0;
+  margin: 0;
+  contain: none;
+  overflow: visible;
+
+  &::part(background) {
+    display: none;
+  }
+
+  &::part(container) {
+    padding: 0;
+    min-height: 0;
+    contain: none;
+    overflow: visible;
+  }
+
+  &::part(content) {
+    overflow: visible;
+  }
+}
+
+ion-buttons {
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+}
+
+ion-button {
+  --background: transparent;
+  --background-hover: transparent;
+  --background-hover-opacity: 0;
+  --background-focused: transparent;
+  --background-focused-opacity: 0;
+  --background-activated: transparent;
+  --background-activated-opacity: 0;
+  --color: inherit;
+  --color-hover: inherit;
+  --color-focused: inherit;
+  --color-activated: inherit;
+  --border-radius: 0;
+  --border-width: 0;
+  --border-style: none;
+  --border-color: transparent;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --box-shadow: none;
+  --ripple-color: transparent;
+  --transition: none;
+  margin: 0 !important;
+  min-height: 0 !important;
+  min-width: 0;
+  height: auto;
+  width: auto;
+  opacity: 1 !important;
+
+  &::part(native) {
+    background: transparent !important;
+    border: none !important;
+    border-radius: inherit;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    width: 100%;
+    height: 100%;
+    color: inherit !important;
+    font: inherit !important;
+    letter-spacing: inherit !important;
+    text-transform: inherit !important;
+    line-height: inherit !important;
+    overflow: visible;
+  }
+}
+
+ion-card {
+  --background: transparent;
+  --color: inherit;
+  margin: 0;
+  box-shadow: none;
+  contain: none;
+  overflow: visible;
+  font-size: inherit;
+  font-family: inherit;
+
+  &::part(native) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: inherit;
+    font: inherit;
+  }
+}
+
+ion-card-header,
+ion-card-content,
+ion-card-title,
+ion-card-subtitle {
+  --background: transparent;
+  --color: inherit;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+}
+
+ion-badge {
+  --background: transparent;
+  --color: inherit;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  border-radius: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  contain: none;
+}
+
+ion-chip {
+  --background: transparent;
+  --color: inherit;
+  --ripple-color: transparent;
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  height: auto;
+  border-radius: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  overflow: visible;
+  cursor: default;
+}
+
+ion-grid,
+ion-row,
+ion-col {
+  --ion-grid-padding: 0;
+  --ion-grid-padding-xs: 0;
+  --ion-grid-padding-sm: 0;
+  --ion-grid-padding-md: 0;
+  --ion-grid-padding-lg: 0;
+  --ion-grid-padding-xl: 0;
+  --ion-grid-column-padding: 0;
+  --ion-grid-column-padding-xs: 0;
+  --ion-grid-column-padding-sm: 0;
+  --ion-grid-column-padding-md: 0;
+  --ion-grid-column-padding-lg: 0;
+  --ion-grid-column-padding-xl: 0;
+  padding: 0;
+  margin: 0;
+}
+
+ion-col {
+  flex-basis: auto;
+  flex-grow: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+ion-list {
+  background: transparent !important;
+  padding: 0;
+  margin: 0;
+  contain: none;
+}
+
+ion-note,
+ion-text,
+ion-label {
+  --color: inherit;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+ion-icon {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+// -----------------------------------------------------------------------------
 // 2. BASE RESETS & BROWSER SURFACES
 // -----------------------------------------------------------------------------
 *,
@@ -176,10 +394,20 @@ ion-content {
 
 // Bracketed Monospace Section Label e.g. [ ABOUT US ]
 .mm-bracket-label {
+  --background: transparent;
+  --color: var(--mm-text-bright);
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
   display: inline-block;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
   font-family: var(--mm-font-mono);
   font-size: var(--mm-size-mono-sm);
   font-weight: 500;
+  line-height: 1.5;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--mm-text-bright);
@@ -256,11 +484,13 @@ ion-content {
   font-family: var(--mm-font-mono);
   font-size: var(--mm-size-mono-sm);
   font-weight: 600;
+  line-height: 1.5;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
   padding: 0.95rem 1.75rem;
   border: 1px solid transparent;
+  border-radius: 0;
   cursor: pointer;
   transition:
     background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
@@ -281,12 +511,15 @@ ion-content {
 
 // Solid White CTA Button (e.g., LEARN MORE, BACK TO HOME)
 .mm-btn-white {
+  --background: var(--mm-text-primary);
+  --color: var(--mm-text-inverse);
   background-color: var(--mm-text-primary);
   color: var(--mm-text-inverse);
   border-color: var(--mm-text-primary);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 
   &:hover {
+    --background: #ffffff;
     background-color: #ffffff;
     border-color: #ffffff;
     box-shadow: 0 10px 26px rgba(255, 255, 255, 0.25);
@@ -295,12 +528,15 @@ ion-content {
 
 // Solid Mitsubishi Red CTA Button (e.g., GET FINANCING, BOOK A TEST DRIVE)
 .mm-btn-red {
+  --background: var(--mm-red);
+  --color: var(--mm-text-primary);
   background-color: var(--mm-red);
   color: var(--mm-text-primary);
   border-color: var(--mm-red);
   box-shadow: 0 8px 24px rgba(200, 16, 46, 0.38);
 
   &:hover {
+    --background: var(--mm-red-bright);
     background-color: var(--mm-red-bright);
     border-color: var(--mm-red-bright);
     box-shadow: 0 12px 28px rgba(227, 24, 56, 0.55);
@@ -309,6 +545,8 @@ ion-content {
 
 // Outlined Ghost Button (e.g., SEE ALL MODELS, BOOK TEST DRIVE)
 .mm-btn-outline {
+  --background: rgba(14, 8, 11, 0.65);
+  --color: var(--mm-text-primary);
   background-color: rgba(14, 8, 11, 0.65);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -316,6 +554,7 @@ ion-content {
   border-color: var(--mm-border-medium);
 
   &:hover {
+    --background: rgba(200, 16, 46, 0.22);
     border-color: var(--mm-text-primary);
     background-color: rgba(200, 16, 46, 0.22);
     box-shadow: 0 8px 22px rgba(200, 16, 46, 0.25);
@@ -324,6 +563,12 @@ ion-content {
 
 // Spec Pill / Tag Badge (e.g., CROSSOVER, [YEAR], [SEATS], [FUEL], [TRANS])
 .mm-pill {
+  --background: var(--mm-pill-bg);
+  --color: var(--mm-text-bright);
+  --padding-top: 0.35rem;
+  --padding-bottom: 0.35rem;
+  --padding-start: 0.78rem;
+  --padding-end: 0.78rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;

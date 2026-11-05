@@ -3,9 +3,6 @@
      =========================================================================== -->
 <app-header activeRoute="/home" />
 
-<!-- ===========================================================================
-     SCROLLABLE PAGE BODY BELOW THE HEADER
-     =========================================================================== -->
 <ion-content>
   <!-- 1. HERO SHOWCASE COMPONENT (Separate component directly below the header) -->
   <app-hero-showcase [vehicles]="featuredVehicles" />
@@ -18,72 +15,74 @@
 
     <!-- 2. ABOUT US & DEALERSHIP STATS SECTION -->
     <section id="about-section" class="mm-section mm-about">
-      <div class="mm-container">
-        <div class="mm-about__grid">
+      <ion-grid class="mm-container">
+        <ion-row class="mm-about__grid">
           <!-- Left Column: Bracket Label + Display Heading -->
-          <div class="mm-about__head">
-            <span class="mm-bracket-label">[ ABOUT US ]</span>
+          <ion-col class="mm-about__head">
+            <ion-badge class="mm-bracket-label">[ ABOUT US ]</ion-badge>
             <h2 class="mm-heading-xl mm-about__title">{{ dealership.aboutHeading }}</h2>
-          </div>
+          </ion-col>
 
           <!-- Right Column: Dealership Story + 3 Stat Counters -->
-          <div class="mm-about__content">
-            <p class="mm-body-text mm-about__story">
-              {{ dealership.aboutStory }}
-            </p>
+          <ion-col class="mm-about__content">
+            <ion-text class="mm-body-text mm-about__story"> {{ dealership.aboutStory }} </ion-text>
 
             <div class="mm-about__stats">
               @for (stat of dealership.stats; track stat.label) {
-                <div class="mm-about__stat-item">
-                  <span class="mm-about__stat-value">{{ stat.value }}</span>
-                  <span class="mm-about__stat-label">{{ stat.label }}</span>
-                </div>
+              <div class="mm-about__stat-item">
+                <ion-text class="mm-about__stat-value">{{ stat.value }}</ion-text>
+                <ion-note class="mm-about__stat-label">{{ stat.label }}</ion-note>
+              </div>
               }
             </div>
-          </div>
-        </div>
-      </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </section>
 
     <!-- 3. BRAND NEW MODELS GRID SECTION -->
     <section class="mm-section mm-brand-new">
-      <div class="mm-container">
+      <ion-grid class="mm-container">
         <div class="mm-section-header">
           <div>
-            <span class="mm-bracket-label">[ MODELS 2020 TO TODAY ]</span>
+            <ion-badge class="mm-bracket-label">[ MODELS 2020 TO TODAY ]</ion-badge>
             <h2 class="mm-heading-xl">BRAND NEW</h2>
           </div>
 
-          <a routerLink="/models" class="mm-btn mm-btn-outline mm-brand-new__desktop-cta">
+          <ion-button routerLink="/models" fill="outline" class="mm-btn mm-btn-outline mm-brand-new__desktop-cta">
             SEE ALL MODELS
-          </a>
+          </ion-button>
         </div>
 
         <!-- Reusable Vehicle Card Grid (Auto-generated from site-data.ts) -->
-        <div class="mm-grid-3">
+        <ion-row class="mm-grid-3">
           @for (car of brandNewVehicles; track car.id) {
+          <ion-col class="mm-grid-col">
             <app-vehicle-card [vehicle]="car" />
+          </ion-col>
           }
-        </div>
+        </ion-row>
 
         <!-- Mobile Full-Width CTA (Page 10) -->
         <div class="mm-brand-new__mobile-cta-wrap">
-          <a routerLink="/models" class="mm-btn mm-btn-outline mm-brand-new__mobile-cta">
+          <ion-button routerLink="/models" fill="outline" class="mm-btn mm-btn-outline mm-brand-new__mobile-cta">
             SEE ALL MODELS
-          </a>
+          </ion-button>
         </div>
-      </div>
+      </ion-grid>
     </section>
 
     <!-- 4. PROMO BANNERS SECTION (FINANCING & AFTER-SALES) -->
     <section class="mm-section mm-promos">
-      <div class="mm-container">
-        <div class="mm-grid-2">
+      <ion-grid class="mm-container">
+        <ion-row class="mm-grid-2">
           @for (promo of promoBanners; track promo.id) {
+          <ion-col class="mm-grid-col">
             <app-promo-banner [item]="promo" />
+          </ion-col>
           }
-        </div>
-      </div>
+        </ion-row>
+      </ion-grid>
     </section>
   </div>
 

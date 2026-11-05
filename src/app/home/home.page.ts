@@ -1,17 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IonContent } from '@ionic/angular';
 import {
-  DEALERSHIP_CONFIG,
-  HOME_PROMO_BANNERS,
-  VEHICLES_DATA,
-} from '../core/data/site-data';
-import {
-  DealershipConfig,
-  PromoBannerItem,
-  VehicleModel,
-} from '../core/models/vehicle.model';
+  IonBadge,
+  IonButton,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonNote,
+  IonRouterLink,
+  IonRow,
+  IonText,
+} from '@ionic/angular';
+
+import { DEALERSHIP_CONFIG, HOME_PROMO_BANNERS, VEHICLES_DATA } from '../core/data/site-data';
+import type { DealershipConfig, PromoBannerItem, VehicleModel } from '../core/models/vehicle.model';
 import { AmbientBgComponent } from '../shared/components/ambient-bg/ambient-bg.component';
 import { FooterComponent } from '../shared/components/footer/footer.component';
 import { HeaderComponent } from '../shared/components/header/header.component';
@@ -27,7 +30,15 @@ import { VehicleCardComponent } from '../shared/components/vehicle-card/vehicle-
   imports: [
     CommonModule,
     RouterModule,
+    IonRouterLink,
     IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonBadge,
+    IonButton,
+    IonText,
+    IonNote,
     HeaderComponent,
     HeroShowcaseComponent,
     AmbientBgComponent,

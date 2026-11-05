@@ -1,15 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  NgZone,
-  OnDestroy,
-  PLATFORM_ID,
-  ViewChild,
-  inject,
-} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import type { AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, Input, NgZone, PLATFORM_ID, ViewChild, inject } from '@angular/core';
 
 @Component({
   selector: 'app-halftone-bg',
@@ -65,8 +56,10 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
     };
 
     updateSize();
-    this.resizeObserver = new ResizeObserver(() => updateSize());
-    this.resizeObserver.observe(parent);
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => updateSize());
+      this.resizeObserver.observe(parent);
+    }
   }
 
   private renderLoop = (now: number): void => {

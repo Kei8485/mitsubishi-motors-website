@@ -1,20 +1,18 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  computed,
-  signal,
-} from '@angular/core';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, computed, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { IonButton, IonChip, IonIcon, IonLabel, IonNote, IonRouterLink, IonText } from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
+
 import { VEHICLES_DATA } from '../../../core/data/site-data';
-import { VehicleModel } from '../../../core/models/vehicle.model';
+import type { VehicleModel } from '../../../core/models/vehicle.model';
 import { HalftoneBgComponent } from '../halftone-bg/halftone-bg.component';
-import {
-  VehicleStageComponent,
-  VehicleStageSlide,
-} from '../vehicle-stage/vehicle-stage.component';
+import type { VehicleStageSlide } from '../vehicle-stage/vehicle-stage.component';
+import { VehicleStageComponent } from '../vehicle-stage/vehicle-stage.component';
+
+addIcons({ chevronBackOutline, chevronForwardOutline });
 
 @Component({
   selector: 'app-hero-showcase',
@@ -22,6 +20,13 @@ import {
   imports: [
     CommonModule,
     RouterModule,
+    IonRouterLink,
+    IonChip,
+    IonLabel,
+    IonNote,
+    IonButton,
+    IonIcon,
+    IonText,
     HalftoneBgComponent,
     VehicleStageComponent,
   ],
@@ -39,7 +44,7 @@ export class HeroShowcaseComponent implements OnInit, OnDestroy {
   readonly activeFeaturedIndex = signal(0);
 
   readonly currentFeatured = computed<VehicleModel>(
-    () => this.vehicles[this.activeFeaturedIndex()] ?? VEHICLES_DATA[0]
+    () => this.vehicles[this.activeFeaturedIndex()] ?? VEHICLES_DATA[0],
   );
 
   readonly stageSlides = computed<VehicleStageSlide[]>(() =>
@@ -47,7 +52,7 @@ export class HeroShowcaseComponent implements OnInit, OnDestroy {
       id: v.id,
       imageSrc: v.image,
       altText: `${v.year} Mitsubishi ${v.name}`,
-    }))
+    })),
   );
 
   readonly slideCounter = computed<string>(() => {
@@ -65,9 +70,7 @@ export class HeroShowcaseComponent implements OnInit, OnDestroy {
   }
 
   prevFeatured(): void {
-    this.activeFeaturedIndex.update((idx) =>
-      idx === 0 ? this.vehicles.length - 1 : idx - 1
-    );
+    this.activeFeaturedIndex.update((idx) => (idx === 0 ? this.vehicles.length - 1 : idx - 1));
     this.resetAutoScroll();
   }
 
@@ -80,9 +83,7 @@ export class HeroShowcaseComponent implements OnInit, OnDestroy {
     if (this.vehicles.length <= 1) {
       return;
     }
-    this.activeFeaturedIndex.update((idx) =>
-      idx === this.vehicles.length - 1 ? 0 : idx + 1
-    );
+    this.activeFeaturedIndex.update((idx) => (idx === this.vehicles.length - 1 ? 0 : idx + 1));
   }
 
   private startAutoScroll(): void {

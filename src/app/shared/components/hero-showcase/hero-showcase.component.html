@@ -5,45 +5,29 @@
   <div class="mm-container mm-hero-showcase__inner">
     <!-- Top Meta Bar: Frosted HUD Pill FEATURED · [YEAR] & Carousel Controls 01 / 03 ‹ › -->
     <div class="mm-hero-showcase__meta-bar">
-      <div class="mm-hero-showcase__meta-pill">
+      <ion-chip class="mm-hero-showcase__meta-pill">
         <span class="mm-hero-showcase__live-dot" aria-hidden="true"></span>
-        <span class="mm-hero-showcase__meta-label">
-          FEATURED · [{{ currentFeatured().year }}]
-        </span>
-      </div>
+        <ion-label class="mm-hero-showcase__meta-label"> FEATURED · [{{ currentFeatured().year }}] </ion-label>
+      </ion-chip>
 
       <div class="mm-hero-showcase__carousel-nav">
-        <span class="mm-hero-showcase__counter">{{ slideCounter() }}</span>
-        <button
-          type="button"
+        <ion-note class="mm-hero-showcase__counter">{{ slideCounter() }}</ion-note>
+        <ion-button
+          fill="clear"
           class="mm-hero-showcase__arrow-btn"
           (click)="prevFeatured()"
           aria-label="Previous featured vehicle"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path
-              d="M7.5 2L3.5 6L7.5 10"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="square"
-            />
-          </svg>
-        </button>
-        <button
-          type="button"
+          <ion-icon name="chevron-back-outline" class="mm-hero-showcase__arrow-icon" aria-hidden="true"></ion-icon>
+        </ion-button>
+        <ion-button
+          fill="clear"
           class="mm-hero-showcase__arrow-btn"
           (click)="nextFeatured()"
           aria-label="Next featured vehicle"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path
-              d="M4.5 2L8.5 6L4.5 10"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="square"
-            />
-          </svg>
-        </button>
+          <ion-icon name="chevron-forward-outline" class="mm-hero-showcase__arrow-icon" aria-hidden="true"></ion-icon>
+        </ion-button>
       </div>
     </div>
 
@@ -76,23 +60,21 @@
       <div class="mm-hero-showcase__cta-block">
         <div class="mm-hero-showcase__desc-stack">
           @for (car of vehicles; track car.id; let idx = $index) {
-            <p
+            <ion-text
               class="mm-hero-showcase__desc"
               [class.is-active]="idx === activeFeaturedIndex()"
               [attr.aria-hidden]="idx !== activeFeaturedIndex()"
             >
               {{ car.shortDescription }}
-            </p>
+            </ion-text>
           }
         </div>
 
         <div class="mm-hero-showcase__actions">
-          <a [routerLink]="['/models', currentFeatured().id]" class="mm-btn mm-btn-white">
+          <ion-button [routerLink]="['/models', currentFeatured().id]" class="mm-btn mm-btn-white">
             LEARN MORE
-          </a>
-          <a routerLink="/models" class="mm-btn mm-btn-outline">
-            SEE ALL MODELS
-          </a>
+          </ion-button>
+          <ion-button routerLink="/models" fill="outline" class="mm-btn mm-btn-outline"> SEE ALL MODELS </ion-button>
         </div>
       </div>
 

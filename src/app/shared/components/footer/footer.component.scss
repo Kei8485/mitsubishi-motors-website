@@ -5,6 +5,7 @@
   padding-top: clamp(3rem, 6vw, 4.75rem);
   padding-bottom: clamp(2.5rem, 5vw, 4rem);
   background-color: var(--mm-bg-primary);
+  box-shadow: none;
 
   &__grid {
     display: grid;
@@ -48,6 +49,8 @@
   }
 
   &__summary {
+    --color: var(--mm-text-secondary);
+    display: block;
     font-family: var(--mm-font-sans);
     font-size: var(--mm-size-body);
     line-height: 1.55;
@@ -63,9 +66,12 @@
   }
 
   &__heading {
+    --color: var(--mm-text-primary);
+    display: block;
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-xs);
     font-weight: 600;
+    line-height: 1.5;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mm-text-primary);
@@ -74,8 +80,9 @@
 
   &__list {
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
     display: flex;
     flex-direction: column;
     gap: 0.65rem;
@@ -88,6 +95,8 @@
   }
 
   &__icon-badge {
+    --background: var(--mm-bg-secondary);
+    --color: var(--mm-red-bright);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -107,6 +116,7 @@
 
   &__link,
   &__text {
+    --color: var(--mm-text-secondary);
     font-family: var(--mm-font-sans);
     font-size: var(--mm-size-body);
     line-height: 1.45;
@@ -116,9 +126,12 @@
   }
 
   &__link:hover {
+    --color: var(--mm-text-primary);
     color: var(--mm-text-primary);
 
     .mm-footer__icon-badge {
+      --background: var(--mm-red);
+      --color: var(--mm-text-primary);
       background-color: var(--mm-red);
       border-color: var(--mm-red-bright);
       color: var(--mm-text-primary);
@@ -141,5 +154,10 @@
     align-items: center;
     gap: 0.6rem;
     flex-wrap: wrap;
+  }
+
+  &__copyright-text {
+    --color: var(--mm-text-muted);
+    color: var(--mm-text-muted);
   }
 }

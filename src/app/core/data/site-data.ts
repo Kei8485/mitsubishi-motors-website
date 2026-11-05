@@ -1,9 +1,4 @@
-import {
-  DealershipConfig,
-  NavMenuItem,
-  PromoBannerItem,
-  VehicleModel,
-} from '../models/vehicle.model';
+import type { DealershipConfig, NavMenuItem, PromoBannerItem, VehicleModel } from '../models/vehicle.model';
 
 // =============================================================================
 // MITSUBISHI MOTORS — CENTRAL DATA STORE
@@ -158,8 +153,7 @@ export const VEHICLES_DATA: VehicleModel[] = [
     isFeatured: false,
     isBrandNewHome: false,
     tagline: 'SMART, PRACTICAL, EFFORTLESS.',
-    shortDescription:
-      'Practical subcompact sedan delivering up to 21 km/L fuel economy and a spacious 450L trunk.',
+    shortDescription: 'Practical subcompact sedan delivering up to 21 km/L fuel economy and a spacious 450L trunk.',
     fullDescription:
       'With its tight 4.8-meter turning radius, Dynamic Shield front fascia, and exceptional fuel economy, the Mirage G4 is the smart daily driver for city streets.',
   },

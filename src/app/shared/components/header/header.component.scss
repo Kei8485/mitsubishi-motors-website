@@ -16,6 +16,17 @@
   background-color: var(--mm-bg-primary);
   border-bottom: 1px solid var(--mm-border-subtle);
   padding-block: clamp(0.85rem, 1.6vw, 1.15rem);
+  box-shadow: none;
+
+  &__toolbar {
+    --background: transparent;
+    --border-width: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --min-height: 0;
+  }
 
   &__inner {
     display: flex;
@@ -100,13 +111,17 @@
   }
 
   &__link {
+    --color: var(--mm-text-secondary);
     position: relative;
+    overflow: visible;
     display: inline-flex;
     align-items: center;
     padding: 0.2rem 0.15rem;
+    margin: 0;
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-sm);
     font-weight: 500;
+    line-height: 1.5;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mm-text-secondary);
@@ -131,6 +146,7 @@
 
     &:hover,
     &.is-active {
+      --color: var(--mm-text-primary);
       color: var(--mm-text-primary);
 
       &::after {
@@ -156,15 +172,19 @@
 
   // Single-Line SIGN IN Control
   &__signin {
+    --background: var(--mm-bg-secondary);
+    --color: var(--mm-text-secondary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.55rem 0.95rem;
+    margin: 0;
     background-color: var(--mm-bg-secondary);
     border: 1px solid transparent;
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-sm);
     font-weight: 500;
+    line-height: 1.5;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mm-text-secondary);
@@ -181,6 +201,8 @@
     }
 
     &:hover {
+      --color: var(--mm-text-primary);
+      --background: var(--mm-glass-hud-hover);
       color: var(--mm-text-primary);
       background-color: var(--mm-glass-hud-hover);
       border-color: var(--mm-border-subtle);
@@ -197,16 +219,20 @@
     --mm-corner-size: 8px;
     --mm-corner-weight: 1.5px;
     --mm-corner-color: rgba(255, 255, 255, 0.82);
+    --background: var(--mm-bg-secondary);
+    --color: var(--mm-text-primary);
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
     padding: 0.58rem 1.15rem;
+    margin: 0;
     background-color: var(--mm-bg-secondary);
     border: none;
     border-radius: 0;
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-sm);
     font-weight: 500;
+    line-height: 1.5;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mm-text-primary);
@@ -225,6 +251,7 @@
     &:hover {
       --mm-corner-size: 10px;
       --mm-corner-color: var(--mm-text-primary);
+      --background: var(--mm-glass-hud-hover);
       background-color: var(--mm-glass-hud-hover);
     }
 
@@ -252,6 +279,10 @@
 
   &__close-icon {
     display: block;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    margin-left: 0.55rem;
     transition:
       transform 0.26s var(--mm-ease-out),
       color 0.2s var(--mm-ease-out);
@@ -296,17 +327,30 @@
     margin-bottom: clamp(1.25rem, 3vw, 2.5rem);
   }
 
+  &__grid-wrap {
+    display: flex;
+    flex: 1;
+    width: 100%;
+  }
+
   &__grid {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: clamp(1.5rem, 3.5vw, 3.5rem);
     align-items: end;
     flex: 1;
+    width: 100%;
 
     @media (max-width: 1024px) {
       grid-template-columns: 1fr;
       align-items: stretch;
     }
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
   &__nav {
@@ -315,7 +359,7 @@
     --mm-corner-color: rgba(255, 255, 255, 0.82);
     display: flex;
     flex-direction: column;
-    background: var(--mm-glass-panel);
+    background: var(--mm-glass-panel) !important;
     backdrop-filter: var(--mm-blur-hud);
     -webkit-backdrop-filter: var(--mm-blur-hud);
     padding: clamp(0.5rem, 1.8vw, 1.25rem) clamp(1rem, 2.5vw, 2rem);
@@ -351,10 +395,13 @@
       padding-left: 1rem;
 
       .mm-menu-overlay__num {
+        --color: var(--mm-text-primary);
         color: var(--mm-text-primary);
       }
 
       .mm-menu-overlay__arrow {
+        --background: var(--mm-red);
+        --color: var(--mm-text-primary);
         background-color: var(--mm-red);
         border-color: var(--mm-red-bright);
         color: var(--mm-text-primary);
@@ -374,6 +421,7 @@
   }
 
   &__num {
+    --color: var(--mm-text-muted);
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-sm);
     font-weight: 500;
@@ -406,6 +454,8 @@
   }
 
   &__arrow {
+    --background: transparent;
+    --color: var(--mm-text-secondary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -422,11 +472,21 @@
       transform 0.22s var(--mm-ease-out);
   }
 
+  &__arrow-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+
   &__help-card {
     --mm-corner-size: 12px;
     --mm-corner-weight: 1.5px;
     --mm-corner-color: rgba(255, 255, 255, 0.85);
+    --background: transparent;
+    --color: var(--mm-text-primary);
     width: 100%;
+    margin: 0;
+    border-radius: 0;
     background: var(--mm-glass-panel);
     backdrop-filter: var(--mm-blur-hud);
     -webkit-backdrop-filter: var(--mm-blur-hud);
@@ -437,16 +497,36 @@
     box-shadow: var(--mm-shadow-elevated);
   }
 
+  &__help-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__help-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 0;
+    margin: 0;
+  }
+
   &__help-tag {
+    --color: var(--mm-text-secondary);
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-sm);
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mm-text-secondary);
+    margin: 0;
+    padding: 0;
   }
 
   &__phone {
+    --color: var(--mm-text-primary);
     font-family: var(--mm-font-display);
     font-size: clamp(1.8rem, 3.2vw, 2.55rem);
     font-weight: 700;
@@ -454,9 +534,13 @@
     line-height: 1.05;
     color: var(--mm-text-primary);
     text-transform: uppercase;
+    margin: 0;
+    padding: 0;
   }
 
   &__meta {
+    --color: var(--mm-text-secondary);
+    display: block;
     font-family: var(--mm-font-sans);
     font-size: var(--mm-size-body);
     line-height: 1.55;

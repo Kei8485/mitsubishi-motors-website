@@ -96,12 +96,21 @@
   }
 
   &__badge {
+    --background: #1f1317;
+    --color: var(--mm-text-secondary);
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0.35rem;
+    --padding-end: 0.35rem;
     font-family: var(--mm-font-mono);
     font-size: 0.65rem;
+    font-weight: 500;
     letter-spacing: 0.08em;
     color: var(--mm-text-secondary);
     background-color: #1f1317;
     padding-inline: 0.35rem;
+    padding-block: 0;
+    border-radius: 0;
     transform: translateY(-55%);
   }
 

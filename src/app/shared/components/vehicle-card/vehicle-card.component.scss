@@ -1,12 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .mm-vehicle-card {
+  --background: transparent;
+  --color: var(--mm-text-primary);
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
+  margin: 0;
   background: var(--mm-surface-radial);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--mm-card-radius);
   padding: var(--mm-card-pad);
+  box-shadow: none;
+  contain: none;
+  overflow: visible;
   cursor: pointer;
   transition:
     border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
@@ -24,19 +37,28 @@
   }
 
   &__header {
+    --background: transparent;
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 0.45rem;
     flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
   }
 
   &__body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
   }
 
   &__title {
+    --color: var(--mm-text-primary);
     font-family: var(--mm-font-display);
     font-size: clamp(1.65rem, 2.4vw, 2.15rem);
     font-weight: 700;
@@ -45,6 +67,7 @@
     text-transform: uppercase;
     color: var(--mm-text-primary);
     margin: 0;
+    padding: 0;
   }
 
   &__price-row {
@@ -56,6 +79,7 @@
   }
 
   &__price {
+    --color: var(--mm-text-primary);
     font-family: var(--mm-font-display);
     font-size: var(--mm-size-price);
     font-weight: 700;
@@ -65,6 +89,7 @@
   }
 
   &__price-label {
+    --color: var(--mm-text-secondary);
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-xs);
     letter-spacing: 0.12em;

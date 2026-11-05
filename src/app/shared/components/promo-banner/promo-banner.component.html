@@ -1,4 +1,4 @@
-<a [routerLink]="item.route" class="mm-promo-card">
+<ion-card [routerLink]="item.route" class="mm-promo-card">
   <!-- Atmospheric Background Image + Dark Crimson Vignette Overlay -->
   @if (item.bgImage) {
     <div class="mm-promo-card__bg" aria-hidden="true">
@@ -13,19 +13,12 @@
     </div>
   }
 
-  <div class="mm-promo-card__content">
-    <span class="mm-promo-card__tag">{{ item.tag }}</span>
-    <h3 class="mm-promo-card__title">{{ item.title }}</h3>
-    <span class="mm-promo-card__cta">
+  <ion-card-content class="mm-promo-card__content">
+    <ion-card-subtitle class="mm-promo-card__tag">{{ item.tag }}</ion-card-subtitle>
+    <ion-card-title class="mm-promo-card__title">{{ item.title }}</ion-card-title>
+    <ion-text class="mm-promo-card__cta">
       <span>VIEW</span>
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-        <path
-          d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="square"
-        />
-      </svg>
-    </span>
-  </div>
-</a>
+      <ion-icon name="arrow-forward-outline" class="mm-promo-card__icon" aria-hidden="true"></ion-icon>
+    </ion-text>
+  </ion-card-content>
+</ion-card>

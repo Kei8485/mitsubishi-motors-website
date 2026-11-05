@@ -1,9 +1,9 @@
-<article class="mm-vehicle-card" (click)="onSelect()" tabindex="0" (keydown.enter)="onSelect()">
+<ion-card class="mm-vehicle-card" (click)="onSelect()" tabindex="0" (keydown.enter)="onSelect()">
   <!-- Top Badges: Category & Year -->
-  <div class="mm-vehicle-card__header">
-    <span class="mm-pill">{{ vehicle.category }}</span>
-    <span class="mm-pill">[{{ vehicle.year }}]</span>
-  </div>
+  <ion-card-header class="mm-vehicle-card__header">
+    <ion-badge class="mm-pill">{{ vehicle.category }}</ion-badge>
+    <ion-badge class="mm-pill">[{{ vehicle.year }}]</ion-badge>
+  </ion-card-header>
 
   <!-- Vehicle 3D/PNG Turntable Stage -->
   <app-vehicle-stage
@@ -13,18 +13,18 @@
   />
 
   <!-- Bottom Details: Title, Starting Price, Spec Pills -->
-  <div class="mm-vehicle-card__body">
-    <h3 class="mm-vehicle-card__title">{{ vehicle.name }}</h3>
+  <ion-card-content class="mm-vehicle-card__body">
+    <ion-card-title class="mm-vehicle-card__title">{{ vehicle.name }}</ion-card-title>
 
     <div class="mm-vehicle-card__price-row">
-      <span class="mm-vehicle-card__price">{{ vehicle.startingPrice }}</span>
-      <span class="mm-vehicle-card__price-label">STARTING</span>
+      <ion-text class="mm-vehicle-card__price">{{ vehicle.startingPrice }}</ion-text>
+      <ion-note class="mm-vehicle-card__price-label">STARTING</ion-note>
     </div>
 
     <div class="mm-vehicle-card__specs">
       @for (spec of vehicle.cardSpecs; track spec) {
-        <span class="mm-pill">[{{ spec }}]</span>
+        <ion-badge class="mm-pill">[{{ spec }}]</ion-badge>
       }
     </div>
-  </div>
-</article>
+  </ion-card-content>
+</ion-card>

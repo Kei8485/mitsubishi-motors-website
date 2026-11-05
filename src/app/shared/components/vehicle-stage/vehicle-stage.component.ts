@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { IonBadge } from '@ionic/angular';
 
 export interface VehicleStageSlide {
   id: string;
@@ -10,7 +11,7 @@ export interface VehicleStageSlide {
 @Component({
   selector: 'app-vehicle-stage',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IonBadge],
   templateUrl: './vehicle-stage.component.html',
   styleUrls: ['./vehicle-stage.component.scss'],
 })

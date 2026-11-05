@@ -1,15 +1,27 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .mm-promo-card {
+  --background: transparent;
+  --color: var(--mm-text-primary);
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  flex: 1;
+  margin: 0;
   min-height: clamp(210px, 24vw, 265px);
   padding: clamp(1.5rem, 3vw, 2.25rem);
   background: var(--mm-surface-promo);
   border: 1px solid var(--mm-border-subtle);
   border-radius: var(--mm-card-radius);
+  box-shadow: none;
   text-decoration: none;
   overflow: hidden;
+  cursor: pointer;
   transition:
     border-color 0.28s var(--mm-ease-out),
     transform 0.28s var(--mm-ease-out),
@@ -58,6 +70,7 @@
     }
 
     .mm-promo-card__cta {
+      --color: var(--mm-text-primary);
       color: var(--mm-text-primary);
       transform: translateX(4px);
     }
@@ -69,18 +82,27 @@
     gap: 0.45rem;
     position: relative;
     z-index: 1;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
   }
 
   &__tag {
+    --color: var(--mm-text-secondary);
     font-family: var(--mm-font-mono);
     font-size: var(--mm-size-mono-xs);
+    font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--mm-text-secondary);
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+    margin: 0;
+    padding: 0;
   }
 
   &__title {
+    --color: var(--mm-text-primary);
     font-family: var(--mm-font-display);
     font-size: clamp(1.85rem, 3vw, 2.55rem);
     font-weight: 700;
@@ -90,9 +112,11 @@
     color: var(--mm-text-primary);
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
     margin: 0;
+    padding: 0;
   }
 
   &__cta {
+    --color: var(--mm-text-secondary);
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
@@ -107,5 +131,11 @@
     transition:
       color 0.2s var(--mm-ease-out),
       transform 0.2s var(--mm-ease-out);
+  }
+
+  &__icon {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
   }
 }
