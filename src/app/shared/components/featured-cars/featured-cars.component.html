@@ -8,7 +8,7 @@
     <div class="mm-hero-showcase__meta-bar">
       <ion-chip class="mm-hero-showcase__meta-pill">
         <span class="mm-hero-showcase__live-dot" aria-hidden="true"></span>
-        <ion-label class="mm-hero-showcase__meta-label"> FEATURED · [{{ currentFeatured().year }}] </ion-label>
+        <ion-label class="mm-hero-showcase__meta-label">FEATURED · [{{ currentFeatured().year }}]</ion-label>
       </ion-chip>
 
       <div class="mm-hero-showcase__carousel-nav">
@@ -19,21 +19,25 @@
           (click)="prevFeatured()"
           aria-label="Previous featured vehicle"
         >
+          <!-- the left arrow -->
           <ion-icon name="chevron-back-outline" class="mm-hero-showcase__arrow-icon" aria-hidden="true"></ion-icon>
         </ion-button>
+
         <ion-button
           fill="clear"
           class="mm-hero-showcase__arrow-btn"
           (click)="nextFeatured()"
           aria-label="Next featured vehicle"
         >
+          <!-- the right arrow -->
           <ion-icon name="chevron-forward-outline" class="mm-hero-showcase__arrow-icon" aria-hidden="true"></ion-icon>
         </ion-button>
       </div>
     </div>
 
-    <!-- Giant Backdrop Vehicle Title Stack (Smoothly cross-fades & glides on change) -->
+    <!-- Display For The Car Name -->
     <div class="mm-hero-showcase__title-wrap">
+      <!-- "vehicles from the ts that is base from the filtered isFeatured thing" -->
       @for (car of vehicles; track car.id; let idx = $index) {
         <h1
           class="mm-display-hero mm-hero-showcase__title"
