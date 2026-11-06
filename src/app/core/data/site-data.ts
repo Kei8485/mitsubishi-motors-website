@@ -43,8 +43,13 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
 
 /**
  * VEHICLE CATALOG
+ * - Ordered in default "Most Popular First" sequence:
+ *   1. XPANDER, 2. MONTERO SPORT, 3. STRADA, 4. XFORCE, 5. DESTINATOR, 6. MIRAGE G4
  * - Set `isFeatured: true` to include in the Home Page Hero Showcase carousel.
  * - Set `isBrandNewHome: true` to display in the Home Page "BRAND NEW" grid.
+ * - To change how a vehicle appears inside a card stage:
+ *   • Put a 2D image path in `image: 'assets/images/cars/<model>.png'`
+ *   • Or put a 3D model path in `model3d: 'assets/models/<model>.glb'` and `stageMode: '3d'`
  */
 export const VEHICLES_DATA: VehicleModel[] = [
   {
@@ -70,6 +75,41 @@ export const VEHICLES_DATA: VehicleModel[] = [
       { name: 'Graphite Gray Metallic', hex: '#2D2F33' },
       { name: 'Red Metallic', hex: '#C8102E' },
     ],
+  },
+  {
+    id: 'montero-sport',
+    name: 'MONTERO SPORT',
+    category: 'SUV',
+    year: '2026',
+    startingPrice: '[PHP 1,568,000]',
+    numericPrice: 1568000,
+    image: 'assets/images/cars/montero-sport.png',
+    cardSpecs: ['7 SEATS', 'DIESEL', '8AT'],
+    isFeatured: true,
+    isBrandNewHome: true,
+    tagline: 'ELEVATE YOUR JOURNEY.',
+    shortDescription:
+      'Flagship 7-seater midsize diesel SUV with 8-speed automatic transmission and Forward Collision Mitigation.',
+    fullDescription:
+      'A benchmark in prestige and capability, the Montero Sport combines a 2.4L MIVEC turbocharged diesel engine with an 8-speed automatic gearbox and luxurious leather-appointed seating.',
+  },
+  {
+    id: 'strada',
+    name: 'STRADA',
+    category: 'PICKUP',
+    year: '2026',
+    startingPrice: '[PHP 1,157,000]',
+    numericPrice: 1157000,
+    image: 'assets/images/cars/strada.png',
+    cardSpecs: ['5 SEATS', 'DIESEL', '6AT / 6MT'],
+    isFeatured: false,
+    isBrandNewHome: false,
+    heroLabel: 'FEATURED · 2026',
+    tagline: 'ENGINEERED BEYOND TOUGH.\nREADY FOR ANY TERRAIN.',
+    shortDescription:
+      '2.4L Bi-Turbo MIVEC clean diesel pickup with Super Select 4WD-II and a reinforced ladder frame built for heavy payloads.',
+    fullDescription:
+      'Built to dominate work sites and mountain trails alike, the Strada delivers relentless low-end torque, seven terrain modes, and SUV-grade interior ergonomics.',
   },
   {
     id: 'xforce',
@@ -106,41 +146,6 @@ export const VEHICLES_DATA: VehicleModel[] = [
       'Next-generation three-row family SUV derived from the DST Concept with panoramic cabin comfort and all-road stability.',
     fullDescription:
       'The Mitsubishi Destinator brings bold gravitas and three rows of first-class seating to the modern SUV segment. With a high-rigidity monocoque platform and sculpted aerodynamic fenders, it bridges urban refinement and weekend adventure.',
-  },
-  {
-    id: 'strada',
-    name: 'STRADA',
-    category: 'PICKUP',
-    year: '2026',
-    startingPrice: '[PHP 1,157,000]',
-    numericPrice: 1157000,
-    image: 'assets/images/cars/strada.png',
-    cardSpecs: ['5 SEATS', 'DIESEL', '6AT / 6MT'],
-    isFeatured: false,
-    isBrandNewHome: false,
-    heroLabel: 'FEATURED · 2026',
-    tagline: 'ENGINEERED BEYOND TOUGH.\nREADY FOR ANY TERRAIN.',
-    shortDescription:
-      '2.4L Bi-Turbo MIVEC clean diesel pickup with Super Select 4WD-II and a reinforced ladder frame built for heavy payloads.',
-    fullDescription:
-      'Built to dominate work sites and mountain trails alike, the Strada delivers relentless low-end torque, seven terrain modes, and SUV-grade interior ergonomics.',
-  },
-  {
-    id: 'montero-sport',
-    name: 'MONTERO SPORT',
-    category: 'SUV',
-    year: '2026',
-    startingPrice: '[PHP 1,568,000]',
-    numericPrice: 1568000,
-    image: 'assets/images/cars/montero-sport.png',
-    cardSpecs: ['7 SEATS', 'DIESEL', '8AT'],
-    isFeatured: true,
-    isBrandNewHome: true,
-    tagline: 'ELEVATE YOUR JOURNEY.',
-    shortDescription:
-      'Flagship 7-seater midsize diesel SUV with 8-speed automatic transmission and Forward Collision Mitigation.',
-    fullDescription:
-      'A benchmark in prestige and capability, the Montero Sport combines a 2.4L MIVEC turbocharged diesel engine with an 8-speed automatic gearbox and luxurious leather-appointed seating.',
   },
   {
     id: 'mirage-g4',

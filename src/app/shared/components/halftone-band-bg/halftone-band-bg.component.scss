@@ -1,0 +1,21 @@
+// =============================================================================
+// HALFTONE BAND BACKGROUND STYLES
+// Parent hero section must have `position: relative`.
+// Canvas sits behind hero content with `pointer-events: none` and `z-index: 0`.
+// =============================================================================
+
+:host {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+  overflow: hidden;
+}
+
+.mm-halftone-band-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}

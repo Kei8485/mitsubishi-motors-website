@@ -2,6 +2,7 @@
   class="mm-stage mm-hud-corners"
   [class.mm-stage--hero]="variant === 'hero'"
   [class.mm-stage--card]="variant === 'card'"
+  [class.mm-stage--placeholder]="stageMode === 'placeholder'"
 >
   <!-- Dashed Elliptical Podium -->
   <div class="mm-stage__podium mm-turntable-ellipse" aria-hidden="true">
@@ -10,7 +11,7 @@
     }
   </div>
 
-  <!-- Multi-Slide Smooth Cross-Fade Mode (Hero Carousel) -->
+  <!-- 1. Multi-Slide Smooth Cross-Fade Mode (Hero Carousel) -->
   @if (slides.length > 0) {
     <div class="mm-stage__slides">
       @for (slide of slides; track slide.id; let idx = $index) {
@@ -27,8 +28,20 @@
         />
       }
     </div>
-  } @else if (imageSrc) {
-    <!-- Single-Image Mode (Vehicle Catalog Cards) -->
+  } @else if (stageMode === '3d') {
+    <!--
+      2. 3D Model Mode (stageMode === '3d')
+      Drop a <model-viewer [attr.src]="model3dSrc" auto-rotate camera-controls />
+      or project a custom <canvas stage3d> element inside <app-vehicle-stage>.
+    -->
+    <div class="mm-stage__3d-slot" [attr.data-model-src]="model3dSrc">
+      <ng-content select="[stage3d]" />
+    </div>
+  } @else if (stageMode === 'image' && imageSrc) {
+    <!--
+      3. 2D Cutout Image Mode (stageMode === 'image')
+      Displays the transparent PNG vehicle render from `site-data.ts`.
+    -->
     <img
       src="{{ imageSrc }}"
       alt="{{ altText }}"
@@ -38,4 +51,8 @@
       decoding="async"
     />
   }
+  <!--
+    4. Placeholder Mode (stageMode === 'placeholder')
+    Leaves only the HUD corner brackets + 3D elliptical turntable ring visible.
+  -->
 </div>

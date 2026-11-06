@@ -5,9 +5,11 @@
     <ion-badge class="mm-pill">[{{ vehicle.year }}]</ion-badge>
   </ion-card-header>
 
-  <!-- Vehicle 3D/PNG Turntable Stage -->
+  <!-- Vehicle 3D/PNG Turntable Stage (Supports 'placeholder', 'image', or '3d' mode) -->
   <app-vehicle-stage
+    [stageMode]="vehicle.stageMode ?? stageMode"
     [imageSrc]="vehicle.image"
+    [model3dSrc]="vehicle.model3d ?? ''"
     [altText]="vehicle.year + ' Mitsubishi ' + vehicle.name"
     variant="card"
   />

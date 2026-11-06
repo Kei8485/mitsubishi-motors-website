@@ -1,0 +1,208 @@
+<!-- ===========================================================================
+     GLOBAL TOP HEADER COMPONENT (Matches Main Page Format & Navigation)
+     =========================================================================== -->
+<app-header activeRoute="/models" />
+
+<ion-content>
+  <!-- =========================================================================
+       1. MODELS HERO BANNER WITH HALFTONE DOT-GRADIENT BAND ANIMATION
+       Parent has `position: relative`; canvas has `position: absolute; inset: 0;
+       z-index: 0; pointer-events: none`; content sits above with `z-index: 1`.
+       ========================================================================= -->
+  <section class="mm-models-hero">
+    <!-- Live Animated Halftone Dot-Grid Band Canvas -->
+    <app-halftone-band-bg [dotSpacing]="8" [maxDotRadius]="3" [bandCenterY]="0.52" />
+
+    <div class="mm-container mm-models-hero__inner">
+      <div class="mm-models-hero__head">
+        <ion-badge class="mm-bracket-label mm-models-hero__tag">
+          [ 2020 TO TODAY · {{ filteredVehicles().length }} AVAILABLE ]
+        </ion-badge>
+        <h1 class="mm-heading-xl mm-models-hero__title">CHOOSE YOUR MODEL</h1>
+      </div>
+
+      <!-- HUD Corner-Bracketed Sort Control -->
+      <div class="mm-models-hero__sort-wrap">
+        <ion-button
+          fill="clear"
+          class="mm-models-hero__sort-btn mm-hud-corners"
+          (click)="toggleSortMenu($event)"
+          [attr.aria-expanded]="isSortMenuOpen()"
+          aria-haspopup="listbox"
+          aria-label="Sort vehicle models"
+        >
+          <span>{{ activeSortLabel() }}</span>
+          <ion-icon
+            name="chevron-down-outline"
+            class="mm-models-hero__sort-chevron"
+            [class.is-open]="isSortMenuOpen()"
+            aria-hidden="true"
+          ></ion-icon>
+        </ion-button>
+
+        @if (isSortMenuOpen()) {
+          <div class="mm-models-hero__sort-menu mm-hud-corners" role="listbox" aria-label="Sort options">
+            @for (opt of sortOptions; track opt.id) {
+              <button
+                type="button"
+                role="option"
+                class="mm-models-hero__sort-option"
+                [class.is-active]="activeSortId() === opt.id"
+                [attr.aria-selected]="activeSortId() === opt.id"
+                (click)="selectSort(opt.id, $event)"
+              >
+                <span>{{ opt.label }}</span>
+                <span class="mm-models-hero__sort-bracket">
+                  {{ activeSortId() === opt.id ? '[x]' : '[ ]' }}
+                </span>
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       2. CATALOG SECTION (Desktop Left Filter Sidebar + Responsive Vehicle Grid)
+       ========================================================================= -->
+  <div class="mm-models-body">
+    <app-ambient-bg />
+
+    <section class="mm-section mm-models-catalog">
+      <ion-grid class="mm-container">
+        <!-- Tablet & Mobile Horizontal Category Filter Pills (<= 1024px) -->
+        <div class="mm-models-pills" role="tablist" aria-label="Filter models by category">
+          <button
+            type="button"
+            class="mm-models-pills__btn"
+            [class.is-active]="selectedCategories().length === 0"
+            (click)="selectPillCategory('all')"
+          >
+            ALL
+          </button>
+
+          @for (cat of categoryOptions; track cat.id) {
+            <button
+              type="button"
+              class="mm-models-pills__btn"
+              [class.is-active]="selectedCategories().includes(cat.id)"
+              (click)="selectPillCategory(cat.id)"
+            >
+              {{ cat.pillLabel }}
+            </button>
+          }
+        </div>
+
+        <div class="mm-models-layout">
+          <!-- Desktop Left Vertical HUD Filter Panel (> 1024px) -->
+          <aside class="mm-models-filter mm-hud-corners" aria-label="Vehicle filters">
+            <div class="mm-models-filter__top">
+              <h2 class="mm-models-filter__title">FILTER</h2>
+              @if (hasActiveFilters()) {
+                <button type="button" class="mm-models-filter__reset" (click)="resetAllFilters()">
+                  [ RESET ]
+                </button>
+              }
+            </div>
+
+            <!-- Filter Group 1: Category -->
+            <div class="mm-models-filter__group">
+              <ion-note class="mm-models-filter__group-label">CATEGORY</ion-note>
+              <ion-list class="mm-models-filter__list" lines="none">
+                @for (cat of categoryOptions; track cat.id) {
+                  <button
+                    type="button"
+                    class="mm-models-filter__row"
+                    [class.is-checked]="isCategorySelected(cat.id)"
+                    [attr.aria-pressed]="isCategorySelected(cat.id)"
+                    (click)="toggleCategory(cat.id)"
+                  >
+                    <span class="mm-models-filter__item-name">{{ cat.label }}</span>
+                    <span class="mm-models-filter__checkbox">
+                      {{ isCategorySelected(cat.id) ? '[x]' : '[ ]' }}
+                    </span>
+                  </button>
+                }
+              </ion-list>
+            </div>
+
+            <!-- Filter Group 2: Price Range -->
+            <div class="mm-models-filter__group">
+              <ion-note class="mm-models-filter__group-label">PRICE RANGE</ion-note>
+              <ion-list class="mm-models-filter__list" lines="none">
+                @for (price of priceRangeOptions; track price.id) {
+                  <button
+                    type="button"
+                    class="mm-models-filter__row"
+                    [class.is-checked]="isPriceSelected(price.id)"
+                    [attr.aria-pressed]="isPriceSelected(price.id)"
+                    (click)="togglePrice(price.id)"
+                  >
+                    <span class="mm-models-filter__item-name mm-models-filter__item-name--mono">
+                      {{ price.label }}
+                    </span>
+                    <span class="mm-models-filter__checkbox">
+                      {{ isPriceSelected(price.id) ? '[x]' : '[ ]' }}
+                    </span>
+                  </button>
+                }
+              </ion-list>
+            </div>
+
+            <!-- Filter Group 3: Fuel Type -->
+            <div class="mm-models-filter__group">
+              <ion-note class="mm-models-filter__group-label">FUEL TYPE</ion-note>
+              <ion-list class="mm-models-filter__list" lines="none">
+                @for (fuel of fuelOptions; track fuel.id) {
+                  <button
+                    type="button"
+                    class="mm-models-filter__row"
+                    [class.is-checked]="isFuelSelected(fuel.id)"
+                    [attr.aria-pressed]="isFuelSelected(fuel.id)"
+                    (click)="toggleFuel(fuel.id)"
+                  >
+                    <span class="mm-models-filter__item-name">{{ fuel.label }}</span>
+                    <span class="mm-models-filter__checkbox">
+                      {{ isFuelSelected(fuel.id) ? '[x]' : '[ ]' }}
+                    </span>
+                  </button>
+                }
+              </ion-list>
+            </div>
+          </aside>
+
+          <!-- Vehicle Catalog Cards Grid (Desktop: 3 cols | Tablet: 2 cols | Mobile: 1 col) -->
+          <div class="mm-models-grid-wrap">
+            @if (filteredVehicles().length > 0) {
+              <ion-row class="mm-models-grid">
+                @for (car of filteredVehicles(); track car.id) {
+                  <ion-col class="mm-grid-col">
+                    <app-vehicle-card [vehicle]="car" [stageMode]="cardStageMode" />
+                  </ion-col>
+                }
+              </ion-row>
+            } @else {
+              <div class="mm-models-empty mm-hud-corners">
+                <ion-badge class="mm-bracket-label">[ 0 RESULTS ]</ion-badge>
+                <h3 class="mm-heading-md">NO MODELS MATCH YOUR FILTERS</h3>
+                <ion-text class="mm-body-text">
+                  Try clearing one or more category, price range, or fuel filters to see all available Mitsubishi
+                  vehicles.
+                </ion-text>
+                <ion-button fill="outline" class="mm-btn mm-btn-outline" (click)="resetAllFilters()">
+                  RESET FILTERS
+                </ion-button>
+              </div>
+            }
+          </div>
+        </div>
+      </ion-grid>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       3. GLOBAL DEALERSHIP FOOTER
+       ========================================================================= -->
+  <app-footer />
+</ion-content>

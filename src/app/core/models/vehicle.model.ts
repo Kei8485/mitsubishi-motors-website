@@ -4,6 +4,14 @@
 
 export type VehicleCategory = 'MPV' | 'SUV' | 'CROSSOVER' | 'PICKUP' | 'SEDAN';
 
+/**
+ * Controls how a vehicle is rendered inside `<app-vehicle-stage>`:
+ * - 'placeholder' : Shows the 3D elliptical turntable wireframe ring & [3D] badge
+ * - 'image'       : Renders the 2D transparent cutout PNG (`vehicle.image`)
+ * - '3d'          : Renders the interactive 3D model slot (`vehicle.model3d` or projected 3D viewer)
+ */
+export type VehicleStageMode = 'placeholder' | 'image' | '3d';
+
 export interface VehicleColorOption {
   name: string;
   hex: string;
@@ -36,7 +44,12 @@ export interface VehicleModel {
   year: string;
   startingPrice: string;
   numericPrice: number;
+  /** 2D studio cutout PNG path (used when stageMode is 'image') */
   image: string;
+  /** Optional 3D model path e.g. 'assets/models/xpander.glb' (used when stageMode is '3d') */
+  model3d?: string;
+  /** Optional per-vehicle override for stage rendering ('placeholder' | 'image' | '3d') */
+  stageMode?: VehicleStageMode;
   /** Short 3-pill badge array displayed at the bottom of every Vehicle Card: [SEATS, FUEL, TRANS] */
   cardSpecs: [string, string, string];
   /** Show in the Home Page Hero Featured Carousel */
