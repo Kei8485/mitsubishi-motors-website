@@ -1,4 +1,10 @@
-import type { DealershipConfig, NavMenuItem, PromoBannerItem, VehicleModel } from '../models/vehicle.model';
+import type {
+  DealershipConfig,
+  NavMenuItem,
+  PromoBannerItem,
+  VehicleHoverFX,
+  VehicleModel,
+} from '../models/vehicle.model';
 
 // =============================================================================
 // MITSUBISHI MOTORS — CENTRAL DATA STORE
@@ -42,14 +48,28 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
 ];
 
 /**
+ * REUSABLE DEFAULT HOVER SHOWCASE FX
+ * Applied automatically to all vehicle cards (Home page, Models page, etc.).
+ * Any individual vehicle in `VEHICLES_DATA` can override specific properties via `hoverFx`.
+ */
+export const DEFAULT_VEHICLE_HOVER_FX: Required<Omit<VehicleHoverFX, 'customBackdrop'>> = {
+  enabled: true,
+  theme: 'industrial',
+  facing: 'left',
+  showSplash: true,
+  showLightRings: true,
+  showHeadlights: true,
+  showEmbers: true,
+};
+
+/**
  * VEHICLE CATALOG
  * - Ordered in default "Most Popular First" sequence:
  *   1. XPANDER, 2. MONTERO SPORT, 3. STRADA, 4. XFORCE, 5. DESTINATOR, 6. MIRAGE G4
  * - Set `isFeatured: true` to include in the Home Page Hero Showcase carousel.
  * - Set `isBrandNewHome: true` to display in the Home Page "BRAND NEW" grid.
- * - To change how a vehicle appears inside a card stage:
- *   • Put a 2D image path in `image: 'assets/images/cars/<model>.png'`
- *   • Or put a 3D model path in `model3d: 'assets/models/<model>.glb'` and `stageMode: '3d'`
+ * - `hoverFx` configures the interactive card hover showcase (industrial backdrop,
+ *   water splash, orbital light rings, headlight flares, embers, and PNG scale-up).
  */
 export const VEHICLES_DATA: VehicleModel[] = [
   {
@@ -60,6 +80,10 @@ export const VEHICLES_DATA: VehicleModel[] = [
     startingPrice: '[PHP 1,068,000]',
     numericPrice: 1068000,
     image: 'assets/images/cars/xpander.png',
+    hoverFx: {
+      ...DEFAULT_VEHICLE_HOVER_FX,
+      facing: 'left',
+    },
     cardSpecs: ['7 SEATS', 'GASOLINE', '4AT / MT'],
     isFeatured: true,
     isBrandNewHome: false,
@@ -84,6 +108,10 @@ export const VEHICLES_DATA: VehicleModel[] = [
     startingPrice: '[PHP 1,568,000]',
     numericPrice: 1568000,
     image: 'assets/images/cars/montero-sport.png',
+    hoverFx: {
+      ...DEFAULT_VEHICLE_HOVER_FX,
+      facing: 'right',
+    },
     cardSpecs: ['7 SEATS', 'DIESEL', '8AT'],
     isFeatured: true,
     isBrandNewHome: true,
@@ -101,6 +129,10 @@ export const VEHICLES_DATA: VehicleModel[] = [
     startingPrice: '[PHP 1,157,000]',
     numericPrice: 1157000,
     image: 'assets/images/cars/strada.png',
+    hoverFx: {
+      ...DEFAULT_VEHICLE_HOVER_FX,
+      facing: 'left',
+    },
     cardSpecs: ['5 SEATS', 'DIESEL', '6AT / 6MT'],
     isFeatured: false,
     isBrandNewHome: false,
@@ -119,6 +151,10 @@ export const VEHICLES_DATA: VehicleModel[] = [
     startingPrice: '[PHP 1,367,000]',
     numericPrice: 1367000,
     image: 'assets/images/cars/xforce.png',
+    hoverFx: {
+      ...DEFAULT_VEHICLE_HOVER_FX,
+      facing: 'left',
+    },
     cardSpecs: ['5 SEATS', 'GASOLINE', 'CVT'],
     isFeatured: true,
     isBrandNewHome: true,
@@ -137,6 +173,10 @@ export const VEHICLES_DATA: VehicleModel[] = [
     startingPrice: '[PHP 1,680,000]',
     numericPrice: 1680000,
     image: 'assets/images/cars/destinator.png',
+    hoverFx: {
+      ...DEFAULT_VEHICLE_HOVER_FX,
+      facing: 'left',
+    },
     cardSpecs: ['7 SEATS', 'GASOLINE', 'CVT / AT'],
     isFeatured: false,
     isBrandNewHome: true,
@@ -155,6 +195,10 @@ export const VEHICLES_DATA: VehicleModel[] = [
     startingPrice: '[PHP 769,000]',
     numericPrice: 769000,
     image: 'assets/images/cars/xforce.png',
+    hoverFx: {
+      ...DEFAULT_VEHICLE_HOVER_FX,
+      facing: 'left',
+    },
     cardSpecs: ['5 SEATS', 'GASOLINE', 'CVT / MT'],
     isFeatured: false,
     isBrandNewHome: false,

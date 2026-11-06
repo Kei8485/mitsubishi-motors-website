@@ -3,15 +3,123 @@
   [class.mm-stage--hero]="variant === 'hero'"
   [class.mm-stage--card]="variant === 'card'"
   [class.mm-stage--placeholder]="stageMode === 'placeholder'"
+  [class.mm-stage--fx-enabled]="variant === 'card' && fx.enabled"
+  [class.mm-stage--facing-right]="fx.facing === 'right'"
+  [class.mm-stage--facing-left]="fx.facing !== 'right'"
+  [attr.data-fx-theme]="fx.theme"
 >
-  <!-- Dashed Elliptical Podium -->
+  <!-- =========================================================================
+       HOVER LAYER 1: INDUSTRIAL INFRASTRUCTURE & WET ASPHALT BACKDROP
+       Reveals smoothly on card hover; configured via `hoverFx` in `site-data.ts`
+       ========================================================================= -->
+  @if (variant === 'card' && fx.enabled) {
+    <div class="mm-stage__fx-backdrop" aria-hidden="true">
+      @if (fx.customBackdrop) {
+        <img [src]="fx.customBackdrop" alt="" class="mm-stage__fx-custom-bg" loading="lazy" />
+      }
+
+      <!-- Architectural Steel Girders & Hangar Scaffolding Silhouette -->
+      <svg
+        class="mm-stage__fx-scaffolding"
+        viewBox="0 0 400 240"
+        preserveAspectRatio="none"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <!-- Left Industrial Gantry & Truss Framing -->
+        <g stroke="rgba(175, 195, 220, 0.22)" stroke-width="1.2">
+          <line x1="14" y1="8" x2="14" y2="165" stroke-width="2.2" />
+          <line x1="48" y1="18" x2="48" y2="160" stroke-width="1.8" />
+          <line x1="96" y1="36" x2="96" y2="155" stroke-width="1.4" />
+          <line x1="0" y1="22" x2="108" y2="42" stroke-width="2" />
+          <line x1="0" y1="52" x2="108" y2="66" stroke-width="1.4" />
+          <!-- Diagonal Truss Bracing -->
+          <line x1="14" y1="25" x2="48" y2="56" />
+          <line x1="48" y1="29" x2="14" y2="56" />
+          <line x1="48" y1="31" x2="96" y2="64" />
+          <line x1="96" y1="39" x2="48" y2="64" />
+          <!-- Mesh Fence Lines -->
+          <line x1="0" y1="95" x2="105" y2="102" stroke="rgba(175, 195, 220, 0.14)" />
+          <line x1="0" y1="126" x2="105" y2="130" stroke="rgba(175, 195, 220, 0.12)" />
+        </g>
+
+        <!-- Right Elevated Steel Tower & Scaffolding -->
+        <g stroke="rgba(175, 195, 220, 0.2)" stroke-width="1.15">
+          <line x1="316" y1="6" x2="316" y2="158" stroke-width="2" />
+          <line x1="354" y1="0" x2="354" y2="162" stroke-width="2.2" />
+          <line x1="386" y1="14" x2="386" y2="165" stroke-width="1.6" />
+          <line x1="308" y1="24" x2="396" y2="16" stroke-width="1.7" />
+          <line x1="308" y1="54" x2="396" y2="48" stroke-width="1.5" />
+          <line x1="308" y1="86" x2="396" y2="82" stroke-width="1.3" />
+          <!-- Tower Cross-Bracing -->
+          <line x1="316" y1="24" x2="354" y2="52" />
+          <line x1="354" y1="21" x2="316" y2="52" />
+          <line x1="354" y1="51" x2="386" y2="82" />
+          <line x1="386" y1="49" x2="354" y2="82" />
+          <!-- Distant Secondary Rig -->
+          <rect x="266" y="48" width="32" height="96" stroke="rgba(175, 195, 220, 0.11)" />
+          <line x1="266" y1="74" x2="298" y2="74" stroke="rgba(175, 195, 220, 0.11)" />
+          <line x1="266" y1="102" x2="298" y2="102" stroke="rgba(175, 195, 220, 0.11)" />
+        </g>
+      </svg>
+
+      <!-- Wet Dark Asphalt Ground & Headlight Pavement Reflection -->
+      <div class="mm-stage__fx-asphalt"></div>
+    </div>
+  }
+
+  <!-- =========================================================================
+       HOVER LAYER 2: 3D TURNTABLE PODIUM & BACK ORBITAL LIGHT RINGS
+       ========================================================================= -->
   <div class="mm-stage__podium mm-turntable-ellipse" aria-hidden="true">
     @if (variant === 'card') {
       <ion-badge class="mm-stage__badge">3D</ion-badge>
     }
   </div>
 
-  <!-- 1. Multi-Slide Smooth Cross-Fade Mode (Hero Carousel) -->
+  @if (variant === 'card' && fx.enabled && fx.showLightRings) {
+    <!-- Back Half of the 3D Kinetic Orbital Light Streaks (Sits behind car) -->
+    <svg
+      class="mm-stage__fx-orbit mm-stage__fx-orbit--back"
+      viewBox="0 0 400 220"
+      fill="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="mmOrbitBackGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stop-color="rgba(255, 255, 255, 0)" />
+          <stop offset="22%" stop-color="rgba(255, 190, 110, 0.72)" />
+          <stop offset="52%" stop-color="rgba(255, 90, 45, 0.35)" />
+          <stop offset="82%" stop-color="rgba(215, 240, 255, 0.85)" />
+          <stop offset="100%" stop-color="rgba(255, 255, 255, 0)" />
+        </linearGradient>
+      </defs>
+      <ellipse
+        cx="200"
+        cy="128"
+        rx="168"
+        ry="38"
+        stroke="url(#mmOrbitBackGrad)"
+        stroke-width="2.2"
+        stroke-dasharray="180 90"
+        transform="rotate(-4 200 128)"
+      />
+      <ellipse
+        cx="200"
+        cy="134"
+        rx="154"
+        ry="32"
+        stroke="url(#mmOrbitBackGrad)"
+        stroke-width="1.3"
+        stroke-dasharray="120 110"
+        transform="rotate(3 200 134)"
+      />
+    </svg>
+  }
+
+  <!-- =========================================================================
+       CORE VEHICLE STAGE CONTENT (Hero Slides / 3D Slot / 2D Cutout Image)
+       ========================================================================= -->
   @if (slides.length > 0) {
     <div class="mm-stage__slides">
       @for (slide of slides; track slide.id; let idx = $index) {
@@ -29,19 +137,10 @@
       }
     </div>
   } @else if (stageMode === '3d') {
-    <!--
-      2. 3D Model Mode (stageMode === '3d')
-      Drop a <model-viewer [attr.src]="model3dSrc" auto-rotate camera-controls />
-      or project a custom <canvas stage3d> element inside <app-vehicle-stage>.
-    -->
     <div class="mm-stage__3d-slot" [attr.data-model-src]="model3dSrc">
       <ng-content select="[stage3d]" />
     </div>
   } @else if (stageMode === 'image' && imageSrc) {
-    <!--
-      3. 2D Cutout Image Mode (stageMode === 'image')
-      Displays the transparent PNG vehicle render from `site-data.ts`.
-    -->
     <img
       src="{{ imageSrc }}"
       alt="{{ altText }}"
@@ -51,8 +150,82 @@
       decoding="async"
     />
   }
-  <!--
-    4. Placeholder Mode (stageMode === 'placeholder')
-    Leaves only the HUD corner brackets + 3D elliptical turntable ring visible.
-  -->
+
+  <!-- =========================================================================
+       HOVER LAYER 3: FOREGROUND SPLASH, FRONT ORBIT STREAKS, HEADLIGHTS & EMBERS
+       ========================================================================= -->
+  @if (variant === 'card' && fx.enabled) {
+    <!-- Water Splash & Tire Mist Spray at the Wheels -->
+    @if (fx.showSplash) {
+      <div class="mm-stage__fx-splash" aria-hidden="true">
+        <span class="mm-stage__splash-plume mm-stage__splash-plume--rear"></span>
+        <span class="mm-stage__splash-plume mm-stage__splash-plume--front"></span>
+        <svg class="mm-stage__splash-droplets" viewBox="0 0 400 120" fill="none">
+          <!-- Crisp water spray arcs & droplets around the tires -->
+          <g fill="rgba(235, 245, 255, 0.68)">
+            <circle cx="88" cy="76" r="1.6" />
+            <circle cx="96" cy="68" r="1.2" />
+            <circle cx="106" cy="82" r="1.8" />
+            <circle cx="118" cy="74" r="1.1" />
+            <circle cx="132" cy="86" r="1.5" />
+            <circle cx="212" cy="84" r="1.7" />
+            <circle cx="226" cy="72" r="1.3" />
+            <circle cx="238" cy="88" r="1.9" />
+            <circle cx="252" cy="78" r="1.2" />
+            <circle cx="268" cy="85" r="1.5" />
+          </g>
+          <g stroke="rgba(225, 240, 255, 0.35)" stroke-width="1.2" stroke-linecap="round">
+            <path d="M72 82 Q 92 66 116 78" />
+            <path d="M196 86 Q 222 70 250 82" />
+          </g>
+        </svg>
+      </div>
+    }
+
+    <!-- Foreground 3D Orbital Light Ribbon Sweeping Across the Car -->
+    @if (fx.showLightRings) {
+      <svg
+        class="mm-stage__fx-orbit mm-stage__fx-orbit--front"
+        viewBox="0 0 400 220"
+        fill="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="mmOrbitFrontGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="0%" stop-color="rgba(255, 120, 50, 0)" />
+            <stop offset="18%" stop-color="rgba(255, 175, 95, 0.85)" />
+            <stop offset="50%" stop-color="rgba(255, 250, 235, 0.96)" />
+            <stop offset="82%" stop-color="rgba(195, 235, 255, 0.9)" />
+            <stop offset="100%" stop-color="rgba(195, 235, 255, 0)" />
+          </linearGradient>
+        </defs>
+        <!-- Foreground Half-Arc Wrapping Around the Front Fascia & Wheels -->
+        <path
+          d="M 32 126 A 168 42 0 0 0 368 122"
+          stroke="url(#mmOrbitFrontGrad)"
+          stroke-width="2.6"
+          stroke-linecap="round"
+        />
+        <path
+          d="M 46 134 A 154 36 0 0 0 354 128"
+          stroke="url(#mmOrbitFrontGrad)"
+          stroke-width="1.4"
+          stroke-dasharray="90 50"
+          stroke-linecap="round"
+        />
+      </svg>
+    }
+
+    <!-- Subtle Drifting Atmospheric Embers / Sparks -->
+    @if (fx.showEmbers) {
+      <div class="mm-stage__fx-embers" aria-hidden="true">
+        <span class="mm-stage__ember mm-stage__ember--1"></span>
+        <span class="mm-stage__ember mm-stage__ember--2"></span>
+        <span class="mm-stage__ember mm-stage__ember--3"></span>
+        <span class="mm-stage__ember mm-stage__ember--4"></span>
+        <span class="mm-stage__ember mm-stage__ember--5"></span>
+        <span class="mm-stage__ember mm-stage__ember--6"></span>
+      </div>
+    }
+  }
 </div>

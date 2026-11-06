@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { IonBadge } from '@ionic/angular';
 
-import type { VehicleStageMode } from '../../../core/models/vehicle.model';
+import { DEFAULT_VEHICLE_HOVER_FX } from '../../../core/data/site-data';
+import type { VehicleHoverFX, VehicleStageMode } from '../../../core/models/vehicle.model';
 
 export interface VehicleStageSlide {
   id: string;
@@ -33,10 +34,21 @@ export class VehicleStageComponent {
   /** Optional 3D model URL (.glb / .gltf) used when stageMode === '3d' */
   @Input() model3dSrc = '';
 
+  /** Reusable hover showcase FX configuration from `site-data.ts` */
+  @Input() hoverFx?: VehicleHoverFX;
+
   /** Multi-slide mode (used by the Hero Showcase carousel for smooth cross-fade + glide) */
   @Input() slides: VehicleStageSlide[] = [];
   @Input() activeIndex = 0;
 
   @Input() variant: 'hero' | 'card' = 'card';
   @Input() priority = false;
+
+  /** Merged hover FX config combining defaults from `site-data.ts` with any per-car overrides */
+  get fx(): Required<Omit<VehicleHoverFX, 'customBackdrop'>> & { customBackdrop?: string } {
+    return {
+      ...DEFAULT_VEHICLE_HOVER_FX,
+      ...(this.hoverFx ?? {}),
+    };
+  }
 }

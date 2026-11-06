@@ -12,13 +12,14 @@ import { Component, Input, NgZone, PLATFORM_ID, ViewChild, inject } from '@angul
  * VISUAL & ANIMATION CHARACTERISTICS:
  * 1. Near-black base surface (#0a0508) that fades cleanly to black at the top
  *    and bottom edges.
- * 2. A ~8px grid of round dots where dot SIZE (radius up to ~3px), rather than
+ * 2. A ~8px grid of round dots where dot SIZE (radius up to ~3.2px), rather than
  *    just opacity, creates the halftone gradient look.
- * 3. A horizontal crimson glow band (#c8102e, brighter at the core) positioned
- *    in the lower-middle of the hero section between the top bar and heading.
+ * 3. A generous horizontal crimson glow band (#c8102e, brighter at the core)
+ *    positioned in the hero space between the nav bar and the heading.
  * 4. The horizontal band slowly drifts up and down while a soft sine wave
  *    ripples dot sizes from left to right.
- * 5. Dots near the mouse cursor gently swell in radius and brightness.
+ * 5. Interactive cursor response: dots near the mouse cursor swell in radius
+ *    and brighten in real time.
  * =============================================================================
  */
 @Component({
@@ -34,11 +35,11 @@ export class HalftoneBandBgComponent implements AfterViewInit, OnDestroy {
   /** Spacing between dot centers in CSS pixels (default: 8px) */
   @Input() dotSpacing = 8;
 
-  /** Maximum dot radius in CSS pixels at the brightest center of the band (default: 3px) */
-  @Input() maxDotRadius = 3;
+  /** Maximum dot radius in CSS pixels at the brightest center of the band (default: 3.15px) */
+  @Input() maxDotRadius = 3.15;
 
   /** Normalized vertical position of the glow band center (0 = top, 1 = bottom) */
-  @Input() bandCenterY = 0.56;
+  @Input() bandCenterY = 0.44;
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly ngZone = inject(NgZone);
@@ -47,11 +48,10 @@ export class HalftoneBandBgComponent implements AfterViewInit, OnDestroy {
   private resizeObserver: ResizeObserver | null = null;
   private startTime = 0;
 
-  // Cached canvas metrics to avoid layout thrashing during the 60fps loop
+  // Cached canvas metrics
   private canvasWidth = 0;
   private canvasHeight = 0;
   private dpr = 1;
-  private parentRect: DOMRect | null = null;
 
   // Mouse state in CSS pixels relative to the canvas (smoothed each frame)
   private mouseTargetX = -9999;
@@ -60,18 +60,21 @@ export class HalftoneBandBgComponent implements AfterViewInit, OnDestroy {
   private mouseCurrentY = -9999;
   private isMouseInside = false;
 
-  // Bound event listeners for clean removal on destroy
+  // Track mouse across the window so canvas can keep `pointer-events: none`
   private readonly onWindowMouseMove = (e: MouseEvent): void => {
-    if (!this.parentRect) return;
-    const localX = e.clientX - this.parentRect.left;
-    const localY = e.clientY - this.parentRect.top;
+    const parent = this.canvasRef?.nativeElement?.parentElement;
+    if (!parent) return;
 
-    // Track cursor when within or near the hero bounds
+    // Query fresh bounding rect so Ionic <ion-content> scrolling is always accounted for
+    const rect = parent.getBoundingClientRect();
+    const localX = e.clientX - rect.left;
+    const localY = e.clientY - rect.top;
+
     if (
-      localX >= -80 &&
-      localX <= this.parentRect.width + 80 &&
-      localY >= -80 &&
-      localY <= this.parentRect.height + 80
+      localX >= -120 &&
+      localX <= rect.width + 120 &&
+      localY >= -120 &&
+      localY <= rect.height + 120
     ) {
       this.mouseTargetX = localX;
       this.mouseTargetY = localY;
@@ -85,11 +88,8 @@ export class HalftoneBandBgComponent implements AfterViewInit, OnDestroy {
     }
   };
 
-  private readonly onWindowScrollOrResize = (): void => {
-    const parent = this.canvasRef?.nativeElement?.parentElement;
-    if (parent) {
-      this.parentRect = parent.getBoundingClientRect();
-    }
+  private readonly onWindowMouseLeave = (): void => {
+    this.isMouseInside = false;
   };
 
   ngAfterViewInit(): void {
@@ -103,8 +103,7 @@ export class HalftoneBandBgComponent implements AfterViewInit, OnDestroy {
     this.ngZone.runOutsideAngular(() => {
       this.setupCanvas();
       window.addEventListener('mousemove', this.onWindowMouseMove, { passive: true });
-      window.addEventListener('scroll', this.onWindowScrollOrResize, { passive: true, capture: true });
-      window.addEventListener('resize', this.onWindowScrollOrResize, { passive: true });
+      document.addEventListener('mouseleave', this.onWindowMouseLeave, { passive: true });
       this.renderLoop(performance.now());
     });
   }
@@ -118,8 +117,7 @@ export class HalftoneBandBgComponent implements AfterViewInit, OnDestroy {
     }
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('mousemove', this.onWindowMouseMove);
-      window.removeEventListener('scroll', this.onWindowScrollOrResize, true);
-      window.removeEventListener('resize', this.onWindowScrollOrResize);
+      document.removeEventListener('mouseleave', this.onWindowMouseLeave);
     }
   }
 
@@ -134,7 +132,6 @@ export class HalftoneBandBgComponent implements AfterViewInit, OnDestroy {
 
     const updateSize = (): void => {
       const rect = parent.getBoundingClientRect();
-      this.parentRect = rect;
       this.dpr = Math.min(window.devicePixelRatio || 1, 2);
       this.canvasWidth = Math.max(1, Math.floor(rect.width * this.dpr));
       this.canvasHeight = Math.max(1, Math.floor(rect.height * this.dpr));
@@ -182,97 +179,98 @@ export class HalftoneBandBgComponent implements AfterViewInit, OnDestroy {
 
     // Smoothly interpolate cursor coordinates for fluid mouse interaction
     if (this.isMouseInside) {
-      this.mouseCurrentX += (this.mouseTargetX - this.mouseCurrentX) * 0.14;
-      this.mouseCurrentY += (this.mouseTargetY - this.mouseCurrentY) * 0.14;
+      this.mouseCurrentX += (this.mouseTargetX - this.mouseCurrentX) * 0.16;
+      this.mouseCurrentY += (this.mouseTargetY - this.mouseCurrentY) * 0.16;
     } else {
-      this.mouseCurrentX = -9999;
-      this.mouseCurrentY = -9999;
+      this.mouseCurrentX += (-9999 - this.mouseCurrentX) * 0.1;
+      this.mouseCurrentY += (-9999 - this.mouseCurrentY) * 0.1;
     }
 
     const mouseX = this.mouseCurrentX * dpr;
     const mouseY = this.mouseCurrentY * dpr;
-    const mouseRadius = 135 * dpr; // Influence radius around the cursor
+    const mouseRadius = 185 * dpr; // Generous interactive cursor halo
     const mouseRadiusSq = mouseRadius * mouseRadius;
 
     const cols = Math.ceil(width / step);
     const rows = Math.ceil(height / step);
 
     // 2. Slow vertical drift of the horizontal glow band
-    const verticalDrift = Math.sin(t * 0.65) * 0.045;
+    const verticalDrift = Math.sin(t * 0.7) * 0.055;
 
     for (let r = 0; r < rows; r++) {
       const y = (r + 0.5) * step;
       const ny = y / height; // Normalized Y: 0 (top) -> 1 (bottom)
 
-      // 3. Top and bottom edge fade to full black so edges blend seamlessly
-      const topEdgeFade = Math.min(1, ny / 0.18);
-      const bottomEdgeFade = Math.min(1, (1 - ny) / 0.22);
+      // 3. Smooth fade to black at the very top and bottom edges
+      const topEdgeFade = Math.min(1, ny / 0.12);
+      const bottomEdgeFade = Math.min(1, (1 - ny) / 0.16);
       const edgeMask = topEdgeFade * bottomEdgeFade;
-      if (edgeMask <= 0.01) continue;
+      if (edgeMask <= 0.005) continue;
 
       for (let c = 0; c < cols; c++) {
         const x = (c + 0.5) * step;
         const nx = x / width; // Normalized X: 0 (left) -> 1 (right)
 
-        // 4. Soft wave undulation along the band centerline (moving left to right)
+        // 4. Sweeping wave undulation along the band centerline (moving left to right)
         const bandCurve =
-          Math.sin(nx * 5.2 - t * 1.15) * 0.045 +
-          Math.cos(nx * 2.8 + t * 0.7) * 0.025;
+          Math.sin(nx * 4.6 - t * 1.1) * 0.065 +
+          Math.cos(nx * 2.4 + t * 0.65) * 0.035;
 
         const dynamicBandY = this.bandCenterY + verticalDrift + bandCurve;
 
-        // Gaussian bell-curve distance from the horizontal glow band center
-        const distFromBand = (ny - dynamicBandY) / 0.23;
+        // Broad Gaussian bell-curve so the red dot band takes up substantial vertical space
+        const distFromBand = (ny - dynamicBandY) / 0.34;
         const bandIntensity = Math.exp(-(distFromBand * distFromBand));
 
         // 5. Left-to-right rippling wave that modulates dot size along the grid
         const rippleWave =
-          Math.sin(nx * 10.0 - t * 1.85 + ny * 3.0) * 0.5 +
-          Math.cos(nx * 5.5 - t * 1.1 - ny * 2.2) * 0.5;
-        const rippleFactor = 0.78 + rippleWave * 0.22; // 0.56 .. 1.0
+          Math.sin(nx * 9.5 - t * 1.9 + ny * 3.2) * 0.5 +
+          Math.cos(nx * 5.0 - t * 1.15 - ny * 2.4) * 0.5;
+        const rippleFactor = 0.74 + rippleWave * 0.26; // 0.48 .. 1.0
 
         // Combine vertical band bell-curve, horizontal ripple, and top/bottom edge fade
         let intensity = bandIntensity * rippleFactor * edgeMask;
 
-        // 6. Mouse cursor interaction: dots near the cursor grow slightly
+        // 6. Mouse cursor interaction: dots near the cursor grow and brighten
+        let cursorBoost = 0;
         if (this.isMouseInside) {
           const dx = x - mouseX;
           const dy = y - mouseY;
           const distSq = dx * dx + dy * dy;
           if (distSq < mouseRadiusSq) {
             const proximity = 1 - Math.sqrt(distSq) / mouseRadius;
-            // Smooth cubic falloff for natural cursor swell
-            const cursorBoost = proximity * proximity * (3 - 2 * proximity);
-            intensity = Math.min(1, intensity + cursorBoost * 0.36 * edgeMask);
+            // Smooth cubic falloff for organic cursor swell
+            cursorBoost = proximity * proximity * (3 - 2 * proximity);
+            intensity = Math.min(1, intensity + cursorBoost * 0.52 * edgeMask);
           }
         }
 
         // Skip sub-pixel invisible dots near the top/bottom black edges
-        if (intensity < 0.035) continue;
+        if (intensity < 0.025) continue;
 
-        // 7. Dot SIZE changes with intensity (shrinking to 0 toward top/bottom, up to ~3px at band center)
-        const radius = maxRadius * Math.pow(intensity, 0.92);
-        if (radius < 0.25 * dpr) continue;
+        // 7. Dot SIZE changes with intensity (shrinking to 0 toward top/bottom, up to maxRadius at band center + cursor boost)
+        const radius = (maxRadius + cursorBoost * 0.85 * dpr) * Math.pow(intensity, 0.88);
+        if (radius < 0.22 * dpr) continue;
 
-        // 8. Dot COLOR: Mitsubishi crimson (#c8102e -> rgb(200, 16, 46)), brighter at band center
+        // 8. Dot COLOR: Mitsubishi crimson (#c8102e -> rgb(200, 16, 46)), brighter at band center & cursor
         let red: number;
         let green: number;
         let blue: number;
         let alpha: number;
 
-        if (intensity < 0.65) {
+        if (intensity < 0.6) {
           // Outer band -> core crimson (#c8102e)
-          const k = intensity / 0.65;
-          red = Math.floor(110 + k * 90);   // 110 -> 200
+          const k = intensity / 0.6;
+          red = Math.floor(115 + k * 85);   // 115 -> 200
           green = Math.floor(8 + k * 8);    // 8   -> 16
           blue = Math.floor(20 + k * 26);   // 20  -> 46
-          alpha = 0.45 + k * 0.45;
+          alpha = 0.48 + k * 0.42;
         } else {
-          // Band center highlight: brighter crimson-scarlet core
-          const k = (intensity - 0.65) / 0.35;
-          red = Math.floor(200 + k * 48);   // 200 -> 248
-          green = Math.floor(16 + k * 34);  // 16  -> 50
-          blue = Math.floor(46 + k * 14);   // 46  -> 60
+          // Band center & cursor highlight: vibrant crimson-scarlet core
+          const k = (intensity - 0.6) / 0.4;
+          red = Math.floor(200 + k * 55);   // 200 -> 255
+          green = Math.floor(16 + k * 42);  // 16  -> 58
+          blue = Math.floor(46 + k * 16);   // 46  -> 62
           alpha = 0.9 + k * 0.1;
         }
 

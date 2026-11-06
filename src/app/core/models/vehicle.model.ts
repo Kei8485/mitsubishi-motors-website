@@ -12,6 +12,31 @@ export type VehicleCategory = 'MPV' | 'SUV' | 'CROSSOVER' | 'PICKUP' | 'SEDAN';
  */
 export type VehicleStageMode = 'placeholder' | 'image' | '3d';
 
+export type VehicleHoverTheme = 'industrial' | 'hangar' | 'asphalt';
+
+/**
+ * Reusable configuration for the interactive card hover showcase effect.
+ * Stored in `site-data.ts` so every vehicle card across Home, Models, etc. can reuse it.
+ */
+export interface VehicleHoverFX {
+  /** Master toggle for the hover showcase effect (default: true) */
+  enabled?: boolean;
+  /** Architectural environment backdrop preset (default: 'industrial') */
+  theme?: VehicleHoverTheme;
+  /** Direction the car cutout faces so headlights & road reflections align ('left' | 'right') */
+  facing?: 'left' | 'right';
+  /** Optional custom environment backdrop image URL */
+  customBackdrop?: string;
+  /** Show water splash & tire mist under the wheels on hover (default: true) */
+  showSplash?: boolean;
+  /** Show 3D kinetic orbital light rings wrapping around the car on hover (default: true) */
+  showLightRings?: boolean;
+  /** Show xenon + warm amber headlight flares & wet road reflection on hover (default: true) */
+  showHeadlights?: boolean;
+  /** Show subtle floating ember sparks on hover (default: true) */
+  showEmbers?: boolean;
+}
+
 export interface VehicleColorOption {
   name: string;
   hex: string;
@@ -50,6 +75,8 @@ export interface VehicleModel {
   model3d?: string;
   /** Optional per-vehicle override for stage rendering ('placeholder' | 'image' | '3d') */
   stageMode?: VehicleStageMode;
+  /** Reusable interactive hover showcase effect settings (configured in site-data.ts) */
+  hoverFx?: VehicleHoverFX;
   /** Short 3-pill badge array displayed at the bottom of every Vehicle Card: [SEATS, FUEL, TRANS] */
   cardSpecs: [string, string, string];
   /** Show in the Home Page Hero Featured Carousel */

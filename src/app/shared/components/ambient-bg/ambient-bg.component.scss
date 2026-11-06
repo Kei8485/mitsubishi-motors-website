@@ -1,8 +1,11 @@
 // =============================================================================
-// AMBIENT BACKGROUND — minimal, slow motion to keep long sections alive
+// AMBIENT BACKGROUND — cursor-reactive crimson spotlight + slow drifting pools
 // =============================================================================
 
 :host {
+  --cursor-x: 50%;
+  --cursor-y: 35%;
+  --cursor-opacity: 0;
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -11,15 +14,37 @@
 }
 
 .mm-ambient {
-  // Faint dot grid, slowly panning, faded toward the edges
+  // Faint dot grid, slowly panning, with brightened crimson halo around the cursor
   &__grid {
     position: absolute;
     inset: -40px;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1.4px);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.085) 1.1px, transparent 1.5px);
     background-size: 22px 22px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 85%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 85%);
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 35%, transparent 88%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 35%, transparent 88%);
     animation: mmAmbientPan 40s linear infinite;
+  }
+
+  // Interactive cursor-following crimson light pool + intensified halftone dots
+  &__cursor-glow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    transform: translate3d(calc(var(--cursor-x) - 240px), calc(var(--cursor-y) - 240px), 0);
+    background:
+      radial-gradient(rgba(224, 22, 55, 0.34) 1.5px, transparent 2px),
+      radial-gradient(circle, rgba(200, 16, 46, 0.24) 0%, rgba(200, 16, 46, 0.08) 42%, transparent 70%);
+    background-size:
+      12px 12px,
+      100% 100%;
+    mask-image: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.65) 38%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.65) 38%, transparent 70%);
+    opacity: var(--cursor-opacity);
+    transition: opacity 0.35s ease;
+    will-change: transform, opacity;
   }
 
   // Soft crimson light pools drifting slowly

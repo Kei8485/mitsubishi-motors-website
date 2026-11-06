@@ -14,30 +14,102 @@
   flex: 1;
   margin: 0;
   background: var(--mm-surface-radial);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--mm-card-radius);
   padding: var(--mm-card-pad);
   box-shadow: none;
   contain: none;
-  overflow: visible;
+  overflow: hidden;
   cursor: pointer;
   transition:
-    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 
-  &:hover {
-    border-color: rgba(200, 16, 46, 0.48);
-    transform: translateY(-4px);
-    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.65);
+  &:hover,
+  &:focus-visible {
+    border-color: rgba(235, 45, 50, 0.72);
+    transform: translateY(-6px);
+    box-shadow:
+      0 22px 46px rgba(0, 0, 0, 0.82),
+      0 0 32px rgba(200, 16, 46, 0.24),
+      inset 0 0 24px rgba(200, 16, 46, 0.12);
 
-    ::ng-deep .mm-stage__vehicle-img {
-      transform: translateY(-5%) scale(1.03);
+    ::ng-deep {
+      // Ignite HUD corner brackets into glowing neon orange-crimson (┌ ┐ └ ┘)
+      .mm-stage--card {
+        --mm-corner-size: 13px;
+        --mm-corner-weight: 2px;
+        --mm-corner-color: #ff4526;
+      }
+
+      // Reveal industrial infrastructure & wet asphalt backdrop
+      .mm-stage__fx-backdrop {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      // Transform dashed ellipse into blazing neon crimson-orange track ring
+      .mm-stage__podium {
+        border: 1.5px solid rgba(255, 78, 42, 0.92);
+        box-shadow:
+          0 0 18px rgba(255, 62, 30, 0.75),
+          inset 0 0 14px rgba(255, 62, 30, 0.38);
+        transform: translateX(-50%) scale(1.04);
+      }
+
+      .mm-stage__badge {
+        opacity: 0;
+        transform: translateY(-55%) scale(0.8);
+      }
+
+      // Enlarge & pop the vehicle PNG
+      .mm-stage__vehicle-img {
+        transform: translateY(-6%) scale(1.1);
+        filter:
+          drop-shadow(0 18px 24px rgba(0, 0, 0, 0.95))
+          drop-shadow(0 0 16px rgba(255, 120, 60, 0.22))
+          contrast(1.05)
+          brightness(1.04);
+      }
+
+      // Reveal 3D orbital light rings, splash spray, headlight flares & embers
+      .mm-stage__fx-orbit {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .mm-stage__fx-splash {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .mm-stage__fx-embers {
+        opacity: 1;
+      }
     }
+
+    .mm-vehicle-card__title {
+      color: #ffffff;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mm-red-bright);
+    outline-offset: 3px;
+  }
+
+  &:active {
+    transform: translateY(-1px) scale(0.984);
+    border-color: var(--mm-red-bright);
   }
 
   &__header {
     --background: transparent;
+    position: relative;
+    z-index: 5;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -48,6 +120,8 @@
   }
 
   &__body {
+    position: relative;
+    z-index: 5;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -68,6 +142,9 @@
     color: var(--mm-text-primary);
     margin: 0;
     padding: 0;
+    transition:
+      color 0.2s ease,
+      text-shadow 0.2s ease;
   }
 
   &__price-row {

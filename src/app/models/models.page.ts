@@ -82,13 +82,14 @@ export class ModelsPage {
    * VEHICLE STAGE DISPLAY MODE SWITCH (EASY 1-LINE CONFIGURATION)
    * ===========================================================================
    * Controls what appears inside the stage of each vehicle card on this page:
-   * - 'placeholder' : Leaves the 3D elliptical turntable wireframe ring (default for now)
    * - 'image'       : Renders the 2D studio cutout PNG from `vehicle.image` in `site-data.ts`
+   *                   with the interactive hover showcase FX (`vehicle.hoverFx`)
+   * - 'placeholder' : Leaves the 3D elliptical turntable wireframe ring
    * - '3d'          : Renders the 3D model viewer slot using `vehicle.model3d`
    *
    * You can also override `stageMode` per individual car in `src/app/core/data/site-data.ts`.
    */
-  readonly cardStageMode: VehicleStageMode = 'placeholder';
+  readonly cardStageMode: VehicleStageMode = 'image';
 
   readonly allVehicles: VehicleModel[] = VEHICLES_DATA;
 
@@ -133,13 +134,16 @@ export class ModelsPage {
   ];
 
   // ---------------------------------------------------------------------------
-  // REACTIVE FILTER & SORT STATE
+  // REACTIVE FILTER, SORT & ANIMATION STATE
   // ---------------------------------------------------------------------------
   readonly selectedCategories = signal<string[]>([]);
   readonly selectedPrices = signal<string[]>([]);
   readonly selectedFuels = signal<string[]>([]);
   readonly activeSortId = signal<SortOptionId>('popular');
   readonly isSortMenuOpen = signal(false);
+
+  /** Incremented whenever filters or sort change so cards play a staggered filter transition */
+  readonly filterAnimTick = signal(0);
 
   readonly activeSortLabel = computed(() => {
     const found = this.sortOptions.find((o) => o.id === this.activeSortId());
@@ -209,8 +213,12 @@ export class ModelsPage {
   }
 
   // ---------------------------------------------------------------------------
-  // USER INTERACTION HANDLERS
+  // USER INTERACTION HANDLERS (Trigger staggered card animation on change)
   // ---------------------------------------------------------------------------
+  private triggerFilterAnimation(): void {
+    this.filterAnimTick.update((v) => v + 1);
+  }
+
   isCategorySelected(id: string): boolean {
     return this.selectedCategories().includes(id);
   }
@@ -219,12 +227,16 @@ export class ModelsPage {
     this.selectedCategories.update((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
+    this.triggerFilterAnimation();
   }
 
   /** Used by Tablet & Mobile horizontal quick-filter pills (ALL | SUV | MPV | PICKUP | SEDAN) */
   selectPillCategory(id: string | 'all'): void {
     if (id === 'all') {
-      this.selectedCategories.set([]);
+      if (this.selectedCategories().length > 0) {
+        this.selectedCategories.set([]);
+        this.triggerFilterAnimation();
+      }
       return;
     }
     const current = this.selectedCategories();
@@ -233,6 +245,7 @@ export class ModelsPage {
     } else {
       this.selectedCategories.set([id]);
     }
+    this.triggerFilterAnimation();
   }
 
   isPriceSelected(id: string): boolean {
@@ -243,6 +256,7 @@ export class ModelsPage {
     this.selectedPrices.update((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
+    this.triggerFilterAnimation();
   }
 
   isFuelSelected(id: string): boolean {
@@ -253,12 +267,14 @@ export class ModelsPage {
     this.selectedFuels.update((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
+    this.triggerFilterAnimation();
   }
 
   resetAllFilters(): void {
     this.selectedCategories.set([]);
     this.selectedPrices.set([]);
     this.selectedFuels.set([]);
+    this.triggerFilterAnimation();
   }
 
   toggleSortMenu(event: Event): void {
@@ -268,8 +284,12 @@ export class ModelsPage {
 
   selectSort(optionId: SortOptionId, event: Event): void {
     event.stopPropagation();
+    const changed = this.activeSortId() !== optionId;
     this.activeSortId.set(optionId);
     this.isSortMenuOpen.set(false);
+    if (changed) {
+      this.triggerFilterAnimation();
+    }
   }
 
   @HostListener('document:click')

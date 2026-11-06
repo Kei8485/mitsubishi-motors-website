@@ -22,6 +22,43 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
   private resizeObserver: ResizeObserver | null = null;
   private startTime = 0;
 
+  // Interactive cursor state in CSS pixels relative to the canvas
+  private mouseTargetX = -9999;
+  private mouseTargetY = -9999;
+  private mouseCurrentX = -9999;
+  private mouseCurrentY = -9999;
+  private isMouseInside = false;
+
+  private readonly onWindowMouseMove = (e: MouseEvent): void => {
+    const parent = this.canvasRef?.nativeElement?.parentElement;
+    if (!parent) return;
+
+    const rect = parent.getBoundingClientRect();
+    const localX = e.clientX - rect.left;
+    const localY = e.clientY - rect.top;
+
+    if (
+      localX >= -120 &&
+      localX <= rect.width + 120 &&
+      localY >= -120 &&
+      localY <= rect.height + 120
+    ) {
+      this.mouseTargetX = localX;
+      this.mouseTargetY = localY;
+      if (!this.isMouseInside) {
+        this.mouseCurrentX = localX;
+        this.mouseCurrentY = localY;
+        this.isMouseInside = true;
+      }
+    } else {
+      this.isMouseInside = false;
+    }
+  };
+
+  private readonly onWindowMouseLeave = (): void => {
+    this.isMouseInside = false;
+  };
+
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -30,6 +67,8 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
     this.startTime = performance.now();
     this.ngZone.runOutsideAngular(() => {
       this.setupCanvas();
+      window.addEventListener('mousemove', this.onWindowMouseMove, { passive: true });
+      document.addEventListener('mouseleave', this.onWindowMouseLeave, { passive: true });
       this.renderLoop(performance.now());
     });
   }
@@ -41,6 +80,10 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('mousemove', this.onWindowMouseMove);
+      document.removeEventListener('mouseleave', this.onWindowMouseLeave);
+    }
   }
 
   private setupCanvas(): void {
@@ -48,7 +91,7 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    const updateSize = () => {
+    const updateSize = (): void => {
       const rect = parent.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.max(1, Math.floor(rect.width * dpr));
@@ -82,6 +125,20 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
     // Clear with deep carbon black (#070506)
     ctx.fillStyle = '#070506';
     ctx.fillRect(0, 0, width, height);
+
+    // Smooth cursor interpolation for fluid mouse trail
+    if (this.isMouseInside) {
+      this.mouseCurrentX += (this.mouseTargetX - this.mouseCurrentX) * 0.15;
+      this.mouseCurrentY += (this.mouseTargetY - this.mouseCurrentY) * 0.15;
+    } else {
+      this.mouseCurrentX += (-9999 - this.mouseCurrentX) * 0.1;
+      this.mouseCurrentY += (-9999 - this.mouseCurrentY) * 0.1;
+    }
+
+    const mouseX = this.mouseCurrentX * dpr;
+    const mouseY = this.mouseCurrentY * dpr;
+    const mouseRadius = 195 * dpr;
+    const mouseRadiusSq = mouseRadius * mouseRadius;
 
     const cols = Math.ceil(width / step);
     const rows = Math.ceil(height / step);
@@ -134,10 +191,23 @@ export class HalftoneBgComponent implements AfterViewInit, OnDestroy {
 
         intensity = Math.min(1, Math.max(0, (intensity - 0.16) * 1.28)) * bottomFade;
 
+        // Cursor proximity interaction: swell and brighten dots near the mouse cursor
+        let cursorBoost = 0;
+        if (this.isMouseInside) {
+          const dx = x - mouseX;
+          const dy = y - mouseY;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < mouseRadiusSq) {
+            const proximity = 1 - Math.sqrt(distSq) / mouseRadius;
+            cursorBoost = proximity * proximity * (3 - 2 * proximity);
+            intensity = Math.min(1, intensity + cursorBoost * 0.48 * bottomFade);
+          }
+        }
+
         if (intensity < 0.04) continue;
 
         // Modulate dot radius and color from dark maroon -> crimson -> bright scarlet-orange core
-        const radius = step * (0.14 + Math.min(0.34, intensity * 0.32));
+        const radius = step * (0.14 + Math.min(0.36, intensity * 0.32) + cursorBoost * 0.09);
 
         let red: number;
         let green: number;

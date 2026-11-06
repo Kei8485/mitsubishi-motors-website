@@ -6,12 +6,12 @@
 <ion-content>
   <!-- =========================================================================
        1. MODELS HERO BANNER WITH HALFTONE DOT-GRADIENT BAND ANIMATION
-       Parent has `position: relative`; canvas has `position: absolute; inset: 0;
-       z-index: 0; pointer-events: none`; content sits above with `z-index: 1`.
+       Parent has `position: relative; z-index: 30`; canvas has `position: absolute;
+       inset: 0; z-index: 0; pointer-events: none`; content sits above with `z-index: 2`.
        ========================================================================= -->
   <section class="mm-models-hero">
-    <!-- Live Animated Halftone Dot-Grid Band Canvas -->
-    <app-halftone-band-bg [dotSpacing]="8" [maxDotRadius]="3" [bandCenterY]="0.52" />
+    <!-- Live Animated Halftone Dot-Grid Band Canvas (Cursor-reactive) -->
+    <app-halftone-band-bg [dotSpacing]="8" [maxDotRadius]="3.15" [bandCenterY]="0.44" />
 
     <div class="mm-container mm-models-hero__inner">
       <div class="mm-models-hero__head">
@@ -26,6 +26,7 @@
         <ion-button
           fill="clear"
           class="mm-models-hero__sort-btn mm-hud-corners"
+          [class.is-open]="isSortMenuOpen()"
           (click)="toggleSortMenu($event)"
           [attr.aria-expanded]="isSortMenuOpen()"
           aria-haspopup="listbox"
@@ -53,7 +54,7 @@
               >
                 <span>{{ opt.label }}</span>
                 <span class="mm-models-hero__sort-bracket">
-                  {{ activeSortId() === opt.id ? '[x]' : '[ ]' }}
+                  {{ activeSortId() === opt.id ? '[X]' : '[ ]' }}
                 </span>
               </button>
             }
@@ -176,14 +177,14 @@
           <div class="mm-models-grid-wrap">
             @if (filteredVehicles().length > 0) {
               <ion-row class="mm-models-grid">
-                @for (car of filteredVehicles(); track car.id) {
-                  <ion-col class="mm-grid-col">
+                @for (car of filteredVehicles(); track car.id + '-' + filterAnimTick(); let idx = $index) {
+                  <ion-col class="mm-grid-col mm-card-filter-anim" [style.--card-idx]="idx">
                     <app-vehicle-card [vehicle]="car" [stageMode]="cardStageMode" />
                   </ion-col>
                 }
               </ion-row>
             } @else {
-              <div class="mm-models-empty mm-hud-corners">
+              <div class="mm-models-empty mm-hud-corners mm-card-filter-anim">
                 <ion-badge class="mm-bracket-label">[ 0 RESULTS ]</ion-badge>
                 <h3 class="mm-heading-md">NO MODELS MATCH YOUR FILTERS</h3>
                 <ion-text class="mm-body-text">
