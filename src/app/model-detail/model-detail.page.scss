@@ -1,0 +1,778 @@
+// =============================================================================
+// MODEL DETAIL + 3D PAGE SCOPED STYLES
+// Responsive across Desktop (1440px), Tablet (820px), and Mobile viewports
+// =============================================================================
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+ion-content {
+  flex: 1 1 auto;
+}
+
+.mm-detail-body {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  > .mm-section {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 1. MODEL DETAIL HERO SHOWCASE
+// -----------------------------------------------------------------------------
+.mm-detail-hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(1.25rem, 2.4vw, 2rem);
+  padding-bottom: clamp(2.5rem, 4.5vw, 3.75rem);
+  border-bottom: 1px solid var(--mm-border-subtle);
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  &__meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.38rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(18, 10, 14, 0.76);
+    border: 1px solid var(--mm-border-subtle);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  &__live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--mm-red-bright);
+    box-shadow: 0 0 8px var(--mm-red-bright);
+  }
+
+  &__meta-label,
+  &__ambition {
+    font-family: var(--mm-font-mono);
+    font-size: var(--mm-size-mono-xs);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mm-text-secondary);
+  }
+
+  &__title-wrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 0.15rem;
+  }
+
+  &__title {
+    font-size: clamp(4.25rem, 17.5vw, 15.5rem);
+    line-height: 0.84;
+    letter-spacing: -0.01em;
+    text-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  &__stage-wrap {
+    position: relative;
+    z-index: 2;
+    margin-top: clamp(-3.25rem, -6vw, -1.35rem);
+    margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  }
+
+  // Hero Bottom Row (Desktop & Tablet: Left CTA + Right Tagline | Mobile: Tagline on top)
+  &__bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+    align-items: end;
+    justify-content: space-between;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+
+    @media (max-width: 640px) {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 1.25rem;
+    }
+  }
+
+  &__cta-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  &__desc {
+    display: block;
+    font-family: var(--mm-font-sans);
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    font-weight: 500;
+    line-height: 1.62;
+    color: #ffffff;
+    text-shadow:
+      0 2px 10px rgba(0, 0, 0, 0.96),
+      0 0 24px rgba(0, 0, 0, 0.92),
+      0 0 6px rgba(0, 0, 0, 0.98);
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+
+    .mm-btn {
+      min-width: 175px;
+    }
+
+    @media (max-width: 640px) {
+      .mm-btn {
+        width: 100%;
+      }
+    }
+  }
+
+  &__tagline-block {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+
+    @media (max-width: 640px) {
+      justify-content: flex-start;
+      text-align: left;
+    }
+  }
+
+  &__tagline {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.55rem, 3.1vw, 2.45rem);
+    font-weight: 700;
+    line-height: 0.96;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+    white-space: pre-line;
+    margin: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 2. INTERACTIVE CONFIGURATOR (Model Dropdown + Color Swatches + Stage + Price)
+// -----------------------------------------------------------------------------
+.mm-detail-config {
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+
+  &__header {
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  &__name {
+    margin-bottom: 0.25rem;
+  }
+
+  &__subtagline {
+    display: block;
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--mm-text-muted);
+  }
+
+  // Desktop: 3 Columns | Tablet & Mobile: Single Column Stack (matching wireframes)
+  &__grid {
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr) 245px;
+    gap: clamp(1.5rem, 3vw, 2.75rem);
+    align-items: center;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.75rem;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 25;
+  }
+
+  // Non-Selectable HUD Corner-Bracketed Model Name Display Box
+  &__model-box {
+    --mm-corner-size: 8px;
+    --mm-corner-weight: 1.5px;
+    --mm-corner-color: rgba(255, 255, 255, 0.78);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.78rem 1rem;
+    background-color: rgba(23, 13, 16, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-family: var(--mm-font-mono);
+    font-size: var(--mm-size-mono-xs);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+  }
+
+  // Paint Color Swatches
+  &__colors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  &__colors-label {
+    font-family: var(--mm-font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mm-text-muted);
+  }
+
+  &__color-name {
+    color: var(--mm-text-secondary);
+  }
+
+  &__swatches {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  &__swatch {
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: var(--swatch-hex, #ffffff);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    padding: 0;
+    transition:
+      transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.22s ease,
+      box-shadow 0.22s ease;
+
+    &:hover {
+      transform: translateY(-2px) scale(1.12);
+      border-color: #ffffff;
+      box-shadow: 0 0 12px var(--swatch-hex, rgba(255, 255, 255, 0.5));
+    }
+
+    &.is-active {
+      border-color: #ffffff;
+      transform: scale(1.15);
+      box-shadow:
+        0 0 0 3px rgba(200, 16, 46, 0.65),
+        0 0 16px var(--swatch-hex, rgba(255, 255, 255, 0.6));
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mm-red-bright);
+      outline-offset: 3px;
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+  }
+
+  // Center Configurator Turntable Stage (Triggers reusable hover FX on hover/focus)
+  &__stage-card {
+    position: relative;
+    border-radius: var(--mm-card-radius);
+    padding: 0.5rem;
+    background: radial-gradient(
+      ellipse 78% 74% at 50% 50%,
+      color-mix(in srgb, var(--active-paint-hex, #c8102e) 16%, rgba(40, 16, 22, 0.48)) 0%,
+      rgba(16, 10, 13, 0.42) 48%,
+      transparent 82%
+    );
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    ::ng-deep .mm-stage--card {
+      height: clamp(220px, 26vw, 310px);
+      margin-block: 0;
+    }
+
+    &:hover,
+    &:focus-visible {
+      ::ng-deep {
+        .mm-stage--card {
+          --mm-corner-size: 14px;
+          --mm-corner-weight: 2px;
+          --mm-corner-color: #ff4526;
+        }
+
+        .mm-stage__fx-backdrop {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        .mm-stage__podium {
+          border: 1.5px solid rgba(255, 78, 42, 0.92);
+          box-shadow:
+            0 0 18px rgba(255, 62, 30, 0.75),
+            inset 0 0 14px rgba(255, 62, 30, 0.38);
+          transform: translateX(-50%) scale(1.04);
+        }
+
+        .mm-stage__badge {
+          opacity: 0;
+        }
+
+        .mm-stage__vehicle-img {
+          transform: translateY(-6%) scale(1.09);
+          filter:
+            drop-shadow(0 18px 24px rgba(0, 0, 0, 0.95))
+            drop-shadow(0 0 16px rgba(255, 120, 60, 0.22))
+            contrast(1.05);
+        }
+
+        .mm-stage__fx-orbit {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+
+        .mm-stage__fx-splash {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        .mm-stage__fx-embers {
+          opacity: 1;
+        }
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mm-red-bright);
+      outline-offset: 3px;
+    }
+  }
+
+  // Right Column: Summary, Price & CTAs
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  &__summary-desc {
+    font-family: var(--mm-font-sans);
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--mm-text-secondary);
+  }
+
+  &__price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  &__start-label {
+    font-family: var(--mm-font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mm-text-muted);
+  }
+
+  &__price {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.75rem, 2.8vw, 2.35rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--mm-text-primary);
+  }
+
+  &__cta-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+
+    @media (max-width: 640px) {
+      align-items: stretch;
+    }
+  }
+
+  &__cta {
+    min-width: 175px;
+
+    @media (max-width: 640px) {
+      width: 100%;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 3. [ OVERVIEW ] — "ALL THE DETAILS" & 2x3 TECHNICAL SPECS GRID
+// -----------------------------------------------------------------------------
+.mm-detail-overview {
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__text {
+    display: block;
+    font-size: 0.92rem;
+    line-height: 1.68;
+    color: var(--mm-text-secondary);
+  }
+
+  &__specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  &__spec-card {
+    background: var(--mm-surface-radial);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--mm-card-radius);
+    padding: clamp(1rem, 1.8vw, 1.35rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.45rem;
+    transition:
+      border-color 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover,
+    &:focus-visible {
+      border-color: rgba(224, 22, 55, 0.55);
+      transform: translateY(-3px);
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.65),
+        0 0 18px rgba(200, 16, 46, 0.16);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mm-red-bright);
+      outline-offset: 2px;
+    }
+  }
+
+  &__spec-value {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+  }
+
+  &__spec-label {
+    font-family: var(--mm-font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mm-text-muted);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 4. [ VARIANTS ] — TRIM LEVELS & PRICING TABLE
+// -----------------------------------------------------------------------------
+.mm-detail-variants {
+  padding-block: clamp(2rem, 4vw, 3.5rem);
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+  }
+
+  &__row {
+    appearance: none;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.05rem 0.65rem;
+    color: var(--mm-text-secondary);
+    cursor: pointer;
+    text-align: left;
+    transition:
+      background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+      background-color: rgba(200, 16, 46, 0.12);
+      border-bottom-color: rgba(224, 22, 55, 0.48);
+      color: #ffffff;
+      transform: translateX(6px);
+    }
+
+    &.is-active {
+      background-color: rgba(200, 16, 46, 0.18);
+      border-bottom-color: var(--mm-red-bright);
+      color: #ffffff;
+
+      .mm-detail-variants__price {
+        color: var(--mm-red-bright);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mm-red-bright);
+      outline-offset: 2px;
+      color: #ffffff;
+    }
+
+    &:active {
+      transform: translateX(2px) scale(0.99);
+    }
+  }
+
+  &__name {
+    font-family: var(--mm-font-mono);
+    font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__price {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--mm-text-primary);
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 5. SMART INNOVATIONS BENTO FEATURE CARDS GRID
+// Desktop: 3 cols top + 1 full-width bottom
+// Tablet (<= 1024px): 2 cols top + 1 col mid + 1 full-width bottom (per wireframe)
+// Mobile (<= 640px): 1 col stack
+// -----------------------------------------------------------------------------
+.mm-detail-features {
+  padding-top: clamp(2.5rem, 5vw, 4.5rem);
+  padding-bottom: clamp(4rem, 7.5vw, 6.5rem);
+
+  &__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+    flex-wrap: wrap;
+
+    @media (max-width: 1024px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.65rem;
+    }
+  }
+
+  &__heading {
+    margin: 0;
+  }
+
+  &__badge {
+    margin-bottom: 0.25rem;
+  }
+
+  &__bento {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--mm-grid-gap);
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__card {
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    padding: clamp(1.4rem, 2.5vw, 2rem);
+    border-radius: var(--mm-card-radius);
+    background: var(--mm-surface-promo);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: pointer;
+    transition:
+      border-color 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &--full {
+      grid-column: 1 / -1;
+      min-height: 210px;
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: rgba(224, 22, 55, 0.6);
+      transform: translateY(-5px);
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.75),
+        0 0 28px rgba(200, 16, 46, 0.22);
+
+      .mm-detail-features__bg-img {
+        transform: scale(1.06);
+        opacity: 0.82;
+      }
+
+      .mm-detail-features__card-glow {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mm-red-bright);
+      outline-offset: 3px;
+    }
+
+    &:active {
+      transform: translateY(-1px) scale(0.985);
+    }
+  }
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--mm-surface-promo);
+  }
+
+  &__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.65;
+    transition:
+      transform 0.65s var(--mm-ease-out),
+      opacity 0.45s ease;
+  }
+
+  &__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      18deg,
+      rgba(8, 5, 7, 0.94) 0%,
+      rgba(24, 8, 12, 0.74) 48%,
+      rgba(72, 16, 22, 0.38) 100%
+    );
+  }
+
+  &__card-glow {
+    position: absolute;
+    top: -30%;
+    left: -15%;
+    width: 75%;
+    height: 95%;
+    z-index: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(224, 22, 55, 0.34) 0%, transparent 70%);
+    opacity: 0.55;
+    pointer-events: none;
+    transition:
+      opacity 0.32s ease,
+      transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &__card-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    max-width: 68ch;
+  }
+
+  &__card-title {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+    margin: 0;
+  }
+
+  &__card-desc {
+    font-family: var(--mm-font-sans);
+    font-size: 0.86rem;
+    line-height: 1.56;
+    color: rgba(242, 236, 238, 0.88);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  }
+}

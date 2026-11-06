@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { IonBadge, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonNote, IonText } from '@ionic/angular';
 
 import type { VehicleModel, VehicleStageMode } from '../../../core/models/vehicle.model';
@@ -36,7 +36,10 @@ export class VehicleCardComponent {
 
   @Output() cardSelect = new EventEmitter<VehicleModel>();
 
+  private readonly router = inject(Router);
+
   onSelect(): void {
     this.cardSelect.emit(this.vehicle);
+    void this.router.navigate(['/models', this.vehicle.id]);
   }
 }

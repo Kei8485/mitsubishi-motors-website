@@ -10,6 +10,14 @@ export const routes: Routes = [
     loadComponent: () => import('./models/models.page').then((m) => m.ModelsPage),
   },
   {
+    path: 'models/:id',
+    loadComponent: () => import('./model-detail/model-detail.page').then((m) => m.ModelDetailPage),
+  },
+  {
+    path: 'financing',
+    loadComponent: () => import('./financing/financing.page').then((m) => m.FinancingPage),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

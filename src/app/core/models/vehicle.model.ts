@@ -52,6 +52,7 @@ export interface VehicleFeatureCard {
   title: string;
   description: string;
   fullWidth?: boolean;
+  bgImage?: string;
 }
 
 export interface VehicleOverviewSpecs {

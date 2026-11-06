@@ -1,0 +1,459 @@
+<!-- ===========================================================================
+     GLOBAL TOP HEADER COMPONENT (Matches Main Page, Models & Detail Format)
+     =========================================================================== -->
+<app-header activeRoute="/financing" />
+
+<ion-content>
+  <!-- =========================================================================
+       1. FINANCING HERO BANNER WITH HALFTONE DOT-GRADIENT BAND ANIMATION
+       Matches the exact instruction spec: [ FINANCING ], FINANCE YOUR MITSUBISHI,
+       and the corner-bracketed FREE ESTIMATE button on top of the drifting wave band.
+       ========================================================================= -->
+  <section class="mm-financing-hero">
+    <app-halftone-band-bg [dotSpacing]="8" [maxDotRadius]="3.15" [bandCenterY]="0.44" />
+
+    <div class="mm-container mm-financing-hero__inner">
+      <div class="mm-financing-hero__head">
+        <ion-badge class="mm-bracket-label mm-financing-hero__tag">[ FINANCING ]</ion-badge>
+        <h1 class="mm-heading-xl mm-financing-hero__title">FINANCE YOUR MITSUBISHI</h1>
+      </div>
+
+      <div class="mm-financing-hero__cta-wrap">
+        <button
+          type="button"
+          class="mm-financing-hero__estimate-btn mm-hud-corners"
+          (click)="scrollToCalculator()"
+        >
+          FREE ESTIMATE
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       LOWER SECTIONS WITH CURSOR-REACTIVE AMBIENT BACKGROUND
+       ========================================================================= -->
+  <div class="mm-financing-body">
+    <app-ambient-bg />
+
+    <!-- =======================================================================
+         2. INTERACTIVE FINANCING CALCULATOR (2-Col Desktop | Stacked Tablet/Mobile)
+         ======================================================================= -->
+    <section id="financing-calculator" class="mm-section mm-financing-calc">
+      <ion-grid class="mm-container">
+        <div class="mm-financing-calc__grid">
+          <!-- LEFT CARD: MODEL SELECTOR, DOWN PAYMENT SLIDER & TERM BUTTONS -->
+          <div class="mm-financing-calc__inputs mm-hud-corners">
+            <!-- Model Dropdown Box (with HUD corner brackets matching wireframe) -->
+            <div class="mm-financing-calc__model-wrap">
+              <button
+                type="button"
+                class="mm-financing-calc__model-box mm-hud-corners"
+                [class.is-open]="isModelDropdownOpen()"
+                (click)="toggleModelDropdown($event)"
+                [attr.aria-expanded]="isModelDropdownOpen()"
+                aria-haspopup="listbox"
+                aria-label="Select 2026 Mitsubishi model for financing"
+              >
+                <div class="mm-financing-calc__model-info">
+                  <span class="mm-financing-calc__field-label">MODEL</span>
+                  <span class="mm-financing-calc__model-name">
+                    {{ selectedVehicle().name | titlecase }}
+                  </span>
+                </div>
+
+                <div class="mm-financing-calc__model-meta">
+                  <span class="mm-financing-calc__model-tag">
+                    [{{ selectedVehicle().year }} · {{ selectedVehicle().category }}]
+                  </span>
+                  <ion-icon
+                    name="chevron-down-outline"
+                    class="mm-financing-calc__model-chevron"
+                    [class.is-open]="isModelDropdownOpen()"
+                    aria-hidden="true"
+                  ></ion-icon>
+                </div>
+              </button>
+
+              @if (isModelDropdownOpen()) {
+                <div
+                  class="mm-financing-calc__dropdown mm-hud-corners"
+                  role="listbox"
+                  aria-label="2026 Mitsubishi Models"
+                >
+                  @for (car of allVehicles; track car.id) {
+                    <button
+                      type="button"
+                      role="option"
+                      class="mm-financing-calc__dropdown-opt"
+                      [class.is-active]="car.id === selectedVehicle().id"
+                      [attr.aria-selected]="car.id === selectedVehicle().id"
+                      (click)="selectModel(car.id, $event)"
+                    >
+                      <div class="mm-financing-calc__dropdown-left">
+                        <span class="mm-financing-calc__dropdown-car">{{ car.name }}</span>
+                        <span class="mm-financing-calc__dropdown-cat">[{{ car.category }}]</span>
+                      </div>
+                      <div class="mm-financing-calc__dropdown-right">
+                        <span class="mm-financing-calc__dropdown-price">{{ car.startingPrice }}</span>
+                        <span class="mm-financing-calc__dropdown-check">
+                          {{ car.id === selectedVehicle().id ? '[X]' : '[ ]' }}
+                        </span>
+                      </div>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Down Payment Range Slider -->
+            <div class="mm-financing-calc__dp-group">
+              <div class="mm-financing-calc__dp-head">
+                <span class="mm-financing-calc__field-label">
+                  DOWN PAYMENT · <strong class="mm-financing-calc__dp-pct">{{ downPaymentPercent() }}%</strong>
+                </span>
+                <span class="mm-financing-calc__dp-value">{{ formattedDownPayment() }}</span>
+              </div>
+
+              <div class="mm-financing-calc__slider-wrap">
+                <input
+                  type="range"
+                  min="10"
+                  max="60"
+                  step="5"
+                  [value]="downPaymentPercent()"
+                  (input)="onDownPaymentInput($event)"
+                  [style.--dp-progress]="((downPaymentPercent() - 10) / 50) * 100 + '%'"
+                  class="mm-financing-calc__slider"
+                  aria-label="Down payment percentage"
+                />
+              </div>
+            </div>
+
+            <!-- Term (Months) Button Selector: 12, 24, 36, 48, 60 -->
+            <div class="mm-financing-calc__term-group">
+              <span class="mm-financing-calc__field-label">TERM (MONTHS)</span>
+
+              <div class="mm-financing-calc__term-grid" role="radiogroup" aria-label="Loan term in months">
+                @for (term of termOptions; track term) {
+                  <button
+                    type="button"
+                    role="radio"
+                    class="mm-financing-calc__term-btn"
+                    [class.is-active]="selectedTerm() === term"
+                    [attr.aria-checked]="selectedTerm() === term"
+                    (click)="selectTerm(term)"
+                  >
+                    {{ term }}
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT CARD: ESTIMATED MONTHLY BREAKDOWN & APPLY NOW CTA -->
+          <div class="mm-financing-calc__summary">
+            <div class="mm-financing-calc__summary-top">
+              <ion-note class="mm-financing-calc__field-label">ESTIMATED MONTHLY</ion-note>
+              <div class="mm-financing-calc__monthly-price">
+                {{ formattedMonthly() }}
+              </div>
+            </div>
+
+            <div class="mm-financing-calc__rows">
+              <div class="mm-financing-calc__row">
+                <span class="mm-financing-calc__row-label">Total price</span>
+                <span class="mm-financing-calc__row-val">{{ formattedTotalPrice() }}</span>
+              </div>
+
+              <div class="mm-financing-calc__row">
+                <span class="mm-financing-calc__row-label">
+                  Down payment ({{ downPaymentPercent() }}%)
+                </span>
+                <span class="mm-financing-calc__row-val">{{ formattedDownPayment() }}</span>
+              </div>
+
+              <div class="mm-financing-calc__row">
+                <span class="mm-financing-calc__row-label">Interest rate</span>
+                <span class="mm-financing-calc__row-val">{{ formattedInterestRate() }}</span>
+              </div>
+            </div>
+
+            <div class="mm-financing-calc__cta-area">
+              <ion-button
+                class="mm-btn mm-btn-red mm-financing-calc__apply-btn"
+                (click)="openApplyModal()"
+              >
+                APPLY NOW
+              </ion-button>
+
+              <div class="mm-financing-calc__disclaimer-row">
+                <span class="mm-financing-calc__disclaimer-text">ESTIMATE ONLY.</span>
+                <button
+                  type="button"
+                  class="mm-financing-calc__disclaimer-btn"
+                  (click)="toggleDisclaimer()"
+                >
+                  {{ showDisclaimerNote() ? '[HIDE DISCLAIMER]' : '[SEE DISCLAIMER]' }}
+                </button>
+              </div>
+
+              @if (showDisclaimerNote()) {
+                <p class="mm-financing-calc__disclaimer-box">
+                  Monthly amortization figures are indicative estimates for 2026 Mitsubishi models at Citimotors Makati
+                  based on standard bank chattel mortgage rates. Final approval, interest rates, and promos are subject
+                  to partner bank evaluation.
+                </p>
+              }
+            </div>
+          </div>
+        </div>
+      </ion-grid>
+    </section>
+
+    <!-- =======================================================================
+         3. [ HOW IT WORKS ] — 3-STEP BENTO CARDS
+         Desktop: 3 cols | Tablet (820px): 2 cols top + 1 below | Mobile: 1 col
+         ======================================================================= -->
+    <section class="mm-section mm-financing-steps">
+      <ion-grid class="mm-container">
+        <ion-badge class="mm-bracket-label mm-financing-steps__badge">[ HOW IT WORKS ]</ion-badge>
+
+        <div class="mm-financing-steps__grid">
+          @for (step of howItWorksSteps; track step.number) {
+            <article class="mm-financing-steps__card" tabindex="0">
+              <div class="mm-financing-steps__bg" aria-hidden="true">
+                <img
+                  [src]="step.bgImage"
+                  [alt]="step.title"
+                  class="mm-financing-steps__bg-img"
+                  loading="lazy"
+                />
+                <div class="mm-financing-steps__scrim"></div>
+              </div>
+
+              <div class="mm-financing-steps__glow" aria-hidden="true"></div>
+
+              <div class="mm-financing-steps__content">
+                <span class="mm-financing-steps__num">{{ step.number }}</span>
+                <h2 class="mm-financing-steps__title">{{ step.title }}</h2>
+                <ion-text class="mm-financing-steps__desc">{{ step.description }}</ion-text>
+              </div>
+            </article>
+          }
+        </div>
+      </ion-grid>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       4. GLOBAL DEALERSHIP FOOTER
+       ========================================================================= -->
+  <app-footer />
+</ion-content>
+
+<!-- ===========================================================================
+     5. APPLY NOW POPUP MODAL (Temporary Pre-Qualification Form & Official Receipt)
+     =========================================================================== -->
+@if (isApplyModalOpen()) {
+  <div
+    class="mm-fin-modal-backdrop"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="fin-modal-title"
+    (click)="closeApplyModal()"
+  >
+    <div class="mm-fin-modal mm-hud-corners" (click)="$event.stopPropagation()">
+      <!-- Modal Top Bar -->
+      <div class="mm-fin-modal__topbar">
+        <ion-badge class="mm-bracket-label">
+          {{ modalStep() === 'form' ? '[ FINANCING APPLICATION ]' : '[ OFFICIAL FINANCING RECEIPT ]' }}
+        </ion-badge>
+
+        <button
+          type="button"
+          class="mm-fin-modal__close"
+          (click)="closeApplyModal()"
+          aria-label="Close financing dialog"
+        >
+          <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+        </button>
+      </div>
+
+      @if (modalStep() === 'form') {
+        <!-- STEP 1: QUICK PRE-QUALIFICATION FORM + LIVE VEHICLE SUMMARY -->
+        <div class="mm-fin-modal__body">
+          <div class="mm-fin-modal__car-banner">
+            <img
+              [src]="selectedVehicle().image"
+              [alt]="selectedVehicle().name"
+              class="mm-fin-modal__car-thumb"
+            />
+            <div class="mm-fin-modal__car-meta">
+              <span class="mm-fin-modal__car-tag">
+                2026 MITSUBISHI {{ selectedVehicle().name }} · [{{ selectedVehicle().category }}]
+              </span>
+              <h2 id="fin-modal-title" class="mm-fin-modal__car-monthly">
+                {{ formattedMonthly() }} <small>/ MONTH</small>
+              </h2>
+              <span class="mm-fin-modal__car-sub">
+                Total: {{ formattedTotalPrice() }} · DP: {{ downPaymentPercent() }}% ({{ formattedDownPayment() }}) ·
+                {{ selectedTerm() }} Months &#64; {{ annualInterestRate() }}%
+              </span>
+            </div>
+          </div>
+
+          <form class="mm-fin-modal__form" (ngSubmit)="submitApplication()">
+            <div class="mm-fin-modal__field">
+              <label class="mm-fin-modal__label" for="fin-name">APPLICANT FULL NAME</label>
+              <input
+                id="fin-name"
+                type="text"
+                name="applicantName"
+                class="mm-fin-modal__input"
+                placeholder="e.g. Juan Dela Cruz"
+                [ngModel]="applicantName()"
+                (ngModelChange)="applicantName.set($event)"
+              />
+            </div>
+
+            <div class="mm-fin-modal__row-2">
+              <div class="mm-fin-modal__field">
+                <label class="mm-fin-modal__label" for="fin-phone">MOBILE NUMBER</label>
+                <input
+                  id="fin-phone"
+                  type="tel"
+                  name="applicantPhone"
+                  class="mm-fin-modal__input"
+                  placeholder="+63 917 880 2026"
+                  [ngModel]="applicantPhone()"
+                  (ngModelChange)="applicantPhone.set($event)"
+                />
+              </div>
+
+              <div class="mm-fin-modal__field">
+                <label class="mm-fin-modal__label" for="fin-email">EMAIL ADDRESS</label>
+                <input
+                  id="fin-email"
+                  type="email"
+                  name="applicantEmail"
+                  class="mm-fin-modal__input"
+                  placeholder="client@mitsubishi-makati.ph"
+                  [ngModel]="applicantEmail()"
+                  (ngModelChange)="applicantEmail.set($event)"
+                />
+              </div>
+            </div>
+
+            <div class="mm-fin-modal__field">
+              <label class="mm-fin-modal__label" for="fin-branch">PREFERRED DEALERSHIP BRANCH</label>
+              <input
+                id="fin-branch"
+                type="text"
+                name="applicantBranch"
+                class="mm-fin-modal__input"
+                [ngModel]="applicantBranch()"
+                (ngModelChange)="applicantBranch.set($event)"
+              />
+            </div>
+
+            <p class="mm-fin-modal__temp-note">
+              * Temporary frontend simulation — submitting generates an instant Financing Estimate Receipt popup
+              without storing personal data on a server.
+            </p>
+
+            <div class="mm-fin-modal__actions">
+              <button type="button" class="mm-btn mm-btn-outline" (click)="closeApplyModal()">
+                CANCEL
+              </button>
+              <button type="submit" class="mm-btn mm-btn-red mm-fin-modal__submit">
+                CONFIRM &amp; VIEW RECEIPT
+              </button>
+            </div>
+          </form>
+        </div>
+      } @else if (receiptData(); as receipt) {
+        <!-- STEP 2: OFFICIAL FINANCING ESTIMATE RECEIPT POPUP -->
+        <div class="mm-fin-modal__receipt">
+          <div class="mm-fin-modal__receipt-head">
+            <div class="mm-fin-modal__status-pill">
+              <span class="mm-fin-modal__status-dot"></span>
+              <span>PRE-QUALIFICATION ESTIMATE GENERATED</span>
+            </div>
+            <h2 id="fin-modal-title" class="mm-fin-modal__receipt-title">
+              MITSUBISHI MOTORS FINANCING RECEIPT
+            </h2>
+            <div class="mm-fin-modal__receipt-meta">
+              <span>REF: <strong>{{ receipt.referenceCode }}</strong></span>
+              <span>{{ receipt.timestamp }}</span>
+            </div>
+          </div>
+
+          <!-- Selected Vehicle Showcase Box inside Receipt -->
+          <div class="mm-fin-modal__receipt-car">
+            <img [src]="receipt.vehicleImage" [alt]="receipt.vehicleName" class="mm-fin-modal__receipt-img" />
+            <div class="mm-fin-modal__receipt-car-info">
+              <span class="mm-fin-modal__receipt-badge">[{{ receipt.vehicleCategory }} · {{ receipt.vehicleYear }}]</span>
+              <h3 class="mm-fin-modal__receipt-car-name">{{ receipt.vehicleName }}</h3>
+              <span class="mm-fin-modal__receipt-variant">TRIM: {{ receipt.variantName }}</span>
+            </div>
+          </div>
+
+          <!-- Detailed Receipt Breakdown Table -->
+          <div class="mm-fin-modal__receipt-table">
+            <div class="mm-fin-modal__receipt-line">
+              <span>APPLICANT</span>
+              <strong>{{ receipt.applicantName }}</strong>
+            </div>
+            <div class="mm-fin-modal__receipt-line">
+              <span>CONTACT</span>
+              <strong>{{ receipt.applicantPhone }} · {{ receipt.applicantEmail }}</strong>
+            </div>
+            <div class="mm-fin-modal__receipt-line">
+              <span>DEALERSHIP</span>
+              <strong>{{ receipt.branch }}</strong>
+            </div>
+
+            <div class="mm-fin-modal__receipt-divider"></div>
+
+            <div class="mm-fin-modal__receipt-line">
+              <span>VEHICLE SRP (TOTAL PRICE)</span>
+              <strong>{{ receipt.totalPriceFormatted }}</strong>
+            </div>
+            <div class="mm-fin-modal__receipt-line">
+              <span>DOWN PAYMENT ({{ receipt.downPaymentPercent }}%)</span>
+              <strong>{{ receipt.downPaymentFormatted }}</strong>
+            </div>
+            <div class="mm-fin-modal__receipt-line">
+              <span>AMOUNT FINANCED</span>
+              <strong>{{ receipt.financedAmountFormatted }}</strong>
+            </div>
+            <div class="mm-fin-modal__receipt-line">
+              <span>FINANCING TERM &amp; RATE</span>
+              <strong>[{{ receipt.termMonths }} MONTHS] &#64; {{ receipt.interestRateFormatted }}</strong>
+            </div>
+
+            <div class="mm-fin-modal__receipt-total">
+              <span>ESTIMATED MONTHLY PAYMENT</span>
+              <strong class="mm-fin-modal__receipt-monthly">{{ receipt.monthlyPaymentFormatted }}</strong>
+            </div>
+          </div>
+
+          <div class="mm-fin-modal__actions">
+            <button
+              type="button"
+              class="mm-btn mm-btn-outline"
+              [routerLink]="['/models', selectedVehicle().id]"
+              (click)="closeApplyModal()"
+            >
+              BACK TO {{ selectedVehicle().name }}
+            </button>
+            <button type="button" class="mm-btn mm-btn-red" (click)="startNewEstimate()">
+              DONE / CLOSE RECEIPT
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

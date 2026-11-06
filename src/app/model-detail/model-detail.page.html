@@ -1,0 +1,277 @@
+<!-- ===========================================================================
+     GLOBAL TOP HEADER COMPONENT (Matches Main Page & Models Page Format)
+     =========================================================================== -->
+<app-header activeRoute="/models" />
+
+<ion-content>
+  <!-- =========================================================================
+       1. MODEL DETAIL HERO SHOWCASE (Cursor-Reactive Halftone Matrix + Center Stage)
+       ========================================================================= -->
+  <section class="mm-detail-hero">
+    <!-- Live Animated Cursor-Reactive Halftone Dot-Matrix Canvas -->
+    <app-halftone-bg [dotSpacing]="8" />
+
+    <div class="mm-container mm-detail-hero__inner">
+      <!-- Top Meta Bar: ALL-NEW · CATEGORY · [YEAR] & DRIVE YOUR AMBITION -->
+      <div class="mm-detail-hero__meta-bar">
+        <ion-chip class="mm-detail-hero__meta-pill">
+          <span class="mm-detail-hero__live-dot" aria-hidden="true"></span>
+          <ion-label class="mm-detail-hero__meta-label">
+            ALL-NEW · {{ vehicle().category }} · [{{ vehicle().year }}]
+          </ion-label>
+        </ion-chip>
+
+        <ion-note class="mm-detail-hero__ambition">DRIVE YOUR AMBITION</ion-note>
+      </div>
+
+      <!-- Giant Backdrop Vehicle Title -->
+      <div class="mm-detail-hero__title-wrap">
+        <h1 class="mm-display-hero mm-detail-hero__title">
+          {{ vehicle().name }}
+        </h1>
+      </div>
+
+      <!-- Large Overlapping Vehicle Stage (Supports 'image', 'placeholder', or '3d') -->
+      <div class="mm-detail-hero__stage-wrap">
+        <app-vehicle-stage
+          [stageMode]="vehicle().stageMode ?? heroStageMode"
+          [imageSrc]="vehicle().image"
+          [model3dSrc]="vehicle().model3d ?? ''"
+          [altText]="vehicle().year + ' Mitsubishi ' + vehicle().name"
+          variant="hero"
+          [priority]="true"
+        />
+      </div>
+
+      <!-- Hero Bottom Row: Description + CTAs (Left) & Tagline (Right; Top on Mobile) -->
+      <div class="mm-detail-hero__bottom">
+        <div class="mm-detail-hero__cta-block">
+          <ion-text class="mm-detail-hero__desc">
+            {{ vehicle().shortDescription }}
+          </ion-text>
+
+          <div class="mm-detail-hero__actions">
+            <ion-button
+              routerLink="/financing"
+              [queryParams]="{ model: vehicle().id, variant: selectedVariantIndex() }"
+              class="mm-btn mm-btn-red"
+            >
+              GET FINANCING
+            </ion-button>
+            <ion-button routerLink="/test-drive" fill="outline" class="mm-btn mm-btn-outline">
+              BOOK TEST DRIVE
+            </ion-button>
+          </div>
+        </div>
+
+        <div class="mm-detail-hero__tagline-block">
+          <h2 class="mm-detail-hero__tagline">{{ vehicle().tagline }}</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       LOWER SECTIONS WITH CURSOR-REACTIVE AMBIENT BACKGROUND
+       ========================================================================= -->
+  <div class="mm-detail-body">
+    <app-ambient-bg />
+
+    <!-- =======================================================================
+         2. INTERACTIVE CONFIGURATOR (Model Switcher + Color Swatches + 3D/Hover Stage)
+         ======================================================================= -->
+    <section class="mm-section mm-detail-config">
+      <ion-grid class="mm-container">
+        <div class="mm-detail-config__header">
+          <h2 class="mm-heading-xl mm-detail-config__name">{{ vehicle().name }}</h2>
+          <ion-text class="mm-detail-config__subtagline">
+            [{{ vehicle().category }} · {{ vehicle().year }}] — {{ selectedColor().name }}
+          </ion-text>
+        </div>
+
+        <div class="mm-detail-config__grid">
+          <!-- Left Column: Non-Selectable Model Name Display Box & Paint Color Swatches -->
+          <div class="mm-detail-config__controls">
+            <div
+              class="mm-detail-config__model-box mm-hud-corners"
+              aria-label="Displayed Mitsubishi model"
+            >
+              <span>{{ vehicle().name }}</span>
+            </div>
+
+            <!-- Paint Color Swatch Selector -->
+            <div class="mm-detail-config__colors">
+              <ion-note class="mm-detail-config__colors-label">
+                SELECT COLOR · <span class="mm-detail-config__color-name">{{ selectedColor().name }}</span>
+              </ion-note>
+
+              <div class="mm-detail-config__swatches" role="radiogroup" aria-label="Vehicle paint colors">
+                @for (color of colors(); track color.name; let idx = $index) {
+                  <button
+                    type="button"
+                    role="radio"
+                    class="mm-detail-config__swatch"
+                    [class.is-active]="idx === selectedColorIndex()"
+                    [style.--swatch-hex]="color.hex"
+                    [attr.aria-checked]="idx === selectedColorIndex()"
+                    [attr.aria-label]="color.name"
+                    [title]="color.name"
+                    (click)="selectColor(idx)"
+                  ></button>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Center Column: Interactive Turntable Stage (Hover triggers reusable FX from site-data.ts) -->
+          <div
+            class="mm-detail-config__stage-card"
+            [style.--active-paint-hex]="selectedColor().hex"
+            tabindex="0"
+          >
+            <app-vehicle-stage
+              [stageMode]="vehicle().stageMode ?? configuratorStageMode"
+              [imageSrc]="selectedColor().image ?? vehicle().image"
+              [model3dSrc]="vehicle().model3d ?? ''"
+              [hoverFx]="vehicle().hoverFx"
+              [altText]="vehicle().name + ' in ' + selectedColor().name"
+              variant="card"
+            />
+          </div>
+
+          <!-- Right Column: Summary, Starting Price & Primary CTAs -->
+          <div class="mm-detail-config__summary">
+            <ion-text class="mm-detail-config__summary-desc">
+              {{ vehicle().shortDescription }}
+            </ion-text>
+
+            <div class="mm-detail-config__price-block">
+              <ion-note class="mm-detail-config__start-label">START FROM</ion-note>
+              <ion-text class="mm-detail-config__price">
+                {{ selectedVariant()?.price ?? vehicle().startingPrice }}
+              </ion-text>
+            </div>
+
+            <div class="mm-detail-config__cta-stack">
+              <ion-button
+                routerLink="/financing"
+                [queryParams]="{ model: vehicle().id, variant: selectedVariantIndex() }"
+                class="mm-btn mm-btn-red mm-detail-config__cta"
+              >
+                GET FINANCING
+              </ion-button>
+              <ion-button
+                routerLink="/test-drive"
+                fill="outline"
+                class="mm-btn mm-btn-outline mm-detail-config__cta"
+              >
+                BOOK TEST DRIVE
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </ion-grid>
+    </section>
+
+    <!-- =======================================================================
+         3. [ OVERVIEW ] — "ALL THE DETAILS" & 6-CARD TECHNICAL SPECS GRID
+         ======================================================================= -->
+    <section class="mm-section mm-detail-overview">
+      <ion-grid class="mm-container">
+        <div class="mm-detail-overview__grid">
+          <!-- Left Column: Full Model Narrative -->
+          <div class="mm-detail-overview__narrative">
+            <ion-badge class="mm-bracket-label">[ OVERVIEW ]</ion-badge>
+            <h2 class="mm-heading-xl mm-detail-overview__title">ALL THE DETAILS</h2>
+            <ion-text class="mm-body-text mm-detail-overview__text">
+              {{ vehicle().fullDescription }}
+            </ion-text>
+          </div>
+
+          <!-- Right Column: 2x3 HUD Specification Cards -->
+          <div class="mm-detail-overview__specs-grid">
+            @for (spec of overviewSpecItems(); track spec.label) {
+              <div class="mm-detail-overview__spec-card" tabindex="0">
+                <ion-text class="mm-detail-overview__spec-value">{{ spec.value }}</ion-text>
+                <ion-note class="mm-detail-overview__spec-label">{{ spec.label }}</ion-note>
+              </div>
+            }
+          </div>
+        </div>
+      </ion-grid>
+    </section>
+
+    <!-- =======================================================================
+         4. [ VARIANTS ] — TRIM LEVELS & PRICING TABLE
+         ======================================================================= -->
+    <section class="mm-section mm-detail-variants">
+      <ion-grid class="mm-container">
+        <ion-badge class="mm-bracket-label">[ VARIANTS ]</ion-badge>
+
+        <ion-list class="mm-detail-variants__list" lines="none" role="listbox" aria-label="Vehicle trim variants">
+          @for (variant of variants(); track variant.name; let idx = $index) {
+            <button
+              type="button"
+              role="option"
+              class="mm-detail-variants__row"
+              [class.is-active]="idx === selectedVariantIndex()"
+              [attr.aria-selected]="idx === selectedVariantIndex()"
+              (click)="selectVariant(idx)"
+            >
+              <span class="mm-detail-variants__name">{{ variant.name }}</span>
+              <span class="mm-detail-variants__price">{{ variant.price }}</span>
+            </button>
+          }
+        </ion-list>
+      </ion-grid>
+    </section>
+
+    <!-- =======================================================================
+         5. "SMART INNOVATIONS CRAFTED FOR EVERY DRIVE" — BENTO FEATURE CARDS
+         ======================================================================= -->
+    <section class="mm-section mm-detail-features">
+      <ion-grid class="mm-container">
+        <div class="mm-detail-features__header">
+          <h2 class="mm-heading-xl mm-detail-features__heading">
+            SMART INNOVATIONS CRAFTED FOR<br />EVERY DRIVE
+          </h2>
+          <ion-badge class="mm-bracket-label mm-detail-features__badge">[ MAIN FEATURES ]</ion-badge>
+        </div>
+
+        <div class="mm-detail-features__bento">
+          @for (feat of features(); track feat.title) {
+            <article
+              class="mm-detail-features__card"
+              [class.mm-detail-features__card--full]="feat.fullWidth"
+              tabindex="0"
+            >
+              <!-- Atmospheric Background Image + Dark Crimson Scrim (matches PromoBannerComponent) -->
+              <div class="mm-detail-features__bg" aria-hidden="true">
+                @if (feat.bgImage) {
+                  <img
+                    [src]="feat.bgImage"
+                    [alt]="feat.title + ' background'"
+                    class="mm-detail-features__bg-img"
+                    loading="lazy"
+                  />
+                }
+                <div class="mm-detail-features__scrim"></div>
+              </div>
+
+              <div class="mm-detail-features__card-glow" aria-hidden="true"></div>
+              <div class="mm-detail-features__card-content">
+                <h3 class="mm-detail-features__card-title">{{ feat.title }}</h3>
+                <ion-text class="mm-detail-features__card-desc">{{ feat.description }}</ion-text>
+              </div>
+            </article>
+          }
+        </div>
+      </ion-grid>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       6. GLOBAL DEALERSHIP FOOTER
+       ========================================================================= -->
+  <app-footer />
+</ion-content>
