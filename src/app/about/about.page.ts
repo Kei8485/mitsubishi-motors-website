@@ -25,7 +25,6 @@ export interface TeamMemberCard {
   role: string;
   moduleFocus: string;
   description: string;
-  isMe?: boolean;
 }
 
 export interface AccentPaletteOption {
@@ -78,16 +77,15 @@ export class AboutPage implements OnInit, OnDestroy {
     {
       index: '02',
       numericIndex: 1,
-      codeTag: 'LEAD // CREATOR-02',
+      codeTag: 'EXP // ARCH-02',
       fullName: 'Bautista, Ynand Andrei',
       surname: 'BAUTISTA',
       givenName: 'YNAND ANDREI',
       initials: 'YB',
-      role: 'LEAD ARCHITECT & FRONTEND ENGINEER',
+      role: 'FRONTEND & SYSTEMS DEVELOPER',
       moduleFocus: 'CORE PLATFORM, UI/UX & INTERACTIVE FX',
       description:
         'Spearheaded the end-to-end Ionic + Angular Signals architecture, Cabanatuan dealership flows, and interactive 3D/Canvas visual systems.',
-      isMe: true,
     },
     {
       index: '03',
@@ -214,27 +212,27 @@ export class AboutPage implements OnInit, OnDestroy {
 
   /**
    * Continuous floating-point scroll position across the 10 cards (0 to 9).
-   * Starts at 1.0 so "02 — Bautista, Ynand Andrei (ME)" is centered on initial load!
+   * Starts at 0 so "01 — Abenales, Matthew" is centered on initial load.
    */
-  readonly ribbonProgress = signal<number>(1);
+  readonly ribbonProgress = signal<number>(0);
   readonly ribbonVelocity = signal<number>(0);
   readonly activeIndex = computed<number>(() => {
     const clamped = Math.max(0, Math.min(this.teamMembers.length - 1, Math.round(this.ribbonProgress())));
     return clamped;
   });
   readonly activeMember = computed<TeamMemberCard>(() => {
-    return this.teamMembers[this.activeIndex()] ?? this.teamMembers[1];
+    return this.teamMembers[this.activeIndex()] ?? this.teamMembers[0];
   });
 
-  readonly hoveredRosterIndex = signal<number>(1);
+  readonly hoveredRosterIndex = signal<number>(0);
 
   // Internal physics state for smooth 60fps requestAnimationFrame interpolation
-  private targetProgress = 1;
-  private currentProgress = 1;
+  private targetProgress = 0;
+  private currentProgress = 0;
   private rafId: number | null = null;
   private isPointerDown = false;
   private dragStartX = 0;
-  private dragStartProgress = 1;
+  private dragStartProgress = 0;
 
   ngOnInit(): void {
     this.startPhysicsLoop();

@@ -13,7 +13,7 @@
     <div class="mm-container mm-about-hero__inner">
       <div class="mm-about-hero__head">
         <ion-badge class="mm-bracket-label mm-about-hero__tag">
-          [ {{ caseStudyCode }} // {{ companyName }} ]
+          [ ITIPT02 // BSIT 3H // ITELLECT PLC ]
         </ion-badge>
         <h1 class="mm-heading-xl mm-about-hero__title">ABOUT THIS CASE STUDY</h1>
       </div>
@@ -72,10 +72,10 @@
           <!-- Right Column: 2x2 Case Study Telemetry Specs -->
           <div class="mm-about-brief__telemetry">
             <article class="mm-about-stat-card mm-hud-corners">
-              <span class="mm-about-stat-card__tag">[ 01 // DEVELOPMENT AGENCY ]</span>
-              <h3 class="mm-about-stat-card__title">ITELLECT</h3>
+              <span class="mm-about-stat-card__tag">[ 01 // CLASS SECTION & AGENCY ]</span>
+              <h3 class="mm-about-stat-card__title">BSIT 3H</h3>
               <p class="mm-about-stat-card__sub">
-                Private Limited Company · 10-Member Engineering &amp; Design Collective
+                ITELLECT Private Limited Company · 10-Member Engineering Collective
               </p>
             </article>
 
@@ -200,27 +200,25 @@
                 <article
                   class="mm-fiddle-card mm-hud-corners"
                   [class.is-active]="idx === activeIndex()"
-                  [class.is-me]="member.isMe"
                   [ngStyle]="getCardStyle(idx)"
                   (click)="focusMember(idx)"
                 >
-                  <!-- Card Top Bar: Experiment Code + Member Number -->
+                  <!-- Card Top Bar: Experiment Code + Member Number + BSIT 3H Tag -->
                   <div class="mm-fiddle-card__top">
-                    <span class="mm-fiddle-card__code">{{ member.codeTag }}</span>
+                    <div class="mm-fiddle-card__top-tags">
+                      <span class="mm-fiddle-card__code">{{ member.codeTag }}</span>
+                      <span class="mm-fiddle-card__class-tag">[BSIT 3H]</span>
+                    </div>
                     <span class="mm-fiddle-card__num">[{{ member.index }} / 10]</span>
                   </div>
 
-                  <!-- Center Emblem + Highlight Tag -->
+                  <!-- Center Emblem + Company Pill -->
                   <div class="mm-fiddle-card__visual">
                     <div class="mm-fiddle-card__orbit" aria-hidden="true">
                       <span class="mm-fiddle-card__monogram">{{ member.initials }}</span>
                     </div>
 
-                    @if (member.isMe) {
-                      <span class="mm-fiddle-card__me-badge">[ PROJECT LEAD // ME ]</span>
-                    } @else {
-                      <span class="mm-fiddle-card__company-pill">ITELLECT PLC</span>
-                    }
+                    <span class="mm-fiddle-card__company-pill">ITELLECT PLC · BSIT 3H</span>
                   </div>
 
                   <!-- Member Name & Role Block -->
@@ -230,12 +228,11 @@
                     <span class="mm-fiddle-card__fullname">{{ member.fullName }}</span>
                   </div>
 
-                  <!-- Module Contribution & Description -->
+                  <!-- Module Contribution & Role (No Description) -->
                   <div class="mm-fiddle-card__footer">
                     <div class="mm-fiddle-card__role-bar">
                       <span class="mm-fiddle-card__role">{{ member.role }}</span>
                     </div>
-                    <p class="mm-fiddle-card__desc">{{ member.description }}</p>
                     <div class="mm-fiddle-card__module">
                       <span>MODULE</span>
                       <strong>{{ member.moduleFocus }}</strong>
@@ -266,7 +263,6 @@
                       role="tab"
                       class="mm-fiddle-dock__idx-btn"
                       [class.is-active]="idx === activeIndex()"
-                      [class.is-me]="member.isMe"
                       [attr.aria-selected]="idx === activeIndex()"
                       [title]="member.fullName"
                       (click)="focusMember(idx)"
@@ -291,9 +287,6 @@
                 <span>DRAG, SWIPE, OR SCROLL WHEEL TO ROTATE THE 3D RIBBON</span>
                 <span class="mm-fiddle-dock__active-readout">
                   ACTIVE: <strong>{{ activeMember().fullName | uppercase }}</strong>
-                  @if (activeMember().isMe) {
-                    <span class="mm-fiddle-dock__me-tag">[ME]</span>
-                  }
                 </span>
               </div>
             </div>
@@ -310,7 +303,6 @@
                 <article
                   class="mm-fiddle-roster__row"
                   [class.is-active]="hoveredRosterIndex() === idx"
-                  [class.is-me]="member.isMe"
                   tabindex="0"
                   (mouseenter)="hoveredRosterIndex.set(idx)"
                   (focus)="hoveredRosterIndex.set(idx)"
@@ -320,9 +312,6 @@
                     <span class="mm-fiddle-roster__num">{{ member.index }}</span>
                     <div class="mm-fiddle-roster__names">
                       <span class="mm-fiddle-roster__fullname">{{ member.fullName }}</span>
-                      @if (member.isMe) {
-                        <span class="mm-fiddle-roster__me-pill">ME · LEAD</span>
-                      }
                     </div>
                   </div>
 
@@ -338,7 +327,10 @@
             @if (teamMembers[hoveredRosterIndex()]; as spot) {
               <aside class="mm-fiddle-roster__spotlight mm-hud-corners">
                 <div class="mm-fiddle-card__top">
-                  <span class="mm-fiddle-card__code">{{ spot.codeTag }}</span>
+                  <div class="mm-fiddle-card__top-tags">
+                    <span class="mm-fiddle-card__code">{{ spot.codeTag }}</span>
+                    <span class="mm-fiddle-card__class-tag">[BSIT 3H]</span>
+                  </div>
                   <span class="mm-fiddle-card__num">[{{ spot.index }} / 10]</span>
                 </div>
 
@@ -347,16 +339,10 @@
                     <span>{{ spot.initials }}</span>
                   </div>
                   <div>
-                    @if (spot.isMe) {
-                      <span class="mm-fiddle-card__me-badge">[ PROJECT LEAD // ME ]</span>
-                    } @else {
-                      <span class="mm-fiddle-card__company-pill">ITELLECT PLC</span>
-                    }
+                    <span class="mm-fiddle-card__company-pill">ITELLECT PLC · BSIT 3H</span>
                     <h3 class="mm-fiddle-roster__spot-name">{{ spot.fullName }}</h3>
                   </div>
                 </div>
-
-                <p class="mm-fiddle-roster__spot-desc">{{ spot.description }}</p>
 
                 <div class="mm-fiddle-card__module">
                   <span>ASSIGNED MODULE</span>

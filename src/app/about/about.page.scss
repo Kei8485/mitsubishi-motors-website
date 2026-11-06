@@ -47,10 +47,28 @@ ion-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    max-width: 100%;
   }
 
   &__tag {
-    margin-bottom: 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.65rem;
+    background: rgba(10, 5, 8, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 2px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+    font-weight: 600;
+    white-space: normal;
+    word-break: break-word;
+    max-width: 100%;
+    line-height: 1.4;
+    font-size: clamp(0.58rem, 2.3vw, 0.72rem);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
   }
 
   &__title {
@@ -58,6 +76,7 @@ ion-content {
     line-height: 0.92;
     letter-spacing: 0.01em;
     margin: 0;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95);
   }
 
   &__cta-wrap {
@@ -446,7 +465,7 @@ ion-content {
     position: relative;
     z-index: 2;
     width: 100%;
-    height: 390px;
+    height: 340px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -462,7 +481,7 @@ ion-content {
   --mm-corner-color: rgba(255, 255, 255, 0.4);
   position: absolute;
   width: min(315px, 84vw);
-  min-height: 365px;
+  min-height: 305px;
   padding: 1.25rem 1.35rem;
   background: rgba(19, 10, 15, 0.94);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -484,10 +503,6 @@ ion-content {
     background: rgba(25, 12, 19, 0.98);
   }
 
-  &.is-me {
-    border-top: 2px solid var(--fiddle-accent);
-  }
-
   &__top {
     display: flex;
     align-items: center;
@@ -495,6 +510,24 @@ ion-content {
     gap: 0.5rem;
     padding-bottom: 0.55rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__top-tags {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  &__class-tag {
+    font-family: var(--mm-font-mono);
+    font-size: 0.54rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 0.08rem 0.35rem;
+    border-radius: 2px;
   }
 
   &__code {
@@ -723,18 +756,6 @@ ion-content {
       border-color: var(--fiddle-accent);
       color: #0a0508;
       font-weight: 700;
-    }
-
-    // Subtle top indicator dot for Bautista, Ynand Andrei (02 - ME)
-    &.is-me::after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      right: 3px;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: #ffffff;
     }
   }
 
