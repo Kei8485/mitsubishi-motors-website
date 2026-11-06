@@ -1,0 +1,385 @@
+<!-- ===========================================================================
+     GLOBAL TOP HEADER COMPONENT
+     =========================================================================== -->
+<app-header activeRoute="/about" />
+
+<ion-content>
+  <!-- =========================================================================
+       1. ABOUT HERO BANNER WITH HALFTONE DOT-GRADIENT BAND ANIMATION
+       ========================================================================= -->
+  <section class="mm-about-hero">
+    <app-halftone-band-bg [dotSpacing]="8" [maxDotRadius]="3.15" [bandCenterY]="0.44" />
+
+    <div class="mm-container mm-about-hero__inner">
+      <div class="mm-about-hero__head">
+        <ion-badge class="mm-bracket-label mm-about-hero__tag">
+          [ {{ caseStudyCode }} // {{ companyName }} ]
+        </ion-badge>
+        <h1 class="mm-heading-xl mm-about-hero__title">ABOUT THIS CASE STUDY</h1>
+      </div>
+
+      <div class="mm-about-hero__cta-wrap">
+        <button
+          type="button"
+          class="mm-about-hero__scroll-btn mm-hud-corners"
+          (click)="scrollToTeamShowcase()"
+        >
+          MEET THE TEAM ↓
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       LOWER SECTIONS WITH CURSOR-REACTIVE AMBIENT BACKGROUND
+       ========================================================================= -->
+  <div
+    class="mm-about-body"
+    [style.--fiddle-accent]="activePalette().hex"
+    [style.--fiddle-accent-rgb]="activePalette().rgb"
+  >
+    <app-ambient-bg />
+
+    <!-- =======================================================================
+         2. CASE STUDY ARCHITECTURE & DEALERSHIP OVERVIEW
+         ======================================================================= -->
+    <section class="mm-section mm-about-brief">
+      <ion-grid class="mm-container">
+        <div class="mm-about-brief__split">
+          <!-- Left Column: Narrative -->
+          <div class="mm-about-brief__narrative">
+            <ion-badge class="mm-bracket-label">[ PROJECT BRIEF ]</ion-badge>
+            <h2 class="mm-heading-lg mm-about-brief__heading">
+              ENGINEERED BY<br />ITELLECT PLC.
+            </h2>
+
+            <p class="mm-about-brief__lead">
+              This platform was designed and developed by
+              <strong>ITELLECT Private Limited Company</strong> as a comprehensive digital
+              transformation case study (<strong>ITIPT02</strong>) for
+              <strong>Mitsubishi Motors Cabanatuan</strong>.
+            </p>
+
+            <p class="mm-about-brief__text">
+              Focused exclusively on the <strong>2026 Mitsubishi model lineup</strong> at the
+              Maharlika Highway, Cabanatuan City, Nueva Ecija branch, the web application unifies
+              interactive vehicle discovery, real-time chattel mortgage financing estimation,
+              factory after-sales PMS scheduling, and complimentary test drive reservations into a
+              single cohesive experience.
+            </p>
+          </div>
+
+          <!-- Right Column: 2x2 Case Study Telemetry Specs -->
+          <div class="mm-about-brief__telemetry">
+            <article class="mm-about-stat-card mm-hud-corners">
+              <span class="mm-about-stat-card__tag">[ 01 // DEVELOPMENT AGENCY ]</span>
+              <h3 class="mm-about-stat-card__title">ITELLECT</h3>
+              <p class="mm-about-stat-card__sub">
+                Private Limited Company · 10-Member Engineering &amp; Design Collective
+              </p>
+            </article>
+
+            <article class="mm-about-stat-card mm-hud-corners">
+              <span class="mm-about-stat-card__tag">[ 02 // EXCLUSIVE BRANCH ]</span>
+              <h3 class="mm-about-stat-card__title">CABANATUAN</h3>
+              <p class="mm-about-stat-card__sub">
+                Maharlika Highway, Cabanatuan City, Nueva Ecija · Authorized Showroom
+              </p>
+            </article>
+
+            <article class="mm-about-stat-card mm-hud-corners">
+              <span class="mm-about-stat-card__tag">[ 03 // VEHICLE FLEET ]</span>
+              <h3 class="mm-about-stat-card__title">2026 LINEUP</h3>
+              <p class="mm-about-stat-card__sub">
+                Xpander, Montero Sport, Strada/Triton, Xforce, Destinator &amp; Mirage G4
+              </p>
+            </article>
+
+            <article class="mm-about-stat-card mm-hud-corners">
+              <span class="mm-about-stat-card__tag">[ 04 // TECH ARCHITECTURE ]</span>
+              <h3 class="mm-about-stat-card__title">IONIC + ANGULAR</h3>
+              <p class="mm-about-stat-card__sub">
+                Standalone Components, Angular Signals, Custom Canvas Halftone &amp; 3D CSS
+              </p>
+            </article>
+          </div>
+        </div>
+      </ion-grid>
+    </section>
+
+    <!-- =======================================================================
+         3. FIDDLE.DIGITAL-INSPIRED 3D CURVED RIBBON & KINETIC ROSTER SHOWCASE
+         ======================================================================= -->
+    <section id="fiddle-team-showcase" class="mm-section mm-fiddle-showcase">
+      <ion-grid class="mm-container">
+        <!-- Interactive Lab Header & Control Bar (Palette + View Switcher) -->
+        <div class="mm-fiddle-header">
+          <div class="mm-fiddle-header__left">
+            <div class="mm-fiddle-header__tag-row">
+              <span class="mm-fiddle-header__pulse" aria-hidden="true"></span>
+              <span class="mm-fiddle-header__code">
+                FD.EXP // ITELLECT COLLECTIVE [10 MEMBERS]
+              </span>
+            </div>
+            <h2 class="mm-heading-lg mm-fiddle-header__title">
+              {{ companyName }}
+            </h2>
+          </div>
+
+          <!-- Fiddle.Digital Multi-Color Palette & View Switcher -->
+          <div class="mm-fiddle-controls">
+            <!-- Dynamic Color Palette Dots -->
+            <div
+              class="mm-fiddle-palette mm-hud-corners"
+              role="radiogroup"
+              aria-label="Stage accent color"
+            >
+              <span class="mm-fiddle-palette__label">TINT</span>
+              @for (p of accentPalettes; track p.id) {
+                <button
+                  type="button"
+                  role="radio"
+                  class="mm-fiddle-palette__dot"
+                  [class.is-active]="activePalette().id === p.id"
+                  [style.--dot-color]="p.hex"
+                  [attr.aria-checked]="activePalette().id === p.id"
+                  [attr.aria-label]="p.label"
+                  [title]="p.label"
+                  (click)="selectPalette(p)"
+                ></button>
+              }
+            </div>
+
+            <!-- View Mode Toggle: 3D Ribbon vs Roster List -->
+            <div class="mm-fiddle-mode-switch mm-hud-corners">
+              <button
+                type="button"
+                class="mm-fiddle-mode-btn"
+                [class.is-active]="viewMode() === 'ribbon'"
+                (click)="setViewMode('ribbon')"
+              >
+                [ 3D RIBBON ]
+              </button>
+              <button
+                type="button"
+                class="mm-fiddle-mode-btn"
+                [class.is-active]="viewMode() === 'roster'"
+                (click)="setViewMode('roster')"
+              >
+                [ ROSTER LIST ]
+              </button>
+            </div>
+          </div>
+        </div>
+
+        @if (viewMode() === 'ribbon') {
+          <!-- =================================================================
+               MODE A: 3D CURVED RIBBON STAGE (exp.fiddle.digital style)
+               Supports Mouse Wheel Scrubbing, Drag/Swipe Inertia & Index Jump
+               ================================================================= -->
+          <div
+            class="mm-fiddle-stage"
+            (wheel)="onRibbonWheel($event)"
+            (pointerdown)="onPointerDown($event)"
+            (pointermove)="onPointerMove($event)"
+            (pointerup)="onPointerUp()"
+            (pointercancel)="onPointerUp()"
+            (pointerleave)="onPointerUp()"
+          >
+            <!-- Giant Kinetic Background Watermark Surname -->
+            <div class="mm-fiddle-stage__watermark" aria-hidden="true">
+              <span>{{ activeMember().surname }}</span>
+            </div>
+
+            <!-- Curved Horizon Grid Lines -->
+            <div class="mm-fiddle-stage__horizon" aria-hidden="true"></div>
+
+            <!-- 3D Perspective Track holding the 10 Bending Cards -->
+            <div class="mm-fiddle-stage__track">
+              @for (member of teamMembers; track member.index; let idx = $index) {
+                <article
+                  class="mm-fiddle-card mm-hud-corners"
+                  [class.is-active]="idx === activeIndex()"
+                  [class.is-me]="member.isMe"
+                  [ngStyle]="getCardStyle(idx)"
+                  (click)="focusMember(idx)"
+                >
+                  <!-- Card Top Bar: Experiment Code + Member Number -->
+                  <div class="mm-fiddle-card__top">
+                    <span class="mm-fiddle-card__code">{{ member.codeTag }}</span>
+                    <span class="mm-fiddle-card__num">[{{ member.index }} / 10]</span>
+                  </div>
+
+                  <!-- Center Emblem + Highlight Tag -->
+                  <div class="mm-fiddle-card__visual">
+                    <div class="mm-fiddle-card__orbit" aria-hidden="true">
+                      <span class="mm-fiddle-card__monogram">{{ member.initials }}</span>
+                    </div>
+
+                    @if (member.isMe) {
+                      <span class="mm-fiddle-card__me-badge">[ PROJECT LEAD // ME ]</span>
+                    } @else {
+                      <span class="mm-fiddle-card__company-pill">ITELLECT PLC</span>
+                    }
+                  </div>
+
+                  <!-- Member Name & Role Block -->
+                  <div class="mm-fiddle-card__identity">
+                    <span class="mm-fiddle-card__given">{{ member.givenName }}</span>
+                    <h3 class="mm-fiddle-card__surname">{{ member.surname }}</h3>
+                    <span class="mm-fiddle-card__fullname">{{ member.fullName }}</span>
+                  </div>
+
+                  <!-- Module Contribution & Description -->
+                  <div class="mm-fiddle-card__footer">
+                    <div class="mm-fiddle-card__role-bar">
+                      <span class="mm-fiddle-card__role">{{ member.role }}</span>
+                    </div>
+                    <p class="mm-fiddle-card__desc">{{ member.description }}</p>
+                    <div class="mm-fiddle-card__module">
+                      <span>MODULE</span>
+                      <strong>{{ member.moduleFocus }}</strong>
+                    </div>
+                  </div>
+                </article>
+              }
+            </div>
+
+            <!-- Bottom Interactive HUD Navigation Dock -->
+            <div class="mm-fiddle-dock">
+              <div class="mm-fiddle-dock__nav">
+                <button
+                  type="button"
+                  class="mm-fiddle-dock__arrow mm-hud-corners"
+                  [disabled]="activeIndex() === 0"
+                  (click)="stepMember(-1)"
+                  aria-label="Previous team member"
+                >
+                  ← PREV
+                </button>
+
+                <!-- 01 to 10 Quick Jump Index Pills -->
+                <div class="mm-fiddle-dock__indices" role="tablist" aria-label="Team member index">
+                  @for (member of teamMembers; track member.index; let idx = $index) {
+                    <button
+                      type="button"
+                      role="tab"
+                      class="mm-fiddle-dock__idx-btn"
+                      [class.is-active]="idx === activeIndex()"
+                      [class.is-me]="member.isMe"
+                      [attr.aria-selected]="idx === activeIndex()"
+                      [title]="member.fullName"
+                      (click)="focusMember(idx)"
+                    >
+                      {{ member.index }}
+                    </button>
+                  }
+                </div>
+
+                <button
+                  type="button"
+                  class="mm-fiddle-dock__arrow mm-hud-corners"
+                  [disabled]="activeIndex() === teamMembers.length - 1"
+                  (click)="stepMember(1)"
+                  aria-label="Next team member"
+                >
+                  NEXT →
+                </button>
+              </div>
+
+              <div class="mm-fiddle-dock__hint">
+                <span>DRAG, SWIPE, OR SCROLL WHEEL TO ROTATE THE 3D RIBBON</span>
+                <span class="mm-fiddle-dock__active-readout">
+                  ACTIVE: <strong>{{ activeMember().fullName | uppercase }}</strong>
+                  @if (activeMember().isMe) {
+                    <span class="mm-fiddle-dock__me-tag">[ME]</span>
+                  }
+                </span>
+              </div>
+            </div>
+          </div>
+        } @else {
+          <!-- =================================================================
+               MODE B: KINETIC EDITORIAL ROSTER LIST
+               Hovering/tapping any row slides the typography and updates the
+               sticky 3D preview card on the right.
+               ================================================================= -->
+          <div class="mm-fiddle-roster">
+            <div class="mm-fiddle-roster__list">
+              @for (member of teamMembers; track member.index; let idx = $index) {
+                <article
+                  class="mm-fiddle-roster__row"
+                  [class.is-active]="hoveredRosterIndex() === idx"
+                  [class.is-me]="member.isMe"
+                  tabindex="0"
+                  (mouseenter)="hoveredRosterIndex.set(idx)"
+                  (focus)="hoveredRosterIndex.set(idx)"
+                  (click)="hoveredRosterIndex.set(idx)"
+                >
+                  <div class="mm-fiddle-roster__left">
+                    <span class="mm-fiddle-roster__num">{{ member.index }}</span>
+                    <div class="mm-fiddle-roster__names">
+                      <span class="mm-fiddle-roster__fullname">{{ member.fullName }}</span>
+                      @if (member.isMe) {
+                        <span class="mm-fiddle-roster__me-pill">ME · LEAD</span>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="mm-fiddle-roster__right">
+                    <span class="mm-fiddle-roster__role">{{ member.role }}</span>
+                    <span class="mm-fiddle-roster__code">[{{ member.codeTag }}]</span>
+                  </div>
+                </article>
+              }
+            </div>
+
+            <!-- Sticky Spotlight Card for the Hovered Roster Member -->
+            @if (teamMembers[hoveredRosterIndex()]; as spot) {
+              <aside class="mm-fiddle-roster__spotlight mm-hud-corners">
+                <div class="mm-fiddle-card__top">
+                  <span class="mm-fiddle-card__code">{{ spot.codeTag }}</span>
+                  <span class="mm-fiddle-card__num">[{{ spot.index }} / 10]</span>
+                </div>
+
+                <div class="mm-fiddle-roster__spot-head">
+                  <div class="mm-fiddle-roster__spot-avatar">
+                    <span>{{ spot.initials }}</span>
+                  </div>
+                  <div>
+                    @if (spot.isMe) {
+                      <span class="mm-fiddle-card__me-badge">[ PROJECT LEAD // ME ]</span>
+                    } @else {
+                      <span class="mm-fiddle-card__company-pill">ITELLECT PLC</span>
+                    }
+                    <h3 class="mm-fiddle-roster__spot-name">{{ spot.fullName }}</h3>
+                  </div>
+                </div>
+
+                <p class="mm-fiddle-roster__spot-desc">{{ spot.description }}</p>
+
+                <div class="mm-fiddle-card__module">
+                  <span>ASSIGNED MODULE</span>
+                  <strong>{{ spot.moduleFocus }}</strong>
+                </div>
+
+                <button
+                  type="button"
+                  class="mm-fiddle-roster__jump-btn"
+                  (click)="focusMember(hoveredRosterIndex()); setViewMode('ribbon')"
+                >
+                  OPEN IN 3D RIBBON →
+                </button>
+              </aside>
+            }
+          </div>
+        }
+      </ion-grid>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       4. GLOBAL DEALERSHIP FOOTER
+       ========================================================================= -->
+  <app-footer />
+</ion-content>

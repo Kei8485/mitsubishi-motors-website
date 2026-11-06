@@ -1,0 +1,916 @@
+// =============================================================================
+// BOOK A TEST DRIVE PAGE ("BOOK A TEST DRIVE") SCOPED STYLES
+// Responsive across Desktop (1440px), Tablet (820px), and Mobile viewports
+// =============================================================================
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+ion-content {
+  flex: 1 1 auto;
+}
+
+// -----------------------------------------------------------------------------
+// 1. HERO BANNER WITH HALFTONE DOT-GRADIENT BAND
+// -----------------------------------------------------------------------------
+.mm-td-hero {
+  position: relative;
+  z-index: 20;
+  overflow: hidden;
+  min-height: clamp(275px, 31vw, 390px);
+  padding-top: clamp(7.25rem, 13vw, 11.25rem);
+  padding-bottom: clamp(2.5rem, 4.2vw, 3.6rem);
+  display: flex;
+  align-items: flex-end;
+  background-color: #0a0508;
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__tag {
+    margin-bottom: 0.6rem;
+  }
+
+  &__title {
+    font-size: clamp(2.55rem, 5.6vw, 4.4rem);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    margin: 0;
+  }
+
+  &__cta-wrap {
+    flex-shrink: 0;
+  }
+
+  &__free-btn {
+    --mm-corner-size: 8px;
+    --mm-corner-weight: 1.5px;
+    --mm-corner-color: rgba(255, 255, 255, 0.78);
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.76rem 1.35rem;
+    background-color: rgba(18, 10, 14, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-family: var(--mm-font-mono);
+    font-size: var(--mm-size-mono-xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+    cursor: pointer;
+    transition:
+      background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+      --mm-corner-size: 10px;
+      --mm-corner-color: #ffffff;
+      background-color: rgba(38, 14, 22, 0.95);
+      border-color: rgba(224, 22, 55, 0.55);
+      transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mm-red-bright);
+      outline-offset: 3px;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 2. LOWER BODY & 2-COLUMN SPLIT (SELECTED MODEL LEFT + FORM RIGHT)
+// -----------------------------------------------------------------------------
+.mm-td-body {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  > .mm-section {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.mm-td-section {
+  padding-top: clamp(1.75rem, 3.5vw, 2.75rem);
+  padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+}
+
+.mm-td-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+  align-items: start;
+  gap: clamp(1.75rem, 3.5vw, 3rem);
+
+  @media (max-width: 960px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.25rem;
+  }
+}
+
+// Left Column: SELECTED MODEL Preview Card & Info Drawer
+.mm-td-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__label {
+    font-family: var(--mm-font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mm-text-muted);
+  }
+
+  &__card-wrap {
+    width: 100%;
+  }
+
+  &__info-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-top: 0.15rem;
+  }
+
+  &__info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  &__info-text {
+    font-family: var(--mm-font-mono);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mm-text-muted);
+  }
+
+  &__info-toggle {
+    appearance: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-family: var(--mm-font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--mm-text-secondary);
+    cursor: pointer;
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
+  &__info-drawer {
+    padding: 0.85rem 1rem;
+    background: rgba(20, 10, 15, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+
+    p {
+      margin: 0;
+      font-family: var(--mm-font-sans);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--mm-text-secondary);
+    }
+
+    strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 3. RIGHT COLUMN: HUD-CORNERED TEST DRIVE FORM
+// -----------------------------------------------------------------------------
+.mm-td-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  padding-top: 1.35rem;
+
+  @media (max-width: 960px) {
+    padding-top: 0;
+  }
+}
+
+.mm-td-row-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+
+  @media (max-width: 480px) {
+    gap: 0.65rem;
+  }
+}
+
+.mm-td-field-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+
+  &--model-dropdown {
+    z-index: 60;
+  }
+
+  &--time-dropdown {
+    z-index: 50;
+  }
+}
+
+.mm-td-box {
+  --mm-corner-size: 8px;
+  --mm-corner-weight: 1.5px;
+  --mm-corner-color: rgba(255, 255, 255, 0.55);
+  position: relative;
+  width: 100%;
+  min-height: 70px;
+  padding: 0.72rem 0.95rem;
+  background: rgba(22, 11, 16, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.3rem;
+  text-align: left;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+
+  @media (max-width: 480px) {
+    padding: 0.65rem 0.75rem;
+    min-height: 66px;
+  }
+
+  &:focus-within,
+  &.is-open {
+    --mm-corner-color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.42);
+    background: rgba(30, 14, 21, 0.95);
+  }
+
+  &.is-valid {
+    border-color: rgba(54, 226, 120, 0.32);
+  }
+
+  &.is-invalid {
+    border-color: #d92d3f;
+    background: rgba(217, 45, 63, 0.06);
+  }
+
+  &--select {
+    appearance: none;
+    cursor: pointer;
+  }
+
+  &--locked {
+    background: rgba(18, 9, 13, 0.72);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    width: 100%;
+  }
+
+  &__label {
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mm-text-muted);
+  }
+
+  &__status {
+    font-family: var(--mm-font-mono);
+    font-size: 0.54rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.35);
+
+    &--ok {
+      color: #36e278;
+      font-weight: 600;
+    }
+  }
+
+  &__input {
+    appearance: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0;
+    font-family: var(--mm-font-sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #ffffff;
+
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.38);
+    }
+
+    &--date {
+      color-scheme: dark;
+      cursor: pointer;
+    }
+  }
+
+  &__select-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  &__select-val {
+    font-family: var(--mm-font-sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+    }
+  }
+
+  &__chevron {
+    font-size: 0.95rem;
+    color: var(--mm-text-secondary);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  &.is-open &__chevron {
+    transform: rotate(180deg);
+    color: #ffffff;
+  }
+
+  &__lock-icon {
+    font-size: 0.92rem;
+    color: var(--mm-text-muted);
+    flex-shrink: 0;
+  }
+}
+
+.mm-td-field-err {
+  font-family: var(--mm-font-mono);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #e55060;
+}
+
+// Custom Dark Dropdowns (Model & Time Slots)
+.mm-td-dropdown {
+  --mm-corner-size: 8px;
+  --mm-corner-weight: 1.5px;
+  --mm-corner-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-height: 245px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  background: #140b10;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.95);
+  z-index: 100;
+  animation: mmTdDropdownFade 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  // Time dropdown on bottom row opens UPWARDS so it never overlaps the consent row or button
+  &--up {
+    top: auto;
+    bottom: calc(100% + 6px);
+    box-shadow: 0 -18px 48px rgba(0, 0, 0, 0.95);
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 2px;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    &.is-selected {
+      background: rgba(200, 16, 46, 0.18);
+    }
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+
+  &__thumb {
+    width: 44px;
+    height: 28px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    font-family: var(--mm-font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__cat {
+    font-family: var(--mm-font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+    color: var(--mm-text-muted);
+  }
+
+  &__slot-text {
+    font-family: var(--mm-font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+  }
+
+  &__check {
+    font-size: 0.95rem;
+    color: var(--mm-red-bright);
+    flex-shrink: 0;
+  }
+}
+
+// Consent Checkbox Row matching "[ ] I AGREE TO BE CONTACTED..."
+.mm-td-consent-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.15rem;
+}
+
+.mm-td-consent {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0.2rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  text-align: left;
+  cursor: pointer;
+
+  &__box {
+    font-family: var(--mm-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--mm-text-secondary);
+    flex-shrink: 0;
+  }
+
+  &.is-checked &__box {
+    color: #36e278;
+  }
+
+  &.is-invalid &__box {
+    color: #e55060;
+  }
+
+  &__text {
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    line-height: 1.48;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mm-text-muted);
+  }
+
+  &:hover &__text {
+    color: var(--mm-text-secondary);
+  }
+}
+
+// Full-Width Red Submit Button
+.mm-td-submit-btn {
+  appearance: none;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  margin-top: 0.15rem;
+  background-color: var(--mm-red);
+  border: 1px solid var(--mm-red-bright);
+  border-radius: 2px;
+  font-family: var(--mm-font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    background-color: var(--mm-red-bright);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 4. QUIET LUXURY CONFIRMATION VOUCHER MODAL
+// -----------------------------------------------------------------------------
+.mm-td-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(8, 4, 6, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  overflow-y: auto;
+}
+
+.mm-td-modal {
+  --mm-corner-size: 11px;
+  --mm-corner-weight: 1.5px;
+  --mm-corner-color: rgba(255, 255, 255, 0.45);
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  background: #11090d;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.92);
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+
+  &__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__status-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #36e278;
+  }
+
+  &__tag {
+    font-family: var(--mm-font-mono);
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--mm-text-secondary);
+  }
+
+  &__close {
+    --mm-corner-size: 6px;
+    --mm-corner-weight: 1px;
+    --mm-corner-color: rgba(255, 255, 255, 0.5);
+    appearance: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--mm-text-secondary);
+    font-family: var(--mm-font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.65rem;
+    cursor: pointer;
+
+    &:hover {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding-top: 0.35rem;
+  }
+
+  &__btn-ghost {
+    appearance: none;
+    padding: 0.75rem 1.2rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    font-family: var(--mm-font-mono);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--mm-text-secondary);
+    cursor: pointer;
+
+    &:hover {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  &__btn-red {
+    appearance: none;
+    padding: 0.75rem 1.35rem;
+    background: var(--mm-red);
+    border: 1px solid var(--mm-red-bright);
+    font-family: var(--mm-font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--mm-red-bright);
+    }
+  }
+}
+
+.mm-td-receipt {
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__badge {
+    display: inline-block;
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #36e278;
+    margin-bottom: 0.2rem;
+  }
+
+  &__title {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.45rem, 2.8vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  &__ref-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0.4rem 0.65rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__ref-label {
+    font-family: var(--mm-font-mono);
+    font-size: 0.54rem;
+    letter-spacing: 0.1em;
+    color: var(--mm-text-muted);
+  }
+
+  &__ref-code {
+    font-family: var(--mm-font-mono);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+  }
+
+  &__vehicle {
+    --mm-corner-size: 8px;
+    --mm-corner-weight: 1px;
+    --mm-corner-color: rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    background: #150d12;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__car-img {
+    width: 105px;
+    height: 62px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  &__car-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  &__car-tag {
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: var(--mm-text-muted);
+  }
+
+  &__car-name {
+    font-family: var(--mm-font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  &__slot-pill {
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    background: rgba(200, 16, 46, 0.24);
+    border: 1px solid rgba(224, 22, 55, 0.45);
+    padding: 0.15rem 0.5rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+
+    @media (max-width: 480px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    padding: 0.65rem 0.8rem;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__cell-label {
+    font-family: var(--mm-font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    color: var(--mm-text-muted);
+  }
+
+  &__cell-val {
+    font-family: var(--mm-font-sans);
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  &__cell-sub {
+    font-family: var(--mm-font-sans);
+    font-size: 0.74rem;
+    color: var(--mm-text-secondary);
+  }
+
+  &__note {
+    font-family: var(--mm-font-sans);
+    font-size: 0.76rem;
+    line-height: 1.5;
+    color: var(--mm-text-secondary);
+    margin: 0;
+
+    strong {
+      color: #ffffff;
+    }
+  }
+}
+
+@keyframes mmTdDropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -58,7 +58,12 @@
             >
               GET FINANCING
             </ion-button>
-            <ion-button routerLink="/test-drive" fill="outline" class="mm-btn mm-btn-outline">
+            <ion-button
+              routerLink="/test-drive"
+              [queryParams]="{ model: vehicle().id }"
+              fill="outline"
+              class="mm-btn mm-btn-outline"
+            >
               BOOK TEST DRIVE
             </ion-button>
           </div>
@@ -162,6 +167,7 @@
               </ion-button>
               <ion-button
                 routerLink="/test-drive"
+                [queryParams]="{ model: vehicle().id }"
                 fill="outline"
                 class="mm-btn mm-btn-outline mm-detail-config__cta"
               >

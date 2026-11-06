@@ -42,7 +42,7 @@ export const NAV_MENU_ITEMS: NavMenuItem[] = [
   { number: '02', label: 'MODELS', route: '/models' },
   { number: '03', label: 'FINANCING', route: '/financing' },
   { number: '04', label: 'AFTER-SALES', route: '/service' },
-  { number: '05', label: 'ABOUT US', route: '/home', fragment: 'about-section' },
+  { number: '05', label: 'ABOUT US', route: '/about' },
   { number: '06', label: 'CONTACT', route: '/home', fragment: 'footer-contact' },
 ];
 

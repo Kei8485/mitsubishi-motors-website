@@ -1,0 +1,459 @@
+<!-- ===========================================================================
+     GLOBAL TOP HEADER COMPONENT
+     =========================================================================== -->
+<app-header activeRoute="/test-drive" />
+
+<ion-content>
+  <!-- =========================================================================
+       1. TEST DRIVE HERO BANNER WITH HALFTONE DOT-GRADIENT BAND ANIMATION
+       Matches the exact wireframe: [ TEST DRIVE ], BOOK A TEST DRIVE,
+       and the corner-bracketed FREE button on the right.
+       ========================================================================= -->
+  <section class="mm-td-hero">
+    <app-halftone-band-bg [dotSpacing]="8" [maxDotRadius]="3.15" [bandCenterY]="0.44" />
+
+    <div class="mm-container mm-td-hero__inner">
+      <div class="mm-td-hero__head">
+        <ion-badge class="mm-bracket-label mm-td-hero__tag">[ TEST DRIVE ]</ion-badge>
+        <h1 class="mm-heading-xl mm-td-hero__title">BOOK A TEST DRIVE</h1>
+      </div>
+
+      <div class="mm-td-hero__cta-wrap">
+        <button type="button" class="mm-td-hero__free-btn mm-hud-corners" (click)="scrollToBooking()">
+          FREE TEST DRIVE
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       LOWER SECTIONS WITH CURSOR-REACTIVE AMBIENT BACKGROUND
+       ========================================================================= -->
+  <div class="mm-td-body">
+    <app-ambient-bg />
+
+    <!-- =======================================================================
+         2. MAIN 2-COLUMN SPLIT: SELECTED MODEL SHOWCASE (LEFT) + FORM (RIGHT)
+         Desktop (1440px): 2-col split | Tablet (820px) & Mobile: Stacked
+         ======================================================================= -->
+    <section id="test-drive-booking" class="mm-section mm-td-section">
+      <ion-grid class="mm-container">
+        <div class="mm-td-grid">
+          <!-- =================================================================
+               LEFT COLUMN: SELECTED MODEL CARD + WHAT TO BRING NOTE
+               ================================================================= -->
+          <div class="mm-td-preview">
+            <span class="mm-td-preview__label">SELECTED MODEL</span>
+
+            <!-- Reuses our signature VehicleCardComponent matching the exact wireframe -->
+            <div class="mm-td-preview__card-wrap">
+              <app-vehicle-card [vehicle]="selectedVehicle()" />
+            </div>
+
+            <!-- [WHAT TO BRING, HOW LONG IT TAKES] Bar below the card -->
+            <div class="mm-td-preview__info-bar">
+              <div class="mm-td-preview__info-row">
+                <span class="mm-td-preview__info-text">
+                  BRING A VALID DRIVER'S LICENSE · EST. 30–45 MINS TEST ROUTE
+                </span>
+                <button type="button" class="mm-td-preview__info-toggle" (click)="toggleGuideDetails()">
+                  {{ showGuideDetails() ? '[HIDE INFO]' : '[TEST DRIVE INFO]' }}
+                </button>
+              </div>
+
+              @if (showGuideDetails()) {
+              <div class="mm-td-preview__info-drawer">
+                <p>
+                  <strong>What to bring:</strong> Original Philippine LTO Driver's License (non-expired) and your
+                  booking reference code.
+                </p>
+                <p>
+                  <strong>Duration &amp; Route:</strong> Allow 30 to 45 minutes for vehicle walkaround, cockpit
+                  orientation, and a guided drive along Maharlika Highway, Cabanatuan City with a certified product
+                  specialist.
+                </p>
+              </div>
+              }
+            </div>
+          </div>
+
+          <!-- =================================================================
+               RIGHT COLUMN: HUD-CORNERED TEST DRIVE FORM
+               ================================================================= -->
+          <form class="mm-td-form" (ngSubmit)="submitTestDriveBooking()" novalidate>
+            <!-- ROW 1: FULL NAME (Full Width) -->
+            <div class="mm-td-field-wrap">
+              <div
+                class="mm-td-box mm-hud-corners"
+                [class.is-invalid]="(nameTouched() || formSubmitted()) && !!nameError()"
+                [class.is-valid]="driverName().trim().length >= 3 && !nameError()"
+              >
+                <div class="mm-td-box__head">
+                  <label class="mm-td-box__label" for="td-name">FULL NAME</label>
+                  @if (driverName().trim().length >= 3 && !nameError()) {
+                  <span class="mm-td-box__status mm-td-box__status--ok">[ OK ]</span>
+                  }
+                </div>
+
+                <input
+                  id="td-name"
+                  type="text"
+                  name="driverName"
+                  class="mm-td-box__input"
+                  placeholder="Your Name"
+                  [ngModel]="driverName()"
+                  (ngModelChange)="driverName.set($event)"
+                  (blur)="onFieldBlur('name')"
+                  autocomplete="name"
+                />
+              </div>
+
+              @if ((nameTouched() || formSubmitted()) && nameError()) {
+              <span class="mm-td-field-err">{{ nameError() }}</span>
+              }
+            </div>
+
+            <!-- ROW 2: PHONE & EMAIL (2-Column Split) -->
+            <div class="mm-td-row-2">
+              <!-- PHONE -->
+              <div class="mm-td-field-wrap">
+                <div
+                  class="mm-td-box mm-hud-corners"
+                  [class.is-invalid]="(phoneTouched() || formSubmitted()) && !!phoneError()"
+                  [class.is-valid]="driverPhone().trim().length > 0 && !phoneError()"
+                >
+                  <div class="mm-td-box__head">
+                    <label class="mm-td-box__label" for="td-phone">PHONE</label>
+                    @if (driverPhone().trim().length > 0 && !phoneError()) {
+                    <span class="mm-td-box__status mm-td-box__status--ok">[ OK ]</span>
+                    }
+                  </div>
+
+                  <input
+                    id="td-phone"
+                    type="tel"
+                    name="driverPhone"
+                    class="mm-td-box__input"
+                    placeholder="0917 123 4567"
+                    [ngModel]="driverPhone()"
+                    (ngModelChange)="driverPhone.set($event)"
+                    (blur)="onFieldBlur('phone')"
+                    autocomplete="tel"
+                  />
+                </div>
+
+                @if ((phoneTouched() || formSubmitted()) && phoneError()) {
+                <span class="mm-td-field-err">{{ phoneError() }}</span>
+                }
+              </div>
+
+              <!-- EMAIL -->
+              <div class="mm-td-field-wrap">
+                <div
+                  class="mm-td-box mm-hud-corners"
+                  [class.is-invalid]="(emailTouched() || formSubmitted()) && !!emailError()"
+                  [class.is-valid]="driverEmail().trim().length > 0 && !emailError()"
+                >
+                  <div class="mm-td-box__head">
+                    <label class="mm-td-box__label" for="td-email">EMAIL</label>
+                    @if (driverEmail().trim().length > 0 && !emailError()) {
+                    <span class="mm-td-box__status mm-td-box__status--ok">[ OK ]</span>
+                    }
+                  </div>
+
+                  <input
+                    id="td-email"
+                    type="email"
+                    name="driverEmail"
+                    class="mm-td-box__input"
+                    placeholder="client@domain.com"
+                    [ngModel]="driverEmail()"
+                    (ngModelChange)="driverEmail.set($event)"
+                    (blur)="onFieldBlur('email')"
+                    autocomplete="email"
+                  />
+                </div>
+
+                @if ((emailTouched() || formSubmitted()) && emailError()) {
+                <span class="mm-td-field-err">{{ emailError() }}</span>
+                }
+              </div>
+            </div>
+
+            <!-- ROW 3: MODEL (Full Width Custom Dark Dropdown for 2026 Models) -->
+            <div class="mm-td-field-wrap mm-td-field-wrap--model-dropdown">
+              <button
+                type="button"
+                class="mm-td-box mm-td-box--select mm-hud-corners"
+                [class.is-open]="isModelDropdownOpen()"
+                (click)="toggleModelDropdown($event)"
+                [attr.aria-expanded]="isModelDropdownOpen()"
+                aria-haspopup="listbox"
+              >
+                <div class="mm-td-box__head">
+                  <span class="mm-td-box__label">MODEL</span>
+                  <span class="mm-td-box__status">2026 LINEUP</span>
+                </div>
+
+                <div class="mm-td-box__select-row">
+                  <span class="mm-td-box__select-val"> {{ selectedVehicle().name | titlecase }} </span>
+                  <ion-icon name="chevron-down-outline" class="mm-td-box__chevron" aria-hidden="true"></ion-icon>
+                </div>
+              </button>
+
+              @if (isModelDropdownOpen()) {
+              <ul
+                class="mm-td-dropdown mm-hud-corners"
+                role="listbox"
+                aria-label="Select 2026 Mitsubishi model"
+                (click)="$event.stopPropagation()"
+              >
+                @for (vehicle of allVehicles; track vehicle.id) {
+                <li
+                  role="option"
+                  class="mm-td-dropdown__item"
+                  [class.is-selected]="vehicle.id === selectedVehicle().id"
+                  [attr.aria-selected]="vehicle.id === selectedVehicle().id"
+                  (click)="selectVehicleModel(vehicle, $event)"
+                >
+                  <div class="mm-td-dropdown__left">
+                    <img [src]="vehicle.image" [alt]="vehicle.name" class="mm-td-dropdown__thumb" />
+                    <div class="mm-td-dropdown__meta">
+                      <span class="mm-td-dropdown__name"> 2026 {{ vehicle.name }} </span>
+                      <span class="mm-td-dropdown__cat"> [{{ vehicle.category }}] · {{ vehicle.startingPrice }} </span>
+                    </div>
+                  </div>
+
+                  @if (vehicle.id === selectedVehicle().id) {
+                  <ion-icon name="checkmark-outline" class="mm-td-dropdown__check" aria-hidden="true"></ion-icon>
+                  }
+                </li>
+                }
+              </ul>
+              }
+            </div>
+
+            <!-- ROW 4: BRANCH (Locked Exclusively to Cabanatuan Branch) -->
+            <div class="mm-td-field-wrap">
+              <div class="mm-td-box mm-td-box--locked mm-hud-corners">
+                <div class="mm-td-box__head">
+                  <span class="mm-td-box__label">BRANCH</span>
+                  <span class="mm-td-box__status">EXCLUSIVE LOCATION</span>
+                </div>
+
+                <div class="mm-td-box__select-row">
+                  <span class="mm-td-box__select-val">
+                    Mitsubishi Motors Cabanatuan — Maharlika Highway, Nueva Ecija
+                  </span>
+                  <ion-icon name="lock-closed-outline" class="mm-td-box__lock-icon" aria-hidden="true"></ion-icon>
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 5: DATE & TIME (2-Column Split) -->
+            <div class="mm-td-row-2">
+              <!-- DATE -->
+              <div class="mm-td-field-wrap">
+                <div
+                  class="mm-td-box mm-hud-corners"
+                  [class.is-invalid]="(dateTouched() || formSubmitted()) && !!dateError()"
+                  [class.is-valid]="testDriveDate().trim().length > 0 && !dateError()"
+                >
+                  <div class="mm-td-box__head">
+                    <label class="mm-td-box__label" for="td-date">DATE</label>
+                    <span class="mm-td-box__status">MON–SAT</span>
+                  </div>
+
+                  <input
+                    id="td-date"
+                    type="date"
+                    name="testDriveDate"
+                    class="mm-td-box__input mm-td-box__input--date"
+                    [min]="minTestDriveDate"
+                    [ngModel]="testDriveDate()"
+                    (ngModelChange)="testDriveDate.set($event)"
+                    (blur)="onFieldBlur('date')"
+                  />
+                </div>
+
+                @if ((dateTouched() || formSubmitted()) && dateError()) {
+                <span class="mm-td-field-err">{{ dateError() }}</span>
+                }
+              </div>
+
+              <!-- TIME (Custom Dark Drop-Up Menu so it never overlaps the button or footer) -->
+              <div class="mm-td-field-wrap mm-td-field-wrap--time-dropdown">
+                <button
+                  type="button"
+                  class="mm-td-box mm-td-box--select mm-hud-corners"
+                  [class.is-open]="isTimeDropdownOpen()"
+                  (click)="toggleTimeDropdown($event)"
+                  [attr.aria-expanded]="isTimeDropdownOpen()"
+                  aria-haspopup="listbox"
+                >
+                  <div class="mm-td-box__head">
+                    <span class="mm-td-box__label">TIME</span>
+                    <span class="mm-td-box__status">SLOT</span>
+                  </div>
+
+                  <div class="mm-td-box__select-row">
+                    <span class="mm-td-box__select-val">{{ testDriveTime() }}</span>
+                    <ion-icon name="chevron-down-outline" class="mm-td-box__chevron" aria-hidden="true"></ion-icon>
+                  </div>
+                </button>
+
+                @if (isTimeDropdownOpen()) {
+                <ul
+                  class="mm-td-dropdown mm-td-dropdown--up mm-hud-corners"
+                  role="listbox"
+                  aria-label="Select test drive time slot"
+                  (click)="$event.stopPropagation()"
+                >
+                  @for (slot of timeSlots; track slot) {
+                  <li
+                    role="option"
+                    class="mm-td-dropdown__item"
+                    [class.is-selected]="slot === testDriveTime()"
+                    [attr.aria-selected]="slot === testDriveTime()"
+                    (click)="selectTimeSlot(slot, $event)"
+                  >
+                    <span class="mm-td-dropdown__slot-text">{{ slot }}</span>
+                    @if (slot === testDriveTime()) {
+                    <ion-icon name="checkmark-outline" class="mm-td-dropdown__check" aria-hidden="true"></ion-icon>
+                    }
+                  </li>
+                  }
+                </ul>
+                }
+              </div>
+            </div>
+
+            <!-- ROW 6: CONSENT CHECKBOX MATCHING WIREFRAME "[ ] I AGREE TO BE CONTACTED..." -->
+            <div class="mm-td-consent-wrap">
+              <button
+                type="button"
+                role="checkbox"
+                class="mm-td-consent"
+                [class.is-checked]="consentChecked()"
+                [class.is-invalid]="(consentTouched() || formSubmitted()) && !!consentError()"
+                [attr.aria-checked]="consentChecked()"
+                (click)="toggleConsent()"
+              >
+                <span class="mm-td-consent__box" aria-hidden="true"> {{ consentChecked() ? '[✓]' : '[ ]' }} </span>
+                <span class="mm-td-consent__text">
+                  I AGREE TO BE CONTACTED. MITSUBISHI MOTORS CABANATUAN MAY REACH OUT VIA PHONE OR EMAIL TO CONFIRM MY
+                  TEST DRIVE APPOINTMENT.
+                </span>
+              </button>
+
+              @if ((consentTouched() || formSubmitted()) && consentError()) {
+              <span class="mm-td-field-err">{{ consentError() }}</span>
+              }
+            </div>
+
+            <!-- ROW 7: FULL-WIDTH RED SUBMIT CTA BUTTON -->
+            <button type="submit" class="mm-td-submit-btn">CONFIRM BOOKING</button>
+          </form>
+        </div>
+      </ion-grid>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       3. GLOBAL DEALERSHIP FOOTER
+       ========================================================================= -->
+  <app-footer />
+</ion-content>
+
+<!-- ===========================================================================
+     4. TEST DRIVE CONFIRMATION VOUCHER MODAL (Quiet Luxury Obsidian Style)
+     =========================================================================== -->
+@if (testDriveReceipt(); as receipt) {
+<div
+  class="mm-td-modal-backdrop"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="td-receipt-modal-title"
+  (click)="closeReceiptModal()"
+>
+  <div class="mm-td-modal mm-hud-corners" (click)="$event.stopPropagation()">
+    <div class="mm-td-modal__topbar">
+      <div class="mm-td-modal__status-row">
+        <span class="mm-td-modal__pulse" aria-hidden="true"></span>
+        <span class="mm-td-modal__tag">CABANATUAN SHOWROOM // TEST DRIVE PASS</span>
+      </div>
+      <button
+        type="button"
+        class="mm-td-modal__close mm-hud-corners"
+        (click)="closeReceiptModal()"
+        aria-label="Close test drive voucher"
+      >
+        [ ESC ]
+      </button>
+    </div>
+
+    <div class="mm-td-modal__body">
+      <div class="mm-td-receipt__header">
+        <div>
+          <span class="mm-td-receipt__badge">TEST DRIVE CONFIRMED</span>
+          <h2 id="td-receipt-modal-title" class="mm-td-receipt__title">OFFICIAL TEST DRIVE VOUCHER</h2>
+        </div>
+
+        <div class="mm-td-receipt__ref-box">
+          <span class="mm-td-receipt__ref-label">PASS REF</span>
+          <span class="mm-td-receipt__ref-code">{{ receipt.referenceCode }}</span>
+        </div>
+      </div>
+
+      <!-- Selected Vehicle Summary -->
+      <div class="mm-td-receipt__vehicle mm-hud-corners">
+        <img [src]="receipt.vehicleImage" [alt]="receipt.vehicleName" class="mm-td-receipt__car-img" />
+        <div class="mm-td-receipt__car-info">
+          <span class="mm-td-receipt__car-tag">
+            [{{ receipt.vehicleCategory }} · SRP {{ receipt.startingPrice }}]
+          </span>
+          <h3 class="mm-td-receipt__car-name">{{ receipt.vehicleName }}</h3>
+          <span class="mm-td-receipt__slot-pill">
+            {{ receipt.appointmentDateFormatted }} · {{ receipt.appointmentTime }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Appointment Details Grid -->
+      <div class="mm-td-receipt__grid">
+        <div class="mm-td-receipt__cell">
+          <span class="mm-td-receipt__cell-label">DRIVER FULL NAME</span>
+          <span class="mm-td-receipt__cell-val">{{ receipt.driverName }}</span>
+        </div>
+
+        <div class="mm-td-receipt__cell">
+          <span class="mm-td-receipt__cell-label">MOBILE NUMBER</span>
+          <span class="mm-td-receipt__cell-val">{{ receipt.driverPhone }}</span>
+        </div>
+
+        <div class="mm-td-receipt__cell mm-td-receipt__cell--full">
+          <span class="mm-td-receipt__cell-label">EMAIL ADDRESS</span>
+          <span class="mm-td-receipt__cell-val">{{ receipt.driverEmail }}</span>
+        </div>
+
+        <div class="mm-td-receipt__cell mm-td-receipt__cell--full">
+          <span class="mm-td-receipt__cell-label">AUTHORIZED SHOWROOM &amp; TEST TRACK</span>
+          <span class="mm-td-receipt__cell-val">{{ receipt.branchName }}</span>
+          <span class="mm-td-receipt__cell-sub"> {{ receipt.branchAddress }} · {{ receipt.branchPhone }} </span>
+        </div>
+      </div>
+
+      <p class="mm-td-receipt__note">
+        Please arrive 10 minutes before your <strong>{{ receipt.appointmentTime }}</strong> slot and present pass
+        <strong>{{ receipt.referenceCode }}</strong> along with your valid LTO Driver's License at our Cabanatuan
+        showroom reception.
+      </p>
+
+      <div class="mm-td-modal__actions">
+        <button type="button" class="mm-td-modal__btn-ghost" (click)="resetAndBookAnother()">NEW BOOKING</button>
+        <button type="button" class="mm-td-modal__btn-red" (click)="closeReceiptModal()">DONE</button>
+      </div>
+    </div>
+  </div>
+</div>
+}

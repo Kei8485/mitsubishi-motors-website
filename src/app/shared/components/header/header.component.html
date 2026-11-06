@@ -33,7 +33,12 @@
         >
           SERVICE
         </ion-button>
-        <ion-button routerLink="/home" fragment="about-section" fill="clear" class="mm-header__link">
+        <ion-button
+          routerLink="/about"
+          fill="clear"
+          class="mm-header__link"
+          [class.is-active]="activeRoute === '/about'"
+        >
           ABOUT
         </ion-button>
       </ion-buttons>

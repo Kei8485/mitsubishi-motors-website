@@ -22,6 +22,14 @@ export const routes: Routes = [
     loadComponent: () => import('./service/service.page').then((m) => m.ServicePage),
   },
   {
+    path: 'test-drive',
+    loadComponent: () => import('./test-drive/test-drive.page').then((m) => m.TestDrivePage),
+  },
+  {
+    path: 'about',
+    loadComponent: () => import('./about/about.page').then((m) => m.AboutPage),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

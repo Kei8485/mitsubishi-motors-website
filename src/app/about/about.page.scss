@@ -1,0 +1,952 @@
+// =============================================================================
+// ABOUT PAGE ("ITIPT02 CASE STUDY // ITELLECT PRIVATE LIMITED COMPANY")
+// Features the exp.fiddle.digital-inspired 3D Curved Ribbon & Kinetic Roster
+// =============================================================================
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+ion-content {
+  flex: 1 1 auto;
+}
+
+// -----------------------------------------------------------------------------
+// 1. HERO BANNER WITH HALFTONE DOT-GRADIENT BAND
+// -----------------------------------------------------------------------------
+.mm-about-hero {
+  position: relative;
+  z-index: 20;
+  overflow: hidden;
+  min-height: clamp(275px, 31vw, 390px);
+  padding-top: clamp(7.25rem, 13vw, 11.25rem);
+  padding-bottom: clamp(2.5rem, 4.2vw, 3.6rem);
+  display: flex;
+  align-items: flex-end;
+  background-color: #0a0508;
+
+  &__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__tag {
+    margin-bottom: 0.6rem;
+  }
+
+  &__title {
+    font-size: clamp(2.55rem, 5.6vw, 4.4rem);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    margin: 0;
+  }
+
+  &__cta-wrap {
+    flex-shrink: 0;
+  }
+
+  &__scroll-btn {
+    --mm-corner-size: 8px;
+    --mm-corner-weight: 1.5px;
+    --mm-corner-color: rgba(255, 255, 255, 0.78);
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.76rem 1.35rem;
+    background-color: rgba(18, 10, 14, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-family: var(--mm-font-mono);
+    font-size: var(--mm-size-mono-xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mm-text-primary);
+    cursor: pointer;
+    transition:
+      background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+      --mm-corner-size: 10px;
+      --mm-corner-color: #ffffff;
+      background-color: rgba(38, 14, 22, 0.95);
+      border-color: rgba(224, 22, 55, 0.55);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 2. CASE STUDY BRIEF & 2x2 TELEMETRY GRID
+// -----------------------------------------------------------------------------
+.mm-about-body {
+  --fiddle-accent: #e01637;
+  --fiddle-accent-rgb: 224, 22, 55;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  > .mm-section {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.mm-about-brief {
+  padding-top: clamp(2rem, 4vw, 3.5rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+
+  &__split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: start;
+    gap: clamp(2rem, 4.5vw, 4rem);
+
+    @media (max-width: 960px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__narrative {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  &__heading {
+    font-size: clamp(2.25rem, 4.4vw, 3.5rem);
+    line-height: 0.94;
+    margin: 0;
+  }
+
+  &__lead {
+    font-family: var(--mm-font-sans);
+    font-size: 1rem;
+    line-height: 1.62;
+    color: var(--mm-text-primary);
+    margin: 0;
+
+    strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+  }
+
+  &__text {
+    font-family: var(--mm-font-sans);
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--mm-text-secondary);
+    margin: 0;
+
+    strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+  }
+
+  &__telemetry {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+
+    @media (max-width: 540px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
+
+.mm-about-stat-card {
+  --mm-corner-size: 9px;
+  --mm-corner-weight: 1.5px;
+  --mm-corner-color: rgba(255, 255, 255, 0.55);
+  padding: 1.25rem 1.35rem;
+  background: rgba(20, 10, 15, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  transition:
+    border-color 0.22s ease,
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    --mm-corner-color: var(--fiddle-accent);
+    border-color: rgba(var(--fiddle-accent-rgb), 0.45);
+    transform: translateY(-3px);
+  }
+
+  &__tag {
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--mm-text-muted);
+  }
+
+  &__title {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.5rem, 2.5vw, 1.95rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    margin: 0.15rem 0 0;
+  }
+
+  &__sub {
+    font-family: var(--mm-font-sans);
+    font-size: 0.78rem;
+    line-height: 1.48;
+    color: var(--mm-text-secondary);
+    margin: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 3. FIDDLE.DIGITAL-INSPIRED 3D CURVED RIBBON & KINETIC ROSTER
+// -----------------------------------------------------------------------------
+.mm-fiddle-showcase {
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-bottom: clamp(4rem, 7vw, 6rem);
+}
+
+.mm-fiddle-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  &__tag-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--fiddle-accent);
+  }
+
+  &__code {
+    font-family: var(--mm-font-mono);
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--mm-text-secondary);
+  }
+
+  &__title {
+    font-size: clamp(2rem, 4vw, 3.1rem);
+    line-height: 0.95;
+    margin: 0;
+  }
+}
+
+.mm-fiddle-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+// Multi-Color Palette Switcher matching exp.fiddle.digital
+.mm-fiddle-palette {
+  --mm-corner-size: 6px;
+  --mm-corner-weight: 1px;
+  --mm-corner-color: rgba(255, 255, 255, 0.45);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.48rem 0.8rem;
+  background: rgba(18, 9, 13, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &__label {
+    font-family: var(--mm-font-mono);
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--mm-text-muted);
+    margin-right: 0.2rem;
+  }
+
+  &__dot {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--dot-color, #e01637);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 0;
+    cursor: pointer;
+    transition:
+      transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.18s ease;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    &.is-active {
+      transform: scale(1.22);
+      border-color: #ffffff;
+      outline: 2px solid var(--dot-color);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.mm-fiddle-mode-switch {
+  --mm-corner-size: 6px;
+  --mm-corner-weight: 1px;
+  --mm-corner-color: rgba(255, 255, 255, 0.45);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem;
+  background: rgba(18, 9, 13, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mm-fiddle-mode-btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0.42rem 0.78rem;
+  font-family: var(--mm-font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--mm-text-secondary);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+
+  &:hover {
+    color: #ffffff;
+  }
+
+  &.is-active {
+    background: var(--fiddle-accent);
+    color: #0a0508;
+    font-weight: 700;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// MODE A: 3D CURVED RIBBON STAGE (exp.fiddle.digital 3D perspective arc)
+// -----------------------------------------------------------------------------
+.mm-fiddle-stage {
+  position: relative;
+  width: 100%;
+  min-height: 560px;
+  padding: 2.5rem 1rem 1.5rem;
+  background:
+    radial-gradient(
+      circle at 50% 44%,
+      rgba(var(--fiddle-accent-rgb), 0.11) 0%,
+      rgba(16, 8, 12, 0.4) 48%,
+      rgba(10, 5, 8, 0.94) 100%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+  touch-action: pan-y;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  @media (max-width: 640px) {
+    min-height: 520px;
+    padding: 1.75rem 0.65rem 1.25rem;
+  }
+
+  // Huge Kinetic Background Surname Watermark
+  &__watermark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+
+    span {
+      font-family: var(--mm-font-display);
+      font-size: clamp(5.5rem, 18vw, 14.5rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.035);
+      white-space: nowrap;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+
+  // Subtle architectural horizon lines
+  &__horizon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(var(--fiddle-accent-rgb), 0.28) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // 3D Perspective Container
+  &__track {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 390px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1300px;
+    transform-style: preserve-3d;
+  }
+}
+
+// Individual 3D Bending Card on the Fiddle Ribbon
+.mm-fiddle-card {
+  --mm-corner-size: 10px;
+  --mm-corner-weight: 1.5px;
+  --mm-corner-color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  width: min(315px, 84vw);
+  min-height: 365px;
+  padding: 1.25rem 1.35rem;
+  background: rgba(19, 10, 15, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.85rem;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  cursor: pointer;
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+
+  &.is-active {
+    --mm-corner-color: var(--fiddle-accent);
+    border-color: rgba(var(--fiddle-accent-rgb), 0.65);
+    background: rgba(25, 12, 19, 0.98);
+  }
+
+  &.is-me {
+    border-top: 2px solid var(--fiddle-accent);
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__code {
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--fiddle-accent);
+  }
+
+  &__num {
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: var(--mm-text-muted);
+  }
+
+  &__visual {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  &__orbit {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--fiddle-accent-rgb), 0.45);
+    background: rgba(var(--fiddle-accent-rgb), 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__monogram {
+    font-family: var(--mm-font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+  }
+
+  &__me-badge {
+    font-family: var(--mm-font-mono);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #0a0508;
+    background: var(--fiddle-accent);
+    padding: 0.22rem 0.55rem;
+    border-radius: 2px;
+  }
+
+  &__company-pill {
+    font-family: var(--mm-font-mono);
+    font-size: 0.54rem;
+    letter-spacing: 0.1em;
+    color: var(--mm-text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.18rem 0.48rem;
+  }
+
+  &__identity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  &__given {
+    font-family: var(--mm-font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--mm-text-secondary);
+  }
+
+  &__surname {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.9rem, 3vw, 2.3rem);
+    font-weight: 700;
+    line-height: 0.94;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  &__fullname {
+    font-family: var(--mm-font-sans);
+    font-size: 0.74rem;
+    color: var(--mm-text-muted);
+    margin-top: 0.1rem;
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__role-bar {
+    display: flex;
+    align-items: center;
+  }
+
+  &__role {
+    font-family: var(--mm-font-mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+  }
+
+  &__desc {
+    font-family: var(--mm-font-sans);
+    font-size: 0.76rem;
+    line-height: 1.46;
+    color: var(--mm-text-secondary);
+    margin: 0;
+  }
+
+  &__module {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.42rem 0.58rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    span {
+      font-family: var(--mm-font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      color: var(--mm-text-muted);
+    }
+
+    strong {
+      font-family: var(--mm-font-mono);
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--fiddle-accent);
+    }
+  }
+}
+
+// Bottom Interactive HUD Dock inside the 3D Stage
+.mm-fiddle-dock {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  &__arrow {
+    --mm-corner-size: 6px;
+    --mm-corner-weight: 1px;
+    --mm-corner-color: rgba(255, 255, 255, 0.5);
+    appearance: none;
+    background: rgba(18, 9, 13, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 0.45rem 0.85rem;
+    font-family: var(--mm-font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      border-color: var(--fiddle-accent);
+      color: var(--fiddle-accent);
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+
+  &__indices {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__idx-btn {
+    position: relative;
+    appearance: none;
+    width: 32px;
+    height: 30px;
+    background: rgba(18, 9, 13, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-family: var(--mm-font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--mm-text-secondary);
+    cursor: pointer;
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+    }
+
+    &.is-active {
+      background: var(--fiddle-accent);
+      border-color: var(--fiddle-accent);
+      color: #0a0508;
+      font-weight: 700;
+    }
+
+    // Subtle top indicator dot for Bautista, Ynand Andrei (02 - ME)
+    &.is-me::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+  }
+
+  &__hint {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--mm-font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    color: var(--mm-text-muted);
+  }
+
+  &__active-readout {
+    color: var(--mm-text-secondary);
+
+    strong {
+      color: #ffffff;
+    }
+  }
+
+  &__me-tag {
+    color: var(--fiddle-accent);
+    font-weight: 700;
+    margin-left: 0.25rem;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// MODE B: KINETIC EDITORIAL ROSTER LIST
+// -----------------------------------------------------------------------------
+.mm-fiddle-roster {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+  align-items: start;
+  gap: 1.5rem;
+
+  @media (max-width: 960px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(16, 8, 12, 0.6);
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      padding-left 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover,
+    &.is-active {
+      background: rgba(var(--fiddle-accent-rgb), 0.12);
+      padding-left: 1.65rem;
+      border-bottom-color: rgba(var(--fiddle-accent-rgb), 0.4);
+    }
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  &__num {
+    font-family: var(--mm-font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--fiddle-accent);
+  }
+
+  &__names {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  &__fullname {
+    font-family: var(--mm-font-display);
+    font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  &__me-pill {
+    font-family: var(--mm-font-mono);
+    font-size: 0.54rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #0a0508;
+    background: var(--fiddle-accent);
+    padding: 0.15rem 0.45rem;
+    border-radius: 2px;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  &__role {
+    font-family: var(--mm-font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--mm-text-secondary);
+  }
+
+  &__code {
+    font-family: var(--mm-font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+    color: var(--mm-text-muted);
+  }
+
+  // Right Sticky Spotlight Card
+  &__spotlight {
+    --mm-corner-size: 10px;
+    --mm-corner-weight: 1.5px;
+    --mm-corner-color: var(--fiddle-accent);
+    position: sticky;
+    top: 1.5rem;
+    padding: 1.4rem;
+    background: #140a10;
+    border: 1px solid rgba(var(--fiddle-accent-rgb), 0.45);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__spot-head {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  &__spot-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(var(--fiddle-accent-rgb), 0.14);
+    border: 1px solid var(--fiddle-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mm-font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    flex-shrink: 0;
+  }
+
+  &__spot-name {
+    font-family: var(--mm-font-display);
+    font-size: 1.65rem;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0.25rem 0 0;
+  }
+
+  &__spot-desc {
+    font-family: var(--mm-font-sans);
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--mm-text-secondary);
+    margin: 0;
+  }
+
+  &__jump-btn {
+    appearance: none;
+    width: 100%;
+    padding: 0.78rem 1rem;
+    background: var(--fiddle-accent);
+    border: none;
+    font-family: var(--mm-font-mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #0a0508;
+    cursor: pointer;
+    transition: opacity 0.18s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
