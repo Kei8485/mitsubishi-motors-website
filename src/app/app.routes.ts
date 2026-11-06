@@ -18,6 +18,10 @@ export const routes: Routes = [
     loadComponent: () => import('./financing/financing.page').then((m) => m.FinancingPage),
   },
   {
+    path: 'service',
+    loadComponent: () => import('./service/service.page').then((m) => m.ServicePage),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

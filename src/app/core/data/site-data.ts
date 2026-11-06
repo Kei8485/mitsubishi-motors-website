@@ -14,21 +14,21 @@ import type {
 
 export const DEALERSHIP_CONFIG: DealershipConfig = {
   brandName: 'MITSUBISHI MOTORS',
-  dealerName: 'CITIMOTORS MAKATI',
-  city: 'METRO MANILA',
+  dealerName: 'MITSUBISHI CABANATUAN',
+  city: 'NUEVA ECIJA',
   taglineSummary: 'Sales, financing and service in one place.',
   aboutHeading: 'BUILT FOR\nEVERY ROAD.',
   aboutStory:
-    'Mitsubishi Motors is a Japanese automaker known for tough, dependable SUVs, MPVs and pickups. For over three decades, our dealership has delivered factory-certified vehicles, transparent financing, and master-technician after-sales care across the Philippines.',
-  address: '2285 Chino Roces Ave, Makati, Metro Manila',
-  phone: '+63 (02) 8817-0000',
-  email: 'inquiries@mitsubishi-makati.com.ph',
+    'Mitsubishi Motors Cabanatuan is the premier authorized dealership in Nueva Ecija, delivering factory-certified 2026 vehicles, flexible financing plans, and genuine after-sales care across Central Luzon.',
+  address: 'Maharlika Highway, Cabanatuan City, Nueva Ecija',
+  phone: '+63 (044) 463-8888',
+  email: 'inquiries@mitsubishi-cabanatuan.com.ph',
   openingHours: 'MON–SAT · 8:00 AM – 6:00 PM',
   copyrightYear: 2026,
   stats: [
-    { value: '[35]', label: 'YEARS' },
+    { value: '[25]', label: 'YEARS' },
     { value: '[06]', label: 'MODELS' },
-    { value: '[12]', label: 'BRANCHES' },
+    { value: '[01]', label: 'EXCLUSIVE BRANCH' },
   ],
   socials: [
     { label: 'Facebook', url: 'https://www.facebook.com/MitsubishiMotorsPH' },
@@ -158,7 +158,7 @@ export const VEHICLES_DATA: VehicleModel[] = [
     shortDescription:
       'Flagship 7-seater midsize diesel SUV with 8-speed automatic transmission and Forward Collision Mitigation.',
     fullDescription:
-      'A benchmark in prestige and capability, the Montero Sport combines a 2.4L MIVEC turbocharged clean-diesel engine with an 8-speed automatic gearbox and luxurious leather-appointed seating. Equipped with Super Select 4WD-II and an array of active driver-assist radars, it transitions seamlessly from executive Makati boulevards to rugged mountain passes.',
+      'A benchmark in prestige and capability, the Montero Sport combines a 2.4L MIVEC turbocharged clean-diesel engine with an 8-speed automatic gearbox and luxurious leather-appointed seating. Equipped with Super Select 4WD-II and an array of active driver-assist radars, it transitions seamlessly from Cabanatuan highways to rugged provincial mountain passes.',
     colors: [
       { name: 'Sterling Silver Metallic', hex: '#B4B8BC' },
       { name: 'White Diamond', hex: '#F4F4F2' },
@@ -428,7 +428,7 @@ export const VEHICLES_DATA: VehicleModel[] = [
     tagline: 'SMART, PRACTICAL, EFFORTLESS.\nBUILT FOR THE EVERYDAY.',
     shortDescription: 'Practical subcompact sedan delivering up to 21 km/L fuel economy and a spacious 450L trunk.',
     fullDescription:
-      'With its tight 4.8-meter turning radius, sharp Dynamic Shield front fascia, and exceptional fuel economy, the Mirage G4 is the smart daily driver for Metro Manila streets. Its surprisingly roomy 5-passenger cabin and deep 450-liter luggage trunk handle weekday commutes and weekend errands without breaking your budget.',
+      'With its tight 4.8-meter turning radius, sharp Dynamic Shield front fascia, and exceptional fuel economy, the Mirage G4 is the smart daily driver for Cabanatuan and Central Luzon streets. Its surprisingly roomy 5-passenger cabin and deep 450-liter luggage trunk handle weekday commutes and weekend errands without breaking your budget.',
     colors: [
       { name: 'Red Metallic', hex: '#C8102E' },
       { name: 'Titanium Gray Metallic', hex: '#4A4D52' },

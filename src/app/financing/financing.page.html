@@ -200,7 +200,7 @@
 
               @if (showDisclaimerNote()) {
                 <p class="mm-financing-calc__disclaimer-box">
-                  Monthly amortization figures are indicative estimates for 2026 Mitsubishi models at Citimotors Makati
+                  Monthly amortization figures are indicative estimates for 2026 Mitsubishi models at Mitsubishi Motors Cabanatuan
                   based on standard bank chattel mortgage rates. Final approval, interest rates, and promos are subject
                   to partner bank evaluation.
                 </p>
@@ -253,7 +253,7 @@
 </ion-content>
 
 <!-- ===========================================================================
-     5. APPLY NOW POPUP MODAL (Temporary Pre-Qualification Form & Official Receipt)
+     5. APPLY NOW POPUP MODAL (Tactical Pre-Qualification Form & Official Receipt)
      =========================================================================== -->
 @if (isApplyModalOpen()) {
   <div
@@ -264,160 +264,282 @@
     (click)="closeApplyModal()"
   >
     <div class="mm-fin-modal mm-hud-corners" (click)="$event.stopPropagation()">
-      <!-- Modal Top Bar -->
+      <!-- Tactical Modal Header Topbar -->
       <div class="mm-fin-modal__topbar">
-        <ion-badge class="mm-bracket-label">
-          {{ modalStep() === 'form' ? '[ FINANCING APPLICATION ]' : '[ OFFICIAL FINANCING RECEIPT ]' }}
-        </ion-badge>
+        <div class="mm-fin-modal__terminal-tag">
+          <span class="mm-fin-modal__live-pulse" aria-hidden="true"></span>
+          <span class="mm-fin-modal__terminal-title">
+            {{ modalStep() === 'form' ? 'CABANATUAN TERMINAL // PRE-QUALIFICATION' : 'CABANATUAN TERMINAL // OFFICIAL RECEIPT' }}
+          </span>
+        </div>
 
         <button
           type="button"
-          class="mm-fin-modal__close"
+          class="mm-fin-modal__close-btn mm-hud-corners"
           (click)="closeApplyModal()"
           aria-label="Close financing dialog"
         >
-          <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+          <span>[ ESC ]</span>
         </button>
       </div>
 
       @if (modalStep() === 'form') {
-        <!-- STEP 1: QUICK PRE-QUALIFICATION FORM + LIVE VEHICLE SUMMARY -->
+        <!-- STEP 1: REFINED PRE-QUALIFICATION FORM -->
         <div class="mm-fin-modal__body">
-          <div class="mm-fin-modal__car-banner">
-            <img
-              [src]="selectedVehicle().image"
-              [alt]="selectedVehicle().name"
-              class="mm-fin-modal__car-thumb"
-            />
-            <div class="mm-fin-modal__car-meta">
-              <span class="mm-fin-modal__car-tag">
-                2026 MITSUBISHI {{ selectedVehicle().name }} · [{{ selectedVehicle().category }}]
-              </span>
-              <h2 id="fin-modal-title" class="mm-fin-modal__car-monthly">
-                {{ formattedMonthly() }} <small>/ MONTH</small>
-              </h2>
-              <span class="mm-fin-modal__car-sub">
-                Total: {{ formattedTotalPrice() }} · DP: {{ downPaymentPercent() }}% ({{ formattedDownPayment() }}) ·
-                {{ selectedTerm() }} Months &#64; {{ annualInterestRate() }}%
-              </span>
+          <!-- Clean Vehicle Summary Card -->
+          <div class="mm-fin-modal__telemetry mm-hud-corners">
+            <div class="mm-fin-modal__telemetry-stage">
+              <img
+                [src]="selectedVehicle().image"
+                [alt]="selectedVehicle().name"
+                class="mm-fin-modal__telemetry-img"
+              />
+            </div>
+
+            <div class="mm-fin-modal__telemetry-data">
+              <div class="mm-fin-modal__telemetry-head">
+                <span class="mm-fin-modal__telemetry-id">
+                  2026 MITSUBISHI {{ selectedVehicle().name }}
+                </span>
+                <span class="mm-fin-modal__telemetry-cat">[{{ selectedVehicle().category }}]</span>
+              </div>
+
+              <div class="mm-fin-modal__telemetry-price-row">
+                <h2 id="fin-modal-title" class="mm-fin-modal__telemetry-monthly">
+                  {{ formattedMonthly() }}
+                </h2>
+                <span class="mm-fin-modal__telemetry-per-mo">/ MONTH</span>
+              </div>
+
+              <div class="mm-fin-modal__telemetry-pills">
+                <span class="mm-fin-modal__telemetry-pill">SRP: {{ formattedTotalPrice() }}</span>
+                <span class="mm-fin-modal__telemetry-pill">
+                  DP: {{ downPaymentPercent() }}% ({{ formattedDownPayment() }})
+                </span>
+                <span class="mm-fin-modal__telemetry-pill">
+                  {{ selectedTerm() }} MOS &#64; {{ annualInterestRate() }}%
+                </span>
+              </div>
             </div>
           </div>
 
-          <form class="mm-fin-modal__form" (ngSubmit)="submitApplication()">
+          <!-- Applicant Form with Refined Clean Validation -->
+          <form class="mm-fin-modal__form" (ngSubmit)="submitApplication()" novalidate>
+            <!-- Field 1: Full Name -->
             <div class="mm-fin-modal__field">
-              <label class="mm-fin-modal__label" for="fin-name">APPLICANT FULL NAME</label>
-              <input
-                id="fin-name"
-                type="text"
-                name="applicantName"
-                class="mm-fin-modal__input"
-                placeholder="e.g. Juan Dela Cruz"
-                [ngModel]="applicantName()"
-                (ngModelChange)="applicantName.set($event)"
-              />
+              <div class="mm-fin-modal__field-head">
+                <label class="mm-fin-modal__label" for="fin-name">
+                  FULL LEGAL NAME
+                </label>
+                @if (applicantName().trim().length >= 3 && !nameError()) {
+                  <span class="mm-fin-modal__status-tag mm-fin-modal__status-tag--ok">[ OK ]</span>
+                } @else {
+                  <span class="mm-fin-modal__status-tag">[ REQUIRED ]</span>
+                }
+              </div>
+
+              <div
+                class="mm-fin-modal__input-hud mm-hud-corners"
+                [class.is-invalid]="(nameTouched() || formSubmitted()) && !!nameError()"
+                [class.is-valid]="applicantName().trim().length >= 3 && !nameError()"
+              >
+                <input
+                  id="fin-name"
+                  type="text"
+                  name="applicantName"
+                  class="mm-fin-modal__input-el"
+                  placeholder="e.g. Juan Dela Cruz"
+                  [ngModel]="applicantName()"
+                  (ngModelChange)="applicantName.set($event)"
+                  (blur)="onFieldBlur('name')"
+                  autocomplete="name"
+                />
+              </div>
+
+              @if ((nameTouched() || formSubmitted()) && nameError()) {
+                <span class="mm-fin-modal__field-err">{{ nameError() }}</span>
+              }
             </div>
 
+            <!-- Row 2: Mobile Number & Email -->
             <div class="mm-fin-modal__row-2">
+              <!-- Field 2: Mobile Number -->
               <div class="mm-fin-modal__field">
-                <label class="mm-fin-modal__label" for="fin-phone">MOBILE NUMBER</label>
-                <input
-                  id="fin-phone"
-                  type="tel"
-                  name="applicantPhone"
-                  class="mm-fin-modal__input"
-                  placeholder="+63 917 880 2026"
-                  [ngModel]="applicantPhone()"
-                  (ngModelChange)="applicantPhone.set($event)"
-                />
+                <div class="mm-fin-modal__field-head">
+                  <label class="mm-fin-modal__label" for="fin-phone">
+                    MOBILE NUMBER
+                  </label>
+                  @if (applicantPhone().trim() && !phoneError()) {
+                    <span class="mm-fin-modal__status-tag mm-fin-modal__status-tag--ok">[ OK ]</span>
+                  } @else {
+                    <span class="mm-fin-modal__status-tag">[ REQUIRED ]</span>
+                  }
+                </div>
+
+                <div
+                  class="mm-fin-modal__input-hud mm-hud-corners"
+                  [class.is-invalid]="(phoneTouched() || formSubmitted()) && !!phoneError()"
+                  [class.is-valid]="!!applicantPhone().trim() && !phoneError()"
+                >
+                  <input
+                    id="fin-phone"
+                    type="tel"
+                    name="applicantPhone"
+                    class="mm-fin-modal__input-el"
+                    placeholder="0917 123 4567"
+                    [ngModel]="applicantPhone()"
+                    (ngModelChange)="applicantPhone.set($event)"
+                    (blur)="onFieldBlur('phone')"
+                    autocomplete="tel"
+                  />
+                </div>
+
+                @if ((phoneTouched() || formSubmitted()) && phoneError()) {
+                  <span class="mm-fin-modal__field-err">{{ phoneError() }}</span>
+                }
               </div>
 
+              <!-- Field 3: Email Address -->
               <div class="mm-fin-modal__field">
-                <label class="mm-fin-modal__label" for="fin-email">EMAIL ADDRESS</label>
-                <input
-                  id="fin-email"
-                  type="email"
-                  name="applicantEmail"
-                  class="mm-fin-modal__input"
-                  placeholder="client@mitsubishi-makati.ph"
-                  [ngModel]="applicantEmail()"
-                  (ngModelChange)="applicantEmail.set($event)"
-                />
+                <div class="mm-fin-modal__field-head">
+                  <label class="mm-fin-modal__label" for="fin-email">
+                    EMAIL ADDRESS
+                  </label>
+                  @if (applicantEmail().trim() && !emailError()) {
+                    <span class="mm-fin-modal__status-tag mm-fin-modal__status-tag--ok">[ OK ]</span>
+                  } @else {
+                    <span class="mm-fin-modal__status-tag">[ REQUIRED ]</span>
+                  }
+                </div>
+
+                <div
+                  class="mm-fin-modal__input-hud mm-hud-corners"
+                  [class.is-invalid]="(emailTouched() || formSubmitted()) && !!emailError()"
+                  [class.is-valid]="!!applicantEmail().trim() && !emailError()"
+                >
+                  <input
+                    id="fin-email"
+                    type="email"
+                    name="applicantEmail"
+                    class="mm-fin-modal__input-el"
+                    placeholder="client@domain.com"
+                    [ngModel]="applicantEmail()"
+                    (ngModelChange)="applicantEmail.set($event)"
+                    (blur)="onFieldBlur('email')"
+                    autocomplete="email"
+                  />
+                </div>
+
+                @if ((emailTouched() || formSubmitted()) && emailError()) {
+                  <span class="mm-fin-modal__field-err">{{ emailError() }}</span>
+                }
               </div>
             </div>
 
+            <!-- Field 4: Locked Cabanatuan Dealership Terminal -->
             <div class="mm-fin-modal__field">
-              <label class="mm-fin-modal__label" for="fin-branch">PREFERRED DEALERSHIP BRANCH</label>
-              <input
-                id="fin-branch"
-                type="text"
-                name="applicantBranch"
-                class="mm-fin-modal__input"
-                [ngModel]="applicantBranch()"
-                (ngModelChange)="applicantBranch.set($event)"
-              />
+              <div class="mm-fin-modal__field-head">
+                <span class="mm-fin-modal__label">DEALERSHIP LOCATION</span>
+                <span class="mm-fin-modal__locked-pill">[ EXCLUSIVE BRANCH ]</span>
+              </div>
+
+              <div class="mm-fin-modal__locked-box mm-hud-corners">
+                <ion-icon name="lock-closed-outline" class="mm-fin-modal__locked-icon" aria-hidden="true"></ion-icon>
+                <div class="mm-fin-modal__locked-details">
+                  <strong class="mm-fin-modal__locked-dealer">MITSUBISHI MOTORS CABANATUAN</strong>
+                  <span class="mm-fin-modal__locked-addr">
+                    Maharlika Highway, Cabanatuan City, Nueva Ecija
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <p class="mm-fin-modal__temp-note">
-              * Temporary frontend simulation — submitting generates an instant Financing Estimate Receipt popup
-              without storing personal data on a server.
-            </p>
+            <!-- Validation Error Alert Banner -->
+            @if (formError()) {
+              <div class="mm-fin-modal__alert mm-hud-corners" role="alert">
+                <ion-icon name="alert-circle-outline" class="mm-fin-modal__alert-icon" aria-hidden="true"></ion-icon>
+                <span>{{ formError() }}</span>
+              </div>
+            }
 
+            <div class="mm-fin-modal__notice-bar">
+              <span class="mm-fin-modal__notice-tag">[ NOTICE ]</span>
+              <span class="mm-fin-modal__notice-text">
+                Submitting generates a temporary 48-Hour Unit Reservation Voucher. No personal data is stored online.
+              </span>
+            </div>
+
+            <!-- Action Buttons -->
             <div class="mm-fin-modal__actions">
-              <button type="button" class="mm-btn mm-btn-outline" (click)="closeApplyModal()">
-                CANCEL
+              <button
+                type="button"
+                class="mm-btn mm-btn-outline mm-fin-modal__cancel-btn mm-hud-corners"
+                (click)="closeApplyModal()"
+              >
+                [ CANCEL ]
               </button>
-              <button type="submit" class="mm-btn mm-btn-red mm-fin-modal__submit">
-                CONFIRM &amp; VIEW RECEIPT
+
+              <button
+                type="submit"
+                class="mm-btn mm-btn-red mm-fin-modal__submit-btn mm-hud-corners"
+              >
+                CONFIRM &amp; TRANSMIT RESERVATION ➔
               </button>
             </div>
           </form>
         </div>
       } @else if (receiptData(); as receipt) {
-        <!-- STEP 2: OFFICIAL FINANCING ESTIMATE RECEIPT POPUP -->
+        <!-- STEP 2: OFFICIAL TACTICAL FINANCING & RESERVATION RECEIPT -->
         <div class="mm-fin-modal__receipt">
           <div class="mm-fin-modal__receipt-head">
-            <div class="mm-fin-modal__status-pill">
-              <span class="mm-fin-modal__status-dot"></span>
-              <span>PRE-QUALIFICATION ESTIMATE GENERATED</span>
+            <div class="mm-fin-modal__receipt-status">
+              <span class="mm-fin-modal__status-dot" aria-hidden="true"></span>
+              <span>48-HOUR UNIT RESERVATION VOUCHER CONFIRMED</span>
             </div>
+
             <h2 id="fin-modal-title" class="mm-fin-modal__receipt-title">
-              MITSUBISHI MOTORS FINANCING RECEIPT
+              MITSUBISHI MOTORS CABANATUAN
             </h2>
+
             <div class="mm-fin-modal__receipt-meta">
-              <span>REF: <strong>{{ receipt.referenceCode }}</strong></span>
-              <span>{{ receipt.timestamp }}</span>
+              <span class="mm-fin-modal__receipt-ref">
+                REF_NO: <strong>{{ receipt.referenceCode }}</strong>
+              </span>
+              <span class="mm-fin-modal__receipt-time">{{ receipt.timestamp }}</span>
             </div>
           </div>
 
-          <!-- Selected Vehicle Showcase Box inside Receipt -->
-          <div class="mm-fin-modal__receipt-car">
+          <!-- Vehicle Summary Row inside Receipt -->
+          <div class="mm-fin-modal__receipt-car mm-hud-corners">
             <img [src]="receipt.vehicleImage" [alt]="receipt.vehicleName" class="mm-fin-modal__receipt-img" />
             <div class="mm-fin-modal__receipt-car-info">
-              <span class="mm-fin-modal__receipt-badge">[{{ receipt.vehicleCategory }} · {{ receipt.vehicleYear }}]</span>
+              <span class="mm-fin-modal__receipt-badge">
+                [{{ receipt.vehicleCategory }} · 2026 LINEUP]
+              </span>
               <h3 class="mm-fin-modal__receipt-car-name">{{ receipt.vehicleName }}</h3>
-              <span class="mm-fin-modal__receipt-variant">TRIM: {{ receipt.variantName }}</span>
+              <span class="mm-fin-modal__receipt-variant">TRIM LEVEL: {{ receipt.variantName }}</span>
             </div>
           </div>
 
-          <!-- Detailed Receipt Breakdown Table -->
-          <div class="mm-fin-modal__receipt-table">
+          <!-- Detailed Breakdown Table -->
+          <div class="mm-fin-modal__receipt-table mm-hud-corners">
             <div class="mm-fin-modal__receipt-line">
-              <span>APPLICANT</span>
+              <span>APPLICANT NAME</span>
               <strong>{{ receipt.applicantName }}</strong>
             </div>
             <div class="mm-fin-modal__receipt-line">
-              <span>CONTACT</span>
+              <span>CONTACT SPEC</span>
               <strong>{{ receipt.applicantPhone }} · {{ receipt.applicantEmail }}</strong>
             </div>
             <div class="mm-fin-modal__receipt-line">
-              <span>DEALERSHIP</span>
+              <span>DEALERSHIP LOCATION</span>
               <strong>{{ receipt.branch }}</strong>
             </div>
 
             <div class="mm-fin-modal__receipt-divider"></div>
 
             <div class="mm-fin-modal__receipt-line">
-              <span>VEHICLE SRP (TOTAL PRICE)</span>
+              <span>VEHICLE RETAIL PRICE (SRP)</span>
               <strong>{{ receipt.totalPriceFormatted }}</strong>
             </div>
             <div class="mm-fin-modal__receipt-line">
@@ -425,31 +547,40 @@
               <strong>{{ receipt.downPaymentFormatted }}</strong>
             </div>
             <div class="mm-fin-modal__receipt-line">
-              <span>AMOUNT FINANCED</span>
+              <span>PRINCIPAL AMOUNT FINANCED</span>
               <strong>{{ receipt.financedAmountFormatted }}</strong>
             </div>
             <div class="mm-fin-modal__receipt-line">
-              <span>FINANCING TERM &amp; RATE</span>
+              <span>PAYMENT INSTALLMENT PLAN</span>
               <strong>[{{ receipt.termMonths }} MONTHS] &#64; {{ receipt.interestRateFormatted }}</strong>
             </div>
 
             <div class="mm-fin-modal__receipt-total">
-              <span>ESTIMATED MONTHLY PAYMENT</span>
+              <span>ESTIMATED MONTHLY INSTALLMENT</span>
               <strong class="mm-fin-modal__receipt-monthly">{{ receipt.monthlyPaymentFormatted }}</strong>
             </div>
+          </div>
+
+          <div class="mm-fin-modal__receipt-footer-note">
+            <ion-icon name="shield-checkmark-outline" class="mm-fin-modal__shield-icon"></ion-icon>
+            <span>Present this voucher and REF code at Mitsubishi Motors Cabanatuan for test drive and credit validation.</span>
           </div>
 
           <div class="mm-fin-modal__actions">
             <button
               type="button"
-              class="mm-btn mm-btn-outline"
+              class="mm-btn mm-btn-outline mm-hud-corners"
               [routerLink]="['/models', selectedVehicle().id]"
               (click)="closeApplyModal()"
             >
-              BACK TO {{ selectedVehicle().name }}
+              [ BROWSE {{ selectedVehicle().name }} ]
             </button>
-            <button type="button" class="mm-btn mm-btn-red" (click)="startNewEstimate()">
-              DONE / CLOSE RECEIPT
+            <button
+              type="button"
+              class="mm-btn mm-btn-red mm-hud-corners"
+              (click)="startNewEstimate()"
+            >
+              DONE / CLOSE TERMINAL ➔
             </button>
           </div>
         </div>

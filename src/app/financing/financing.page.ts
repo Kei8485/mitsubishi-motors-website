@@ -14,10 +14,13 @@ import {
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
+  alertCircleOutline,
   checkmarkCircleOutline,
+  checkmarkOutline,
   chevronDownOutline,
   closeOutline,
   documentTextOutline,
+  lockClosedOutline,
   shieldCheckmarkOutline,
 } from 'ionicons/icons';
 import type { Subscription } from 'rxjs';
@@ -126,7 +129,7 @@ export class FinancingPage implements OnInit, OnDestroy {
   readonly showDisclaimerNote = signal<boolean>(false);
 
   // ---------------------------------------------------------------------------
-  // APPLY NOW POPUP MODAL & TEMPORARY RECEIPT STATE
+  // APPLY NOW POPUP MODAL & TEMPORARY RECEIPT STATE + VALIDATION
   // ---------------------------------------------------------------------------
   readonly isApplyModalOpen = signal<boolean>(false);
   readonly modalStep = signal<'form' | 'receipt'>('form');
@@ -134,10 +137,64 @@ export class FinancingPage implements OnInit, OnDestroy {
   readonly applicantName = signal<string>('');
   readonly applicantPhone = signal<string>('');
   readonly applicantEmail = signal<string>('');
-  readonly applicantBranch = signal<string>('Citimotors Makati — Chino Roces Ave');
+  readonly applicantBranch = signal<string>('Mitsubishi Motors Cabanatuan — Maharlika Highway, Nueva Ecija');
+
+  readonly nameTouched = signal<boolean>(false);
+  readonly phoneTouched = signal<boolean>(false);
+  readonly emailTouched = signal<boolean>(false);
+  readonly formSubmitted = signal<boolean>(false);
   readonly formError = signal<string>('');
 
   readonly receiptData = signal<FinancingReceiptData | null>(null);
+
+  /** Validation Computed Signals */
+  readonly nameError = computed<string | null>(() => {
+    const val = this.applicantName().trim();
+    if (!val) {
+      return 'FULL LEGAL NAME IS REQUIRED';
+    }
+    if (val.length < 3) {
+      return 'NAME MUST BE AT LEAST 3 CHARACTERS';
+    }
+    if (!/^[a-zA-Z\s\.\-ñÑ]+$/.test(val)) {
+      return 'NAME SHOULD ONLY CONTAIN LETTERS AND SPACES';
+    }
+    return null;
+  });
+
+  readonly phoneError = computed<string | null>(() => {
+    const val = this.applicantPhone().trim();
+    if (!val) {
+      return 'MOBILE NUMBER IS REQUIRED';
+    }
+    const digits = val.replace(/\D/g, '');
+    // Philippine mobile format: 09XXXXXXXXX (11 digits) or 639XXXXXXXXX (12 digits) or 9XXXXXXXXX (10 digits)
+    const isValidPh =
+      (digits.length === 11 && digits.startsWith('09')) ||
+      (digits.length === 12 && digits.startsWith('639')) ||
+      (digits.length === 10 && digits.startsWith('9'));
+
+    if (!isValidPh) {
+      return 'VALID PH NUMBER REQUIRED (e.g. 0917 123 4567)';
+    }
+    return null;
+  });
+
+  readonly emailError = computed<string | null>(() => {
+    const val = this.applicantEmail().trim();
+    if (!val) {
+      return 'EMAIL ADDRESS IS REQUIRED';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!emailRegex.test(val)) {
+      return 'ENTER A VALID EMAIL ADDRESS (e.g. name@domain.com)';
+    }
+    return null;
+  });
+
+  readonly isFormValid = computed<boolean>(() => {
+    return !this.nameError() && !this.phoneError() && !this.emailError();
+  });
 
   // ---------------------------------------------------------------------------
   // COMPUTED FINANCIAL VALUES
@@ -223,8 +280,11 @@ export class FinancingPage implements OnInit, OnDestroy {
       'chevron-down-outline': chevronDownOutline,
       'close-outline': closeOutline,
       'checkmark-circle-outline': checkmarkCircleOutline,
+      'checkmark-outline': checkmarkOutline,
       'document-text-outline': documentTextOutline,
       'shield-checkmark-outline': shieldCheckmarkOutline,
+      'lock-closed-outline': lockClosedOutline,
+      'alert-circle-outline': alertCircleOutline,
     });
   }
 
@@ -300,10 +360,14 @@ export class FinancingPage implements OnInit, OnDestroy {
   }
 
   // ---------------------------------------------------------------------------
-  // APPLY NOW & TEMPORARY RECEIPT POPUP HANDLERS
+  // APPLY NOW & TEMPORARY RECEIPT POPUP HANDLERS WITH STRICT VALIDATION
   // ---------------------------------------------------------------------------
   openApplyModal(): void {
     this.formError.set('');
+    this.formSubmitted.set(false);
+    this.nameTouched.set(false);
+    this.phoneTouched.set(false);
+    this.emailTouched.set(false);
     this.modalStep.set('form');
     this.isApplyModalOpen.set(true);
   }
@@ -312,10 +376,27 @@ export class FinancingPage implements OnInit, OnDestroy {
     this.isApplyModalOpen.set(false);
   }
 
+  onFieldBlur(field: 'name' | 'phone' | 'email'): void {
+    if (field === 'name') this.nameTouched.set(true);
+    if (field === 'phone') this.phoneTouched.set(true);
+    if (field === 'email') this.emailTouched.set(true);
+  }
+
   submitApplication(): void {
-    const name = this.applicantName().trim() || 'JUAN DELA CRUZ';
-    const phone = this.applicantPhone().trim() || '+63 917 880 2026';
-    const email = this.applicantEmail().trim() || 'client@mitsubishi-makati.ph';
+    this.formSubmitted.set(true);
+    this.nameTouched.set(true);
+    this.phoneTouched.set(true);
+    this.emailTouched.set(true);
+
+    if (!this.isFormValid()) {
+      this.formError.set('PLEASE RESOLVE THE HIGHLIGHTED FIELDS TO PROCEED');
+      return;
+    }
+
+    this.formError.set('');
+    const name = this.applicantName().trim();
+    const phone = this.applicantPhone().trim();
+    const email = this.applicantEmail().trim();
 
     const randomCode = Math.floor(1000 + Math.random() * 9000);
     const now = new Date();
@@ -333,7 +414,7 @@ export class FinancingPage implements OnInit, OnDestroy {
     const variant = this.selectedVariant();
 
     this.receiptData.set({
-      referenceCode: `MM-FIN-2026-${randomCode}`,
+      referenceCode: `MM-CAB-2026-${randomCode}`,
       timestamp: `${formattedDate.toUpperCase()} · ${formattedTime}`,
       applicantName: name.toUpperCase(),
       applicantPhone: phone,

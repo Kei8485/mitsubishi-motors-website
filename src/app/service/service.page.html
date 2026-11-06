@@ -1,0 +1,539 @@
+<!-- ===========================================================================
+     GLOBAL TOP HEADER COMPONENT
+     =========================================================================== -->
+<app-header activeRoute="/service" />
+
+<ion-content>
+  <!-- =========================================================================
+       1. AFTER-SALES HERO BANNER WITH HALFTONE DOT-GRADIENT BAND ANIMATION
+       Matches the exact wireframe: [ SERVICE ], AFTER-SALES SERVICE,
+       and the corner-bracketed BOOK ONLINE button on the right.
+       ========================================================================= -->
+  <section class="mm-service-hero">
+    <app-halftone-band-bg [dotSpacing]="8" [maxDotRadius]="3.15" [bandCenterY]="0.44" />
+
+    <div class="mm-container mm-service-hero__inner">
+      <div class="mm-service-hero__head">
+        <ion-badge class="mm-bracket-label mm-service-hero__tag">[ SERVICE ]</ion-badge>
+        <h1 class="mm-heading-xl mm-service-hero__title">AFTER-SALES SERVICE</h1>
+      </div>
+
+      <div class="mm-service-hero__cta-wrap">
+        <button
+          type="button"
+          class="mm-service-hero__book-btn mm-hud-corners"
+          (click)="scrollToBooking()"
+        >
+          BOOK ONLINE
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       LOWER SECTIONS WITH CURSOR-REACTIVE AMBIENT BACKGROUND
+       ========================================================================= -->
+  <div class="mm-service-body">
+    <app-ambient-bg />
+
+    <!-- =======================================================================
+         2. NEAREST DEALER BAR + 4 SERVICE OFFERING CARDS
+         Desktop (1440px): 4 cols | Tablet (820px): 2x2 grid | Mobile: 1 col
+         ======================================================================= -->
+    <section class="mm-section mm-service-offerings">
+      <ion-grid class="mm-container">
+        <!-- NEAREST DEALER BAR (Locked exclusively to Cabanatuan Branch) -->
+        <div class="mm-service-dealer-bar mm-hud-corners">
+          <div class="mm-service-dealer-bar__left">
+            <span class="mm-service-dealer-bar__label">NEAREST DEALER</span>
+            <div class="mm-service-dealer-bar__branch">
+              <span class="mm-service-dealer-bar__name">
+                Mitsubishi Motors Cabanatuan
+              </span>
+              <span class="mm-service-dealer-bar__sep" aria-hidden="true">—</span>
+              <span class="mm-service-dealer-bar__addr">
+                {{ dealership.address }}
+              </span>
+            </div>
+          </div>
+
+          <div class="mm-service-dealer-bar__right">
+            <span class="mm-service-dealer-bar__hours">{{ dealership.openingHours }}</span>
+            <span class="mm-service-dealer-bar__badge">AUTHORIZED SERVICE CENTER</span>
+          </div>
+        </div>
+
+        <!-- 4 SERVICE PILLAR CARDS -->
+        <div class="mm-service-offerings__grid">
+          @for (item of serviceOfferings; track item.id) {
+            <article
+              class="mm-service-card"
+              [class.is-selected]="selectedServiceType() === item.title"
+              tabindex="0"
+              role="button"
+              [attr.aria-label]="'View details for ' + item.title"
+              (click)="openOfferingDetail(item)"
+              (keydown.enter)="openOfferingDetail(item)"
+              (keydown.space)="openOfferingDetail(item); $event.preventDefault()"
+            >
+              <!-- Atmospheric Background & Dark Scrim -->
+              <div class="mm-service-card__bg" aria-hidden="true">
+                <img
+                  [src]="item.bgImage"
+                  [alt]="item.title"
+                  class="mm-service-card__bg-img"
+                  loading="lazy"
+                />
+                <div class="mm-service-card__scrim"></div>
+              </div>
+
+              <!-- Subtle Radial Center Spotlight matching wireframe -->
+              <div class="mm-service-card__spotlight" aria-hidden="true"></div>
+
+              <!-- Top Title -->
+              <div class="mm-service-card__top">
+                <h2 class="mm-service-card__title">{{ item.title }}</h2>
+              </div>
+
+              <!-- Bottom Description & VIEW → CTA -->
+              <div class="mm-service-card__bottom">
+                <p class="mm-service-card__desc">{{ item.shortDescription }}</p>
+                <span class="mm-service-card__cta">
+                  <span>VIEW</span>
+                  <span class="mm-service-card__arrow" aria-hidden="true">→</span>
+                </span>
+              </div>
+            </article>
+          }
+        </div>
+      </ion-grid>
+    </section>
+
+    <!-- =======================================================================
+         3. [ BOOK A SERVICE ] — KEEP IT RUNNING RIGHT
+         Desktop (1440px): 2-col split | Tablet (820px) & Mobile: Stacked
+         ======================================================================= -->
+    <section id="service-booking-section" class="mm-section mm-service-booking">
+      <ion-grid class="mm-container">
+        <div class="mm-service-booking__split">
+          <!-- LEFT COLUMN: HEADING & ACTIVE SERVICE PILL SELECTOR -->
+          <div class="mm-service-booking__intro">
+            <ion-badge class="mm-bracket-label mm-service-booking__tag">
+              [ BOOK A SERVICE ]
+            </ion-badge>
+
+            <h2 class="mm-heading-lg mm-service-booking__title">
+              KEEP IT<br />RUNNING RIGHT
+            </h2>
+
+            <p class="mm-service-booking__subtitle">
+              Schedule your factory-certified maintenance or inspection at
+              <strong>Mitsubishi Motors Cabanatuan</strong>.
+            </p>
+
+            <!-- Service Type Selector Pills -->
+            <div class="mm-service-booking__type-group">
+              <span class="mm-service-booking__type-label">SERVICE TYPE</span>
+              <div class="mm-service-booking__type-pills">
+                @for (item of serviceOfferings; track item.id) {
+                  <button
+                    type="button"
+                    class="mm-service-booking__type-pill"
+                    [class.is-active]="selectedServiceType() === item.title"
+                    (click)="setServiceCategory(item.title)"
+                  >
+                    {{ item.title }}
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: 2x2 HUD-CORNERED INPUT BOXES + RED BOOK BUTTON -->
+          <form
+            class="mm-service-booking__form"
+            (ngSubmit)="submitServiceBooking()"
+            novalidate
+          >
+            <div class="mm-service-booking__fields-grid">
+              <!-- BOX 1: NAME -->
+              <div class="mm-service-field-wrap">
+                <div
+                  class="mm-service-box mm-hud-corners"
+                  [class.is-invalid]="(nameTouched() || formSubmitted()) && !!nameError()"
+                  [class.is-valid]="clientName().trim().length >= 3 && !nameError()"
+                >
+                  <div class="mm-service-box__head">
+                    <label class="mm-service-box__label" for="svc-name">NAME</label>
+                    @if (clientName().trim().length >= 3 && !nameError()) {
+                      <span class="mm-service-box__status mm-service-box__status--ok">[ OK ]</span>
+                    }
+                  </div>
+
+                  <input
+                    id="svc-name"
+                    type="text"
+                    name="clientName"
+                    class="mm-service-box__input"
+                    placeholder="Your Name"
+                    [ngModel]="clientName()"
+                    (ngModelChange)="clientName.set($event)"
+                    (blur)="onFieldBlur('name')"
+                    autocomplete="name"
+                  />
+                </div>
+
+                @if ((nameTouched() || formSubmitted()) && nameError()) {
+                  <span class="mm-service-field-err">{{ nameError() }}</span>
+                }
+              </div>
+
+              <!-- BOX 2: PHONE -->
+              <div class="mm-service-field-wrap">
+                <div
+                  class="mm-service-box mm-hud-corners"
+                  [class.is-invalid]="(phoneTouched() || formSubmitted()) && !!phoneError()"
+                  [class.is-valid]="clientPhone().trim().length > 0 && !phoneError()"
+                >
+                  <div class="mm-service-box__head">
+                    <label class="mm-service-box__label" for="svc-phone">PHONE</label>
+                    @if (clientPhone().trim().length > 0 && !phoneError()) {
+                      <span class="mm-service-box__status mm-service-box__status--ok">[ OK ]</span>
+                    }
+                  </div>
+
+                  <input
+                    id="svc-phone"
+                    type="tel"
+                    name="clientPhone"
+                    class="mm-service-box__input"
+                    placeholder="0917 123 4567"
+                    [ngModel]="clientPhone()"
+                    (ngModelChange)="clientPhone.set($event)"
+                    (blur)="onFieldBlur('phone')"
+                    autocomplete="tel"
+                  />
+                </div>
+
+                @if ((phoneTouched() || formSubmitted()) && phoneError()) {
+                  <span class="mm-service-field-err">{{ phoneError() }}</span>
+                }
+              </div>
+
+              <!-- BOX 3: MODEL (2026 Mitsubishi Models Dropdown) -->
+              <div class="mm-service-field-wrap mm-service-field-wrap--dropdown">
+                <button
+                  type="button"
+                  class="mm-service-box mm-service-box--select mm-hud-corners"
+                  [class.is-open]="isModelDropdownOpen()"
+                  (click)="toggleModelDropdown($event)"
+                  [attr.aria-expanded]="isModelDropdownOpen()"
+                  aria-haspopup="listbox"
+                >
+                  <div class="mm-service-box__head">
+                    <span class="mm-service-box__label">MODEL</span>
+                    <span class="mm-service-box__status">2026</span>
+                  </div>
+
+                  <div class="mm-service-box__select-row">
+                    <span class="mm-service-box__select-val">
+                      {{ selectedVehicle().name | titlecase }}
+                    </span>
+                    <ion-icon
+                      name="chevron-down-outline"
+                      class="mm-service-box__chevron"
+                      aria-hidden="true"
+                    ></ion-icon>
+                  </div>
+                </button>
+
+                @if (isModelDropdownOpen()) {
+                  <ul
+                    class="mm-service-dropdown mm-hud-corners"
+                    role="listbox"
+                    aria-label="2026 Mitsubishi Models"
+                    (click)="$event.stopPropagation()"
+                  >
+                    @for (vehicle of allVehicles; track vehicle.id) {
+                      <li
+                        role="option"
+                        class="mm-service-dropdown__item"
+                        [class.is-selected]="vehicle.id === selectedVehicle().id"
+                        [attr.aria-selected]="vehicle.id === selectedVehicle().id"
+                        (click)="selectVehicleModel(vehicle, $event)"
+                      >
+                        <div class="mm-service-dropdown__left">
+                          <img
+                            [src]="vehicle.image"
+                            [alt]="vehicle.name"
+                            class="mm-service-dropdown__thumb"
+                          />
+                          <div class="mm-service-dropdown__meta">
+                            <span class="mm-service-dropdown__name">
+                              2026 {{ vehicle.name }}
+                            </span>
+                            <span class="mm-service-dropdown__cat">
+                              [{{ vehicle.category }}]
+                            </span>
+                          </div>
+                        </div>
+
+                        @if (vehicle.id === selectedVehicle().id) {
+                          <ion-icon
+                            name="checkmark-outline"
+                            class="mm-service-dropdown__check"
+                            aria-hidden="true"
+                          ></ion-icon>
+                        }
+                      </li>
+                    }
+                  </ul>
+                }
+              </div>
+
+              <!-- BOX 4: DATE -->
+              <div class="mm-service-field-wrap">
+                <div
+                  class="mm-service-box mm-hud-corners"
+                  [class.is-invalid]="(dateTouched() || formSubmitted()) && !!dateError()"
+                  [class.is-valid]="appointmentDate().trim().length > 0 && !dateError()"
+                >
+                  <div class="mm-service-box__head">
+                    <label class="mm-service-box__label" for="svc-date">DATE</label>
+                    <span class="mm-service-box__status">MON–SAT</span>
+                  </div>
+
+                  <input
+                    id="svc-date"
+                    type="date"
+                    name="appointmentDate"
+                    class="mm-service-box__input mm-service-box__input--date"
+                    [min]="minServiceDate"
+                    [ngModel]="appointmentDate()"
+                    (ngModelChange)="appointmentDate.set($event)"
+                    (blur)="onFieldBlur('date')"
+                  />
+                </div>
+
+                @if ((dateTouched() || formSubmitted()) && dateError()) {
+                  <span class="mm-service-field-err">{{ dateError() }}</span>
+                }
+              </div>
+            </div>
+
+            <!-- FULL-WIDTH RED CTA BUTTON MATCHING WIREFRAME -->
+            <button type="submit" class="mm-service-booking__submit-btn">
+              BOOK A SERVICE
+            </button>
+          </form>
+        </div>
+      </ion-grid>
+    </section>
+  </div>
+
+  <!-- =========================================================================
+       4. GLOBAL DEALERSHIP FOOTER
+       ========================================================================= -->
+  <app-footer />
+</ion-content>
+
+<!-- ===========================================================================
+     5. SERVICE OFFERING DETAIL MODAL (Opens when clicking VIEW → on any card)
+     =========================================================================== -->
+@if (activeOfferingModal(); as offering) {
+  <div
+    class="mm-svc-modal-backdrop"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="svc-offering-modal-title"
+    (click)="closeOfferingDetail()"
+  >
+    <div class="mm-svc-modal mm-hud-corners" (click)="$event.stopPropagation()">
+      <div class="mm-svc-modal__topbar">
+        <span class="mm-svc-modal__tag">{{ offering.tag }}</span>
+        <button
+          type="button"
+          class="mm-svc-modal__close mm-hud-corners"
+          (click)="closeOfferingDetail()"
+          aria-label="Close service details"
+        >
+          [ ESC ]
+        </button>
+      </div>
+
+      <div class="mm-svc-modal__body">
+        <div class="mm-svc-modal__hero">
+          <img
+            [src]="offering.bgImage"
+            [alt]="offering.title"
+            class="mm-svc-modal__hero-img"
+          />
+          <div class="mm-svc-modal__hero-scrim"></div>
+          <div class="mm-svc-modal__hero-text">
+            <span class="mm-svc-modal__coverage">{{ offering.coverageNote }}</span>
+            <h2 id="svc-offering-modal-title" class="mm-svc-modal__title">
+              {{ offering.title }}
+            </h2>
+          </div>
+        </div>
+
+        <p class="mm-svc-modal__desc">{{ offering.fullDescription }}</p>
+
+        <div class="mm-svc-modal__highlights">
+          <span class="mm-svc-modal__highlights-label">INCLUDED AT CABANATUAN SERVICE BAY</span>
+          <ul class="mm-svc-modal__list">
+            @for (point of offering.highlights; track point) {
+              <li class="mm-svc-modal__list-item">
+                <ion-icon name="checkmark-outline" class="mm-svc-modal__check"></ion-icon>
+                <span>{{ point }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <div class="mm-svc-modal__meta-bar">
+          <div>
+            <span class="mm-svc-modal__meta-label">SERVICE LOCATION</span>
+            <span class="mm-svc-modal__meta-val">Mitsubishi Motors Cabanatuan</span>
+          </div>
+          <div>
+            <span class="mm-svc-modal__meta-label">TURNAROUND</span>
+            <span class="mm-svc-modal__meta-val">{{ offering.turnaround }}</span>
+          </div>
+        </div>
+
+        <div class="mm-svc-modal__actions">
+          <button
+            type="button"
+            class="mm-svc-modal__btn-ghost"
+            (click)="closeOfferingDetail()"
+          >
+            CLOSE
+          </button>
+          <button
+            type="button"
+            class="mm-svc-modal__btn-red"
+            (click)="selectServiceAndBook(offering)"
+          >
+            BOOK THIS SERVICE →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ===========================================================================
+     6. SERVICE APPOINTMENT RECEIPT MODAL (Opens after submitting BOOK A SERVICE)
+     =========================================================================== -->
+@if (bookingReceipt(); as receipt) {
+  <div
+    class="mm-svc-modal-backdrop"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="svc-receipt-modal-title"
+    (click)="closeReceiptModal()"
+  >
+    <div class="mm-svc-modal mm-hud-corners" (click)="$event.stopPropagation()">
+      <div class="mm-svc-modal__topbar">
+        <div class="mm-svc-modal__status-row">
+          <span class="mm-svc-modal__pulse" aria-hidden="true"></span>
+          <span class="mm-svc-modal__tag">CABANATUAN SERVICE BAY // APPOINTMENT SLIP</span>
+        </div>
+        <button
+          type="button"
+          class="mm-svc-modal__close mm-hud-corners"
+          (click)="closeReceiptModal()"
+          aria-label="Close appointment receipt"
+        >
+          [ ESC ]
+        </button>
+      </div>
+
+      <div class="mm-svc-modal__body">
+        <div class="mm-svc-receipt__header">
+          <div>
+            <span class="mm-svc-receipt__badge">APPOINTMENT CONFIRMED</span>
+            <h2 id="svc-receipt-modal-title" class="mm-svc-receipt__title">
+              SERVICE BOOKING VOUCHER
+            </h2>
+          </div>
+          <div class="mm-svc-receipt__ref-box">
+            <span class="mm-svc-receipt__ref-label">BOOKING REF</span>
+            <span class="mm-svc-receipt__ref-code">{{ receipt.referenceCode }}</span>
+          </div>
+        </div>
+
+        <!-- Vehicle & Service Summary Card -->
+        <div class="mm-svc-receipt__vehicle mm-hud-corners">
+          <img
+            [src]="receipt.vehicleImage"
+            [alt]="receipt.vehicleName"
+            class="mm-svc-receipt__car-img"
+          />
+          <div class="mm-svc-receipt__car-info">
+            <span class="mm-svc-receipt__car-tag">[{{ receipt.vehicleCategory }}]</span>
+            <h3 class="mm-svc-receipt__car-name">{{ receipt.vehicleName }}</h3>
+            <span class="mm-svc-receipt__service-pill">{{ receipt.serviceType }}</span>
+          </div>
+        </div>
+
+        <!-- Appointment Breakdown Grid -->
+        <div class="mm-svc-receipt__grid">
+          <div class="mm-svc-receipt__cell">
+            <span class="mm-svc-receipt__cell-label">CLIENT NAME</span>
+            <span class="mm-svc-receipt__cell-val">{{ receipt.clientName }}</span>
+          </div>
+
+          <div class="mm-svc-receipt__cell">
+            <span class="mm-svc-receipt__cell-label">CONTACT PHONE</span>
+            <span class="mm-svc-receipt__cell-val">{{ receipt.clientPhone }}</span>
+          </div>
+
+          <div class="mm-svc-receipt__cell">
+            <span class="mm-svc-receipt__cell-label">PREFERRED DATE</span>
+            <span class="mm-svc-receipt__cell-val mm-svc-receipt__cell-val--accent">
+              {{ receipt.appointmentDateFormatted }}
+            </span>
+          </div>
+
+          <div class="mm-svc-receipt__cell">
+            <span class="mm-svc-receipt__cell-label">SERVICE BAY HOURS</span>
+            <span class="mm-svc-receipt__cell-val">8:00 AM – 5:00 PM</span>
+          </div>
+
+          <div class="mm-svc-receipt__cell mm-svc-receipt__cell--full">
+            <span class="mm-svc-receipt__cell-label">AUTHORIZED SERVICE CENTER</span>
+            <span class="mm-svc-receipt__cell-val">{{ receipt.branchName }}</span>
+            <span class="mm-svc-receipt__cell-sub">
+              {{ receipt.branchAddress }} · {{ receipt.branchPhone }}
+            </span>
+          </div>
+        </div>
+
+        <p class="mm-svc-receipt__note">
+          Present booking reference <strong>{{ receipt.referenceCode }}</strong> at the
+          Mitsubishi Motors Cabanatuan Service Reception desk upon arrival. Our service advisor
+          will confirm your bay slot via SMS/call.
+        </p>
+
+        <div class="mm-svc-modal__actions">
+          <button
+            type="button"
+            class="mm-svc-modal__btn-ghost"
+            (click)="resetAndBookAnother()"
+          >
+            NEW BOOKING
+          </button>
+          <button
+            type="button"
+            class="mm-svc-modal__btn-red"
+            (click)="closeReceiptModal()"
+          >
+            DONE
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
