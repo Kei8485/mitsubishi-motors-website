@@ -38,7 +38,7 @@ export const DEALERSHIP_CONFIG: DealershipConfig = {
 };
 
 export const NAV_MENU_ITEMS: NavMenuItem[] = [
-  { number: '01', label: 'HOME', route: '/home' },
+  { number: '01', label: 'HOME', route: '/home', fragment:'home-header'},
   { number: '02', label: 'MODELS', route: '/models' },
   { number: '03', label: 'FINANCING', route: '/financing' },
   { number: '04', label: 'AFTER-SALES', route: '/service' },

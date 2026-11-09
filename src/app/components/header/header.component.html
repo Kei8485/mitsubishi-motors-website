@@ -1,13 +1,13 @@
-<ion-header class="mm-header ion-no-border">
+<ion-header id="home-header" class="mm-header ion-no-border">
   <ion-toolbar class="mm-header__toolbar">
     <div class="mm-container mm-header__inner">
-      <!-- Brand Emblem + Wordmark -->
-      <a routerLink="/home" class="mm-header__brand" (click)="closeMenu()">
+      <!-- The Logo -->
+      <a fragment="home-header" routerLink="/home" class="mm-header__brand" (click)="closeMenu()">
         <app-brand-logo [size]="24" class="mm-header__emblem" />
         <span>{{ dealership.brandName }}</span>
       </a>
 
-      <!-- Desktop Center HUD Navigation Box: ┌ MODELS  FINANCING  SERVICE  ABOUT ┐ -->
+      <!-- Desktop Center HUD Navigation Box: MODELS  FINANCING  SERVICE  ABOUT -->
       <ion-buttons class="mm-header__center-box mm-hud-corners" aria-label="Primary Navigation">
         <ion-button
           routerLink="/models"
@@ -59,7 +59,7 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- Full-Screen Glassmorphic Navigation Menu Overlay -->
+<!-- The Hamburger Menu -->
 @if (isMenuOpen()) {
   <div class="mm-menu-overlay" role="dialog" aria-modal="true" aria-label="Site Menu">
     <!-- Live Animated Halftone Matrix + Personal Smoked Frosted Glass Layer -->
@@ -67,13 +67,12 @@
     <div class="mm-menu-overlay__glass-backdrop" aria-hidden="true"></div>
 
     <div class="mm-container mm-menu-overlay__container">
-      <!-- Overlay Header -->
+      <!--  Header Menu For Mobile -->
       <div class="mm-menu-overlay__top">
         <a routerLink="/home" class="mm-header__brand" (click)="closeMenu()">
           <app-brand-logo [size]="24" class="mm-header__emblem" />
           <span>{{ dealership.brandName }}</span>
         </a>
-
         <ion-button
           fill="clear"
           class="mm-header__close-btn mm-hud-corners"
@@ -91,7 +90,9 @@
           <!-- Frosted Glass HUD Navigation Panel -->
           <ion-col class="mm-menu-overlay__col">
             <ion-list class="mm-menu-overlay__nav mm-hud-corners" lines="none" aria-label="Full Screen Menu">
+              <!-- Loops all nav list -->
               @for (item of menuItems; track item.number) {
+                <!-- gives each route paths  -->
                 <a
                   [routerLink]="item.route"
                   [fragment]="item.fragment"
@@ -102,6 +103,7 @@
                   <div class="mm-menu-overlay__item-left">
                     <ion-note class="mm-menu-overlay__num">{{ item.number }}</ion-note>
                     <ion-text class="mm-menu-overlay__label">
+                      <!-- displays each nav names -->
                       {{ item.label }}
                       @if (activeRoute === item.route && !item.fragment) {
                         <span class="mm-menu-overlay__dot" aria-hidden="true"></span>

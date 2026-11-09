@@ -62,12 +62,12 @@ addIcons({ closeOutline, arrowForwardOutline });
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Input() activeRoute = '/home';
+  @Input() activeRoute = '/home'; // change depenting on the chosen path or tab
 
   readonly dealership: DealershipConfig = DEALERSHIP_CONFIG;
   readonly menuItems: NavMenuItem[] = NAV_MENU_ITEMS;
 
-  readonly isMenuOpen = signal(false);
+  readonly isMenuOpen = signal(false); // 
 
   toggleMenu(): void {
     this.isMenuOpen.update((open) => !open);

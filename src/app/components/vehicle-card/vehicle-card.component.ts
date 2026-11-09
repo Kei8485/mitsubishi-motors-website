@@ -26,12 +26,6 @@ import { VehicleStageComponent } from '../vehicle-stage/vehicle-stage.component'
 })
 export class VehicleCardComponent {
   @Input({ required: true }) vehicle!: VehicleModel;
-
-  /**
-   * Controls whether the card stage renders a 2D 'image', '3d' slot, or 'placeholder' ring.
-   * Defaults to 'image' (used on the Home page), and can be set to 'placeholder' or '3d'
-   * on the Models page or overridden per-vehicle in `site-data.ts`.
-   */
   @Input() stageMode: VehicleStageMode = 'image';
 
   @Output() cardSelect = new EventEmitter<VehicleModel>();
