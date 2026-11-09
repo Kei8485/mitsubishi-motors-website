@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { IonBadge } from '@ionic/angular';
 
-import { DEFAULT_VEHICLE_HOVER_FX } from '../../../core/data/site-data';
-import type { VehicleHoverFX, VehicleStageMode } from '../../../core/models/vehicle.model';
+import { DEFAULT_VEHICLE_HOVER_FX } from '../../core/data/site-data';
+import type { VehicleHoverFX, VehicleStageMode } from '../../core/models/vehicle.model';
 
 export interface VehicleStageSlide {
   id: string;

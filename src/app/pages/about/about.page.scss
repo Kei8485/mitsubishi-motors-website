@@ -393,8 +393,8 @@ ion-content {
 .mm-fiddle-stage {
   position: relative;
   width: 100%;
-  min-height: 560px;
-  padding: 2.5rem 1rem 1.5rem;
+  min-height: 490px;
+  padding: 2.5rem 1rem 1.25rem;
   background:
     radial-gradient(
       circle at 50% 44%,
@@ -408,7 +408,9 @@ ion-content {
   flex-direction: column;
   justify-content: space-between;
   user-select: none;
+  -webkit-user-select: none;
   touch-action: pan-y;
+  overscroll-behavior: contain;
   cursor: grab;
 
   &:active {
@@ -416,8 +418,8 @@ ion-content {
   }
 
   @media (max-width: 640px) {
-    min-height: 520px;
-    padding: 1.75rem 0.65rem 1.25rem;
+    min-height: 450px;
+    padding: 1.75rem 0.65rem 1rem;
   }
 
   // Huge Kinetic Background Surname Watermark
@@ -471,6 +473,7 @@ ion-content {
     justify-content: center;
     perspective: 1300px;
     transform-style: preserve-3d;
+    touch-action: pan-y;
   }
 }
 
@@ -492,6 +495,7 @@ ion-content {
   gap: 0.85rem;
   backface-visibility: hidden;
   will-change: transform, opacity;
+  touch-action: pan-y;
   cursor: pointer;
   transition:
     border-color 0.25s ease,
@@ -677,87 +681,15 @@ ion-content {
   }
 }
 
-// Bottom Interactive HUD Dock inside the 3D Stage
+// Bottom Interactive HUD Readout Dock inside the 3D Stage
 .mm-fiddle-dock {
   position: relative;
   z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  width: 100%;
   margin-top: 1rem;
-
-  &__nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
-    flex-wrap: wrap;
-  }
-
-  &__arrow {
-    --mm-corner-size: 6px;
-    --mm-corner-weight: 1px;
-    --mm-corner-color: rgba(255, 255, 255, 0.5);
-    appearance: none;
-    background: rgba(18, 9, 13, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    padding: 0.45rem 0.85rem;
-    font-family: var(--mm-font-mono);
-    font-size: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    color: #ffffff;
-    cursor: pointer;
-
-    &:hover:not(:disabled) {
-      border-color: var(--fiddle-accent);
-      color: var(--fiddle-accent);
-    }
-
-    &:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-  }
-
-  &__indices {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  &__idx-btn {
-    position: relative;
-    appearance: none;
-    width: 32px;
-    height: 30px;
-    background: rgba(18, 9, 13, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    font-family: var(--mm-font-mono);
-    font-size: 0.6rem;
-    font-weight: 600;
-    color: var(--mm-text-secondary);
-    cursor: pointer;
-    transition:
-      background-color 0.18s ease,
-      border-color 0.18s ease,
-      color 0.18s ease;
-
-    &:hover {
-      border-color: rgba(255, 255, 255, 0.4);
-      color: #ffffff;
-    }
-
-    &.is-active {
-      background: var(--fiddle-accent);
-      border-color: var(--fiddle-accent);
-      color: #0a0508;
-      font-weight: 700;
-    }
-  }
 
   &__hint {
     display: flex;

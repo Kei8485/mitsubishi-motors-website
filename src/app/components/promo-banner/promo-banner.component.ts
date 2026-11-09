@@ -13,7 +13,7 @@ import {
 import { addIcons } from 'ionicons';
 import { arrowForwardOutline } from 'ionicons/icons';
 
-import type { PromoBannerItem } from '../../../core/models/vehicle.model';
+import type { PromoBannerItem } from '../../core/models/vehicle.model';
 
 addIcons({ arrowForwardOutline });
 

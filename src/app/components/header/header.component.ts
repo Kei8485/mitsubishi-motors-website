@@ -24,8 +24,8 @@ import {
 import { addIcons } from 'ionicons';
 import { arrowForwardOutline, closeOutline } from 'ionicons/icons';
 
-import { DEALERSHIP_CONFIG, NAV_MENU_ITEMS } from '../../../core/data/site-data';
-import type { DealershipConfig, NavMenuItem } from '../../../core/models/vehicle.model';
+import { DEALERSHIP_CONFIG, NAV_MENU_ITEMS } from '../../core/data/site-data';
+import type { DealershipConfig, NavMenuItem } from '../../core/models/vehicle.model';
 import { BrandLogoComponent } from '../brand-logo/brand-logo.component';
 import { HalftoneBgComponent } from '../halftone-bg/halftone-bg.component';
 

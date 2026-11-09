@@ -16,13 +16,13 @@ import {
 import { addIcons } from 'ionicons';
 import { chevronDownOutline } from 'ionicons/icons';
 
-import { VEHICLES_DATA } from '../core/data/site-data';
-import type { VehicleModel, VehicleStageMode } from '../core/models/vehicle.model';
-import { AmbientBgComponent } from '../shared/components/ambient-bg/ambient-bg.component';
-import { FooterComponent } from '../shared/components/footer/footer.component';
-import { HalftoneBandBgComponent } from '../shared/components/halftone-band-bg/halftone-band-bg.component';
-import { HeaderComponent } from '../shared/components/header/header.component';
-import { VehicleCardComponent } from '../shared/components/vehicle-card/vehicle-card.component';
+import { VEHICLES_DATA } from '../../core/data/site-data';
+import type { VehicleModel, VehicleStageMode } from '../../core/models/vehicle.model';
+import { AmbientBgComponent } from '../../components/ambient-bg/ambient-bg.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { HalftoneBandBgComponent } from '../../components/halftone-band-bg/halftone-band-bg.component';
+import { HeaderComponent } from '../../components/header/header.component';
+import { VehicleCardComponent } from '../../components/vehicle-card/vehicle-card.component';
 
 export type SortOptionId = 'popular' | 'price-asc' | 'price-desc' | 'name-asc';
 

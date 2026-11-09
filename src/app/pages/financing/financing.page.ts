@@ -25,12 +25,12 @@ import {
 } from 'ionicons/icons';
 import type { Subscription } from 'rxjs';
 
-import { DEALERSHIP_CONFIG, VEHICLES_DATA } from '../core/data/site-data';
-import type { VehicleModel, VehicleVariant } from '../core/models/vehicle.model';
-import { AmbientBgComponent } from '../shared/components/ambient-bg/ambient-bg.component';
-import { FooterComponent } from '../shared/components/footer/footer.component';
-import { HalftoneBandBgComponent } from '../shared/components/halftone-band-bg/halftone-band-bg.component';
-import { HeaderComponent } from '../shared/components/header/header.component';
+import { DEALERSHIP_CONFIG, VEHICLES_DATA } from '../../core/data/site-data';
+import type { VehicleModel, VehicleVariant } from '../../core/models/vehicle.model';
+import { AmbientBgComponent } from '../../components/ambient-bg/ambient-bg.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { HalftoneBandBgComponent } from '../../components/halftone-band-bg/halftone-band-bg.component';
+import { HeaderComponent } from '../../components/header/header.component';
 
 export interface FinancingStepCard {
   number: string;

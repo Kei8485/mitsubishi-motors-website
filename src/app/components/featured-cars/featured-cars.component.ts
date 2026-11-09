@@ -6,8 +6,8 @@ import { IonButton, IonChip, IonIcon, IonLabel, IonNote, IonRouterLink, IonText 
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 
-import { VEHICLES_DATA } from '../../../core/data/site-data';
-import type { VehicleModel } from '../../../core/models/vehicle.model';
+import { VEHICLES_DATA } from '../../core/data/site-data';
+import type { VehicleModel } from '../../core/models/vehicle.model';
 import { HalftoneBgComponent } from '../halftone-bg/halftone-bg.component';
 import type { VehicleStageSlide } from '../vehicle-stage/vehicle-stage.component';
 import { VehicleStageComponent } from '../vehicle-stage/vehicle-stage.component';

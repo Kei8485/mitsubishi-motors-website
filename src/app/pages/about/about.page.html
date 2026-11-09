@@ -201,7 +201,7 @@
                   class="mm-fiddle-card mm-hud-corners"
                   [class.is-active]="idx === activeIndex()"
                   [ngStyle]="getCardStyle(idx)"
-                  (click)="focusMember(idx)"
+                  (click)="onCardClick(idx)"
                 >
                   <!-- Card Top Bar: Experiment Code + Member Number + BSIT 3H Tag -->
                   <div class="mm-fiddle-card__top">
@@ -242,49 +242,10 @@
               }
             </div>
 
-            <!-- Bottom Interactive HUD Navigation Dock -->
+            <!-- Bottom Interactive HUD Readout Dock -->
             <div class="mm-fiddle-dock">
-              <div class="mm-fiddle-dock__nav">
-                <button
-                  type="button"
-                  class="mm-fiddle-dock__arrow mm-hud-corners"
-                  [disabled]="activeIndex() === 0"
-                  (click)="stepMember(-1)"
-                  aria-label="Previous team member"
-                >
-                  ← PREV
-                </button>
-
-                <!-- 01 to 10 Quick Jump Index Pills -->
-                <div class="mm-fiddle-dock__indices" role="tablist" aria-label="Team member index">
-                  @for (member of teamMembers; track member.index; let idx = $index) {
-                    <button
-                      type="button"
-                      role="tab"
-                      class="mm-fiddle-dock__idx-btn"
-                      [class.is-active]="idx === activeIndex()"
-                      [attr.aria-selected]="idx === activeIndex()"
-                      [title]="member.fullName"
-                      (click)="focusMember(idx)"
-                    >
-                      {{ member.index }}
-                    </button>
-                  }
-                </div>
-
-                <button
-                  type="button"
-                  class="mm-fiddle-dock__arrow mm-hud-corners"
-                  [disabled]="activeIndex() === teamMembers.length - 1"
-                  (click)="stepMember(1)"
-                  aria-label="Next team member"
-                >
-                  NEXT →
-                </button>
-              </div>
-
               <div class="mm-fiddle-dock__hint">
-                <span>DRAG, SWIPE, OR SCROLL WHEEL TO ROTATE THE 3D RIBBON</span>
+                <span>DRAG OR SCROLL WHEEL TO ROTATE THE 3D RIBBON</span>
                 <span class="mm-fiddle-dock__active-readout">
                   ACTIVE: <strong>{{ activeMember().fullName | uppercase }}</strong>
                 </span>

@@ -15,19 +15,19 @@ import {
 } from '@ionic/angular';
 import type { Subscription } from 'rxjs';
 
-import { VEHICLES_DATA } from '../core/data/site-data';
+import { VEHICLES_DATA } from '../../core/data/site-data';
 import type {
   VehicleColorOption,
   VehicleFeatureCard,
   VehicleModel,
   VehicleStageMode,
   VehicleVariant,
-} from '../core/models/vehicle.model';
-import { AmbientBgComponent } from '../shared/components/ambient-bg/ambient-bg.component';
-import { FooterComponent } from '../shared/components/footer/footer.component';
-import { HalftoneBgComponent } from '../shared/components/halftone-bg/halftone-bg.component';
-import { HeaderComponent } from '../shared/components/header/header.component';
-import { VehicleStageComponent } from '../shared/components/vehicle-stage/vehicle-stage.component';
+} from '../../core/models/vehicle.model';
+import { AmbientBgComponent } from '../../components/ambient-bg/ambient-bg.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { HalftoneBgComponent } from '../../components/halftone-bg/halftone-bg.component';
+import { HeaderComponent } from '../../components/header/header.component';
+import { VehicleStageComponent } from '../../components/vehicle-stage/vehicle-stage.component';
 
 export interface OverviewSpecItem {
   label: string;

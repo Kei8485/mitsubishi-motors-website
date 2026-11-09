@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonBadge, IonCol, IonFooter, IonGrid, IonList, IonNote, IonRow, IonText } from '@ionic/angular';
 
-import { DEALERSHIP_CONFIG } from '../../../core/data/site-data';
-import type { DealershipConfig } from '../../../core/models/vehicle.model';
+import { DEALERSHIP_CONFIG } from '../../core/data/site-data';
+import type { DealershipConfig } from '../../core/models/vehicle.model';
 import { BrandLogoComponent } from '../brand-logo/brand-logo.component';
 import type { IconName } from '../icon/icon.component';
 import { IconComponent } from '../icon/icon.component';

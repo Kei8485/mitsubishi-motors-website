@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IonBadge, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonNote, IonText } from '@ionic/angular';
 
-import type { VehicleModel, VehicleStageMode } from '../../../core/models/vehicle.model';
+import type { VehicleModel, VehicleStageMode } from '../../core/models/vehicle.model';
 import { VehicleStageComponent } from '../vehicle-stage/vehicle-stage.component';
 
 @Component({
