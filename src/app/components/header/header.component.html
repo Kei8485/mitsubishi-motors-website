@@ -2,7 +2,7 @@
   <ion-toolbar class="mm-header__toolbar">
     <div class="mm-container mm-header__inner">
       <!-- The Logo -->
-      <a fragment="home-header" routerLink="/home" class="mm-header__brand" (click)="closeMenu()">
+      <a routerLink="/home" class="mm-header__brand" (click)="onLogoClick($event)">
         <app-brand-logo [size]="24" class="mm-header__emblem" />
         <span>{{ dealership.brandName }}</span>
       </a>
@@ -11,6 +11,7 @@
       <ion-buttons class="mm-header__center-box mm-hud-corners" aria-label="Primary Navigation">
         <ion-button
           routerLink="/models"
+          (click)="onNavLinkClick('/models', $event)"
           fill="clear"
           class="mm-header__link"
           [class.is-active]="activeRoute === '/models'"
@@ -19,6 +20,7 @@
         </ion-button>
         <ion-button
           routerLink="/financing"
+          (click)="onNavLinkClick('/financing', $event)"
           fill="clear"
           class="mm-header__link"
           [class.is-active]="activeRoute === '/financing'"
@@ -27,6 +29,7 @@
         </ion-button>
         <ion-button
           routerLink="/service"
+          (click)="onNavLinkClick('/service', $event)"
           fill="clear"
           class="mm-header__link"
           [class.is-active]="activeRoute === '/service'"
@@ -35,12 +38,14 @@
         </ion-button>
         <ion-button
           routerLink="/about"
+          (click)="onNavLinkClick('/about', $event)"
           fill="clear"
           class="mm-header__link"
           [class.is-active]="activeRoute === '/about'"
         >
           ABOUT
         </ion-button>
+        <ion-button (click)="onContactClick($event)" fill="clear" class="mm-header__link"> CONTACT </ion-button>
       </ion-buttons>
 
       <!-- Right Actions: Responsive [ MENU ] Button -->
@@ -69,7 +74,7 @@
     <div class="mm-container mm-menu-overlay__container">
       <!--  Header Menu For Mobile -->
       <div class="mm-menu-overlay__top">
-        <a routerLink="/home" class="mm-header__brand" (click)="closeMenu()">
+        <a routerLink="/home" class="mm-header__brand" (click)="onLogoClick($event)">
           <app-brand-logo [size]="24" class="mm-header__emblem" />
           <span>{{ dealership.brandName }}</span>
         </a>
@@ -92,29 +97,44 @@
             <ion-list class="mm-menu-overlay__nav mm-hud-corners" lines="none" aria-label="Full Screen Menu">
               <!-- Loops all nav list -->
               @for (item of menuItems; track item.number) {
-                <!-- gives each route paths  -->
-                <a
-                  [routerLink]="item.route"
-                  [fragment]="item.fragment"
-                  class="mm-menu-overlay__item"
-                  [class.is-active]="activeRoute === item.route && !item.fragment"
-                  (click)="closeMenu()"
-                >
-                  <div class="mm-menu-overlay__item-left">
-                    <ion-note class="mm-menu-overlay__num">{{ item.number }}</ion-note>
-                    <ion-text class="mm-menu-overlay__label">
-                      <!-- displays each nav names -->
-                      {{ item.label }}
-                      @if (activeRoute === item.route && !item.fragment) {
-                        <span class="mm-menu-overlay__dot" aria-hidden="true"></span>
-                      }
-                    </ion-text>
-                  </div>
+                @if (!item.route) {
+                  <a
+                    href="#footer-contact"
+                    class="mm-menu-overlay__item"
+                    (click)="onContactClick($event)"
+                  >
+                    <div class="mm-menu-overlay__item-left">
+                      <ion-note class="mm-menu-overlay__num">{{ item.number }}</ion-note>
+                      <ion-text class="mm-menu-overlay__label">{{ item.label }}</ion-text>
+                    </div>
 
-                  <ion-badge class="mm-menu-overlay__arrow" aria-hidden="true">
-                    <ion-icon name="arrow-forward-outline" class="mm-menu-overlay__arrow-icon"></ion-icon>
-                  </ion-badge>
-                </a>
+                    <ion-badge class="mm-menu-overlay__arrow" aria-hidden="true">
+                      <ion-icon name="arrow-forward-outline" class="mm-menu-overlay__arrow-icon"></ion-icon>
+                    </ion-badge>
+                  </a>
+                } @else {
+                  <a
+                    [routerLink]="item.route"
+                    class="mm-menu-overlay__item"
+                    [class.is-active]="activeRoute === item.route"
+                    (click)="onNavLinkClick(item.route, $event)"
+                  >
+                    <div class="mm-menu-overlay__item-left">
+                      <ion-note class="mm-menu-overlay__num">{{ item.number }}</ion-note>
+                      <ion-text class="mm-menu-overlay__label">
+                        <!-- displays each nav names -->
+                        {{ item.label }}
+                        @if (activeRoute === item.route) {
+                          <span class="mm-menu-overlay__dot" aria-hidden="true"></span>
+                        }
+                      </ion-text>
+                    </div>
+
+                    <ion-badge class="mm-menu-overlay__arrow" aria-hidden="true">
+                      <ion-icon name="arrow-forward-outline" class="mm-menu-overlay__arrow-icon"></ion-icon>
+                    </ion-badge>
+                  </a>
+                }
               }
             </ion-list>
           </ion-col>

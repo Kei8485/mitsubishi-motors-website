@@ -516,6 +516,11 @@ ion-content {
 
   &--dropdown {
     z-index: 30;
+
+    &.is-open,
+    &:has(.is-open) {
+      z-index: 120;
+    }
   }
 }
 

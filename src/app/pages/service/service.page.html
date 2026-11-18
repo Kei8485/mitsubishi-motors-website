@@ -221,7 +221,10 @@
               </div>
 
               <!-- BOX 3: MODEL (2026 Mitsubishi Models Dropdown) -->
-              <div class="mm-service-field-wrap mm-service-field-wrap--dropdown">
+              <div
+                class="mm-service-field-wrap mm-service-field-wrap--dropdown"
+                [class.is-open]="isModelDropdownOpen()"
+              >
                 <button
                   type="button"
                   class="mm-service-box mm-service-box--select mm-hud-corners"

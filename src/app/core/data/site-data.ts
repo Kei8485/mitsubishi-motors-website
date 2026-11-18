@@ -38,12 +38,12 @@ export const DEALERSHIP_CONFIG: DealershipConfig = {
 };
 
 export const NAV_MENU_ITEMS: NavMenuItem[] = [
-  { number: '01', label: 'HOME', route: '/home', fragment:'home-header'},
+  { number: '01', label: 'HOME', route: '/home' },
   { number: '02', label: 'MODELS', route: '/models' },
   { number: '03', label: 'FINANCING', route: '/financing' },
   { number: '04', label: 'AFTER-SALES', route: '/service' },
   { number: '05', label: 'ABOUT US', route: '/about' },
-  { number: '06', label: 'CONTACT', route: '/home', fragment: 'footer-contact' },
+  { number: '06', label: 'CONTACT', route: null },
 ];
 
 /**
@@ -63,12 +63,6 @@ export const DEFAULT_VEHICLE_HOVER_FX: Required<Omit<VehicleHoverFX, 'customBack
 
 /**
  * VEHICLE CATALOG
- * - Ordered in default "Most Popular First" sequence:
- *   1. XPANDER, 2. MONTERO SPORT, 3. STRADA, 4. XFORCE, 5. DESTINATOR, 6. MIRAGE G4
- * - Set `isFeatured: true` to include in the Home Page Hero Showcase carousel.
- * - Set `isBrandNewHome: true` to display in the Home Page "BRAND NEW" grid.
- * - `hoverFx` configures the interactive card hover showcase (industrial backdrop,
- *   water splash, orbital light rings, embers, and PNG scale-up).
  */
 export const VEHICLES_DATA: VehicleModel[] = [
   {

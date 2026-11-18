@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, inject, signal } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonBadge, IonCol, IonFooter, IonGrid, IonList, IonNote, IonRow, IonText } from '@ionic/angular';
+import type { Subscription } from 'rxjs';
 
 import { DEALERSHIP_CONFIG } from '../../core/data/site-data';
 import type { DealershipConfig } from '../../core/models/vehicle.model';
@@ -13,7 +15,6 @@ import { IconComponent } from '../icon/icon.component';
   selector: 'app-footer',
   standalone: true,
   imports: [
-    IonFooter,
     CommonModule,
     RouterModule,
     IonFooter,
@@ -30,8 +31,53 @@ import { IconComponent } from '../icon/icon.component';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit, OnDestroy {
+  @Input() highlightContact = false;
+
   readonly dealership: DealershipConfig = DEALERSHIP_CONFIG;
+
+  private readonly route = inject(ActivatedRoute);
+  private readonly elRef = inject(ElementRef<HTMLElement>);
+  private fragmentSub?: Subscription;
+  private highlightTimeout?: ReturnType<typeof setTimeout>;
+
+  readonly isContactHighlighted = signal(false);
+
+  @HostListener('mm-highlight-contact')
+  triggerContactHighlight(): void {
+    this.isContactHighlighted.set(true);
+    if (this.highlightTimeout) {
+      clearTimeout(this.highlightTimeout);
+    }
+    this.highlightTimeout = setTimeout(() => {
+      this.isContactHighlighted.set(false);
+    }, 1500);
+  }
+
+  ngOnInit(): void {
+    this.fragmentSub = this.route.fragment.subscribe((fragment) => {
+      if (fragment === 'footer-contact') {
+        this.triggerContactHighlight();
+        setTimeout(() => {
+          const pageEl =
+            this.elRef.nativeElement.closest('.ion-page') ?? this.elRef.nativeElement.parentElement ?? document;
+          const contentEl = pageEl.querySelector('ion-content') as HTMLIonContentElement | null;
+          if (contentEl && typeof contentEl.scrollToBottom === 'function') {
+            void contentEl.scrollToBottom(500);
+          } else {
+            this.elRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 150);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.fragmentSub?.unsubscribe();
+    if (this.highlightTimeout) {
+      clearTimeout(this.highlightTimeout);
+    }
+  }
 
   getSocialIcon(label: string): IconName {
     const key = label.trim().toLowerCase();

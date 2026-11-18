@@ -59,15 +59,6 @@ export interface OverviewSpecItem {
   styleUrls: ['./model-detail.page.scss'],
 })
 export class ModelDetailPage implements OnInit, OnDestroy {
-  /**
-   * ===========================================================================
-   * STAGE DISPLAY MODE SWITCHES (EASY 1-LINE CONFIGURATION)
-   * ===========================================================================
-   * Easily switch how the vehicle stage renders on this detail page:
-   * - 'image'       : Renders the 2D studio cutout PNG from `site-data.ts`
-   * - 'placeholder' : Leaves the 3D elliptical turntable wireframe ring
-   * - '3d'          : Renders the interactive 3D model viewer slot (`vehicle.model3d`)
-   */
   readonly heroStageMode: VehicleStageMode = 'image';
   readonly configuratorStageMode: VehicleStageMode = 'image';
 

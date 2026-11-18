@@ -255,10 +255,20 @@ ion-content {
 
   &--model-dropdown {
     z-index: 60;
+
+    &.is-open,
+    &:has(.is-open) {
+      z-index: 120;
+    }
   }
 
   &--time-dropdown {
     z-index: 50;
+
+    &.is-open,
+    &:has(.is-open) {
+      z-index: 120;
+    }
   }
 }
 

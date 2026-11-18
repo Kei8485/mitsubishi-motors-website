@@ -111,7 +111,7 @@ export interface PromoBannerItem {
 export interface NavMenuItem {
   number: string;
   label: string;
-  route: string;
+  route: string | null;
   fragment?: string;
 }
 

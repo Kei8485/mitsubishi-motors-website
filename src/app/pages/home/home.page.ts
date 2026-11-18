@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import type { OnDestroy, OnInit } from '@angular/core';
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   IonBadge,
@@ -15,14 +15,14 @@ import {
 } from '@ionic/angular';
 import type { Subscription } from 'rxjs';
 
-import { DEALERSHIP_CONFIG, HOME_PROMO_BANNERS, VEHICLES_DATA } from '../../core/data/site-data';
-import type { DealershipConfig, PromoBannerItem, VehicleModel } from '../../core/models/vehicle.model';
 import { AmbientBgComponent } from '../../components/ambient-bg/ambient-bg.component';
 import { FeaturedCarsComponent } from '../../components/featured-cars/featured-cars.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { PromoBannerComponent } from '../../components/promo-banner/promo-banner.component';
 import { VehicleCardComponent } from '../../components/vehicle-card/vehicle-card.component';
+import { DEALERSHIP_CONFIG, HOME_PROMO_BANNERS, VEHICLES_DATA } from '../../core/data/site-data';
+import type { DealershipConfig, PromoBannerItem, VehicleModel } from '../../core/models/vehicle.model';
 
 @Component({
   selector: 'app-home',
@@ -66,13 +66,23 @@ export class HomePage implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute); // modern way of using constructor 
   private fragmentSub?: Subscription; // the ? means it can be empty
 
+  readonly isContactHighlighted = signal(false);
+
+  scrollToContact(): void {
+    this.content?.scrollToBottom(500);
+    this.isContactHighlighted.set(true);
+    setTimeout(() => {
+      this.isContactHighlighted.set(false);
+    }, 1500);
+  }
+
   ngOnInit(): void {
     this.fragmentSub = this.route.fragment.subscribe((fragment) => {
       // auto scroll 
       // the fragment is now equal to the current url and will be compared to the 'if'
       if (fragment === 'footer-contact') {
         setTimeout(() => {
-          this.content?.scrollToBottom(500);
+          this.scrollToContact();
         }, 150);
       }
       else if(fragment === 'home-header'){

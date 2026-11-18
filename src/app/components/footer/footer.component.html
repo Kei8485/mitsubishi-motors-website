@@ -25,7 +25,12 @@
 
       <!-- Column 3: Contact Details with Icons -->
       <ion-col class="mm-footer__col">
-        <ion-text class="mm-footer__heading">CONTACT</ion-text>
+        <ion-text
+          class="mm-footer__heading"
+          [class.is-highlighted]="highlightContact || isContactHighlighted()"
+        >
+          CONTACT
+        </ion-text>
         <ion-list class="mm-footer__list" lines="none">
           <div class="mm-footer__item-row">
             <ion-badge class="mm-footer__icon-badge" aria-hidden="true">
